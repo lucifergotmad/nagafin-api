@@ -4,8 +4,10 @@ import { ControllerProperty } from 'src/core/decorators/controller-decorators/cl
 import { SecureDelete } from 'src/core/decorators/controller-decorators/class-decorators/secure-delete.decorator';
 import { SecurePost } from 'src/core/decorators/controller-decorators/class-decorators/secure-post.decorator';
 import { SecurePut } from 'src/core/decorators/controller-decorators/class-decorators/secure-put.decorator';
+import { AuthUser } from 'src/core/decorators/controller-decorators/param-decorators/auth-user.decorator';
 import { IdResponseDTO } from 'src/interface-adapter/dtos/id.response.dto';
 import { MessageResponseDTO } from 'src/interface-adapter/dtos/message.response.dto';
+import { UserMongoEntity } from 'src/modules/user/database/model/user.mongo-entity';
 import { CreateAccount } from '../use-cases/create-account.use-case';
 import { DeleteAccount } from '../use-cases/delete-account.use-case';
 import { UpdateAccount } from '../use-cases/update-acount.use-case';
@@ -22,14 +24,23 @@ export class AccountController {
 
   @SecurePost()
   @ApiOkResponse({ type: IdResponseDTO })
-  save(@Body() body: CreateAccountRequestDTO) {
-    return this.createAccount.execute(body);
+  save(
+    @Body() body: CreateAccountRequestDTO,
+    @AuthUser() user: Partial<UserMongoEntity>,
+  ) {
+    return this.createAccount.injectDecodedToken(user).execute(body);
   }
 
   @SecurePut(':_id')
   @ApiOkResponse({ type: MessageResponseDTO })
-  update(@Param('_id') _id: string, @Body() body: UpdateAccountRequestDTO) {
-    return this.updateAccount.execute({ _id, ...body });
+  update(
+    @Param('_id') _id: string,
+    @Body() body: UpdateAccountRequestDTO,
+    @AuthUser() user: Partial<UserMongoEntity>,
+  ) {
+    return this.updateAccount
+      .injectDecodedToken(user)
+      .execute({ _id, ...body });
   }
 
   @SecureDelete(':_id')

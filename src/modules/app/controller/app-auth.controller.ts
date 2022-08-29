@@ -41,7 +41,7 @@ export class AppController {
 
   @Post('auth/register')
   @ApiCreatedResponse({ type: IdResponseDTO })
-  @ApiConflictResponse({ description: 'data already exists' })
+  @ApiConflictResponse({ description: 'Data already exists' })
   async register(@Body() body: AuthRegisterRequestDTO) {
     return await this.createUser.execute(body);
   }

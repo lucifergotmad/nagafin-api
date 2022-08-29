@@ -44,12 +44,6 @@ export class AccountMongoEntity extends BaseMongoEntity<
 
   @Prop()
   edited_at?: Date;
-
-  @Prop()
-  deleted_by?: string;
-
-  @Prop()
-  deleted_at?: Date;
 }
 
 export const AccountSchema = SchemaFactory.createForClass(AccountMongoEntity);

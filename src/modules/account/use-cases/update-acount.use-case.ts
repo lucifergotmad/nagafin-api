@@ -37,7 +37,7 @@ export class UpdateAccount
 
       const result = await this.accountRepository.update(
         { _id },
-        { ...payload, edited_at: new Date(), edited_by: this.user?.user_id },
+        { ...payload, edited_by: this.user?.username },
         session,
       );
 

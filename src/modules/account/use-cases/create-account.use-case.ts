@@ -38,8 +38,7 @@ export class CreateAccount
         acc_type: data.acc_statement,
         acc_parents: data?.acc_parents,
         acc_active: data?.acc_active,
-        inputted_by: this.user?.user_id,
-        inputted_at: new Date(),
+        inputted_by: this.user?.username,
       });
       const result = await this.accountRepository.save(accountEntity, session);
 
