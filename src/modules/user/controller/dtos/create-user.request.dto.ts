@@ -1,9 +1,9 @@
 import { IsRequiredString } from 'src/core/decorators/dto-decorators/required-string.decorator';
 
 export class CreateUserRequestDTO {
-  @IsRequiredString({ example: 'adm' })
+  @IsRequiredString({ example: 'lucifergotmad' })
   username: string;
 
-  @IsRequiredString()
+  @IsRequiredString({ example: 'binary1010' })
   password: string;
 }

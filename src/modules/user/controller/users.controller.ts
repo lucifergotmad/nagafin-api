@@ -13,7 +13,7 @@ import { FindUserById } from '../use-cases/find-user-by-id.use-case';
 import { UpdateUserRequestDTO } from './dtos/update-user.request.dto';
 import { UserReponseDTO } from './dtos/user.reponse.dto';
 
-@ControllerProperty('v1/users', 'Users')
+@ControllerProperty('v1/users', '[Master] Users')
 export class UsersController {
   constructor(
     private readonly deleteUser: DeleteUser,
