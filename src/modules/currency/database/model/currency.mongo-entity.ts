@@ -12,7 +12,7 @@ export class CurrencyMongoEntity extends BaseMongoEntity<
   @Prop({ required: true })
   currency_name: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, default: 1 })
   exchange_rate: number;
 
   @Prop({ required: true, default: false })
