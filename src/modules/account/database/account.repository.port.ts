@@ -4,5 +4,6 @@ import { AccountEntity } from '../domain/account.entity';
 
 export interface AccountRepositoryPort
   extends BaseRepositoryPort<AccountMongoEntity, AccountEntity> {
-  __init__(): void;
+  findActiveAccount(): Promise<Array<AccountMongoEntity>>;
+  findInactiveAccount(): Promise<Array<AccountMongoEntity>>;
 }

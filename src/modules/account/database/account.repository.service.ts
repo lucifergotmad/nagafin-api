@@ -17,17 +17,20 @@ export class AccountRepository
   implements AccountRepositoryPort {
   constructor(
     @InjectModel(AccountMongoEntity.name)
-    private AccountModel: Model<AccountDocument>,
+    private accountModel: Model<AccountDocument>,
   ) {
     super(
-      AccountModel,
+      accountModel,
       new AccountMongoMapper(AccountEntity, AccountMongoEntity),
       AccountIgnore,
     );
   }
 
-  // fill me with beautiful method!
-  __init__(): void {
-    //replace this lonely method!
+  async findActiveAccount(): Promise<AccountMongoEntity[]> {
+    return await this.accountModel.find({ acc_active: true });
+  }
+
+  async findInactiveAccount(): Promise<AccountMongoEntity[]> {
+    return await this.accountModel.find({ acc_active: false });
   }
 }
