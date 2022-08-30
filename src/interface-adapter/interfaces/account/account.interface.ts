@@ -1,6 +1,6 @@
 import { IId } from '../id.interface';
 
-export interface AccountResponse extends IId {
+export interface IAccountResponse extends IId {
   acc_number: string;
   acc_name: string;
   acc_currency: string;

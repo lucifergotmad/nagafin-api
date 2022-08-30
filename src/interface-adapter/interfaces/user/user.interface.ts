@@ -1,5 +1,5 @@
 import { IId } from '../id.interface';
 
-export interface UserResponse extends IId {
+export interface IUserResponse extends IId {
   username: string;
 }

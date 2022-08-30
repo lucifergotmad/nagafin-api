@@ -2,19 +2,19 @@ import { AggregateRoot } from 'src/core/base-classes/domain/aggregate-root';
 import { HashUtil } from 'src/core/utils/modules/hash/hash.service';
 import { Password } from './value-objects/password.value-object';
 
-export interface UserProps {
+export interface IUserProps {
   username: string;
   password: Password;
 }
 
-export interface UserFactoryProps extends Omit<UserProps, 'password'> {
+export interface UserFactoryProps extends Omit<IUserProps, 'password'> {
   password: string;
 }
 
-export class UserEntity extends AggregateRoot<UserProps> {
+export class UserEntity extends AggregateRoot<IUserProps> {
   private static hashUtil: HashUtil = new HashUtil();
 
-  constructor(props: UserProps) {
+  constructor(props: IUserProps) {
     super(props);
   }
 

@@ -15,7 +15,7 @@ export class CurrencyMongoMapper extends DbMapper<
     const props = entity.getPropsCopy();
 
     const mongoProps: MongoEntityProps<CurrencyMongoEntity> = {
-      // put field here
+      ...props,
     };
     return mongoProps;
   }

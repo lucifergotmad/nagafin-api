@@ -1,12 +1,8 @@
 import { AggregateRoot } from 'src/core/base-classes/domain/aggregate-root';
+import { IHistoryUser } from 'src/interface-adapter/interfaces/history-user.interface';
 import { AccountNumber } from './value-objects/account-number.value-object';
 
-interface HistoryProps {
-  created_by: string;
-  updated_by?: string;
-}
-
-export interface AccountProps extends HistoryProps {
+export interface IAccountProps extends IHistoryUser {
   acc_number: AccountNumber;
   acc_name: string;
   acc_currency: string;
@@ -18,12 +14,12 @@ export interface AccountProps extends HistoryProps {
   acc_active?: boolean;
 }
 
-interface AccountPropsFactory extends Omit<AccountProps, 'acc_number'> {
+interface AccountPropsFactory extends Omit<IAccountProps, 'acc_number'> {
   acc_number: string;
 }
 
-export class AccountEntity extends AggregateRoot<AccountProps> {
-  constructor(props: AccountProps) {
+export class AccountEntity extends AggregateRoot<IAccountProps> {
+  constructor(props: IAccountProps) {
     super(props);
   }
 

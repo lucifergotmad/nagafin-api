@@ -2,7 +2,7 @@
   "name": "nestjs-ddd-base",
   "version": "0.9.5",
   "description": "Nest JS with Domain Driven Design Principle",
-  "author": "Muhammad Rizky Ridwan Fauzi",
+  "author": "Octyo Paswa Putra",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
