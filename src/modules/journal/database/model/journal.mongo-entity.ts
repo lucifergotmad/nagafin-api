@@ -1,12 +1,59 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { BaseMongoEntity } from 'src/core/base-classes/infra/mongo-entity.base';
 
-@Schema({ collection: 'journals' })
+export class JournalDetailMongoEntity extends BaseMongoEntity<
+  typeof JournalDetailMongoEntity
+> {
+  @Prop({ required: true })
+  acc_number: string;
+
+  @Prop({ required: true, default: 0 })
+  credit_amount: number;
+
+  @Prop({ required: true, default: 0 })
+  debit_amount: number;
+
+  @Prop({ required: true })
+  journal_info: string;
+}
+
+@Schema({ collection: 'tt_journals' })
 export class JournalMongoEntity extends BaseMongoEntity<
   typeof JournalMongoEntity
 > {
-  // Put your schema here
+  @Prop({ required: true, unique: true })
+  journal_number: string;
+
+  @Prop({ required: true })
+  journal_notes: string;
+
+  @Prop({ required: true })
+  journal_date: string;
+
+  @Prop({ required: true, default: 0 })
+  total_credit_amount: number;
+
+  @Prop({ required: true, default: 0 })
+  total_debit_amount: number;
+
+  @Prop({ required: true, default: true })
+  journal_status: boolean;
+
+  @Prop(raw([JournalDetailMongoEntity]))
+  journal_detail: Record<string, any>;
+
+  @Prop({ required: true })
+  created_by: string;
+
+  @Prop({ required: true })
+  created_at: Date;
+
+  @Prop({ required: false })
+  updated_by?: string;
+
+  @Prop({ required: false })
+  updated_at?: Date;
 }
 
 export const JournalSchema = SchemaFactory.createForClass(JournalMongoEntity);
