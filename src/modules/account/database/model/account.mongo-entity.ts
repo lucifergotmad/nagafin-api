@@ -33,17 +33,17 @@ export class AccountMongoEntity extends BaseMongoEntity<
   @Prop({ default: '0' })
   acc_parents: string;
 
-  @Prop()
-  inputted_by?: string;
+  @Prop({ required: false })
+  created_by?: string;
 
-  @Prop()
-  inputted_at?: Date;
+  @Prop({ required: false })
+  created_at?: Date;
 
-  @Prop()
-  edited_by?: string;
+  @Prop({ required: false })
+  updated_by?: string;
 
-  @Prop()
-  edited_at?: Date;
+  @Prop({ required: false })
+  updated_at?: Date;
 }
 
 export const AccountSchema = SchemaFactory.createForClass(AccountMongoEntity);

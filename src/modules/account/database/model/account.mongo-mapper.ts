@@ -16,8 +16,6 @@ export class AccountMongoMapper extends DbMapper<
 
     const mongoProps: MongoEntityProps<AccountMongoEntity> = {
       ...props,
-      inputted_at: props?.created_at.value,
-      edited_at: props?.updated_at.value,
       acc_parents: props?.acc_parents,
       acc_active: props?.acc_active,
       acc_number: props.acc_number.value,
