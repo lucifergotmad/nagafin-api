@@ -1,12 +1,9 @@
 import { AggregateRoot } from 'src/core/base-classes/domain/aggregate-root';
-import { DateVO } from 'src/core/value-objects/date.value-object';
 import { AccountNumber } from './value-objects/account-number.value-object';
 
 interface HistoryProps {
-  created_by?: string;
-  created_at?: DateVO;
+  created_by: string;
   updated_by?: string;
-  updated_at?: DateVO;
 }
 
 export interface AccountProps extends HistoryProps {

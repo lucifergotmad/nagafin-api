@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { BaseMongoEntity } from 'src/core/base-classes/infra/mongo-entity.base';
 
-@Schema({ collection: 'tm_account' })
+@Schema({ collection: 'tm_accounts' })
 export class AccountMongoEntity extends BaseMongoEntity<
   typeof AccountMongoEntity
 > {
@@ -30,14 +30,14 @@ export class AccountMongoEntity extends BaseMongoEntity<
   @Prop({ required: true, default: false })
   acc_active: boolean;
 
-  @Prop({ default: '0' })
+  @Prop({ required: false, default: '0' })
   acc_parents: string;
 
-  @Prop({ required: false })
-  created_by?: string;
+  @Prop({ required: true })
+  created_by: string;
 
-  @Prop({ required: false })
-  created_at?: Date;
+  @Prop({ required: true })
+  created_at: Date;
 
   @Prop({ required: false })
   updated_by?: string;
