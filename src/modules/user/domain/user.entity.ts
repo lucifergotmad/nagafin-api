@@ -1,14 +1,18 @@
 import { AggregateRoot } from 'src/core/base-classes/domain/aggregate-root';
 import { HashUtil } from 'src/core/utils/modules/hash/hash.service';
+import { Level } from './value-objects/level.value-object';
 import { Password } from './value-objects/password.value-object';
 
 export interface IUserProps {
   username: string;
   password: Password;
+  level: Level;
 }
 
-export interface UserFactoryProps extends Omit<IUserProps, 'password'> {
+export interface UserFactoryProps
+  extends Omit<IUserProps, 'password' | 'level'> {
   password: string;
+  level: string;
 }
 
 export class UserEntity extends AggregateRoot<IUserProps> {
@@ -24,6 +28,7 @@ export class UserEntity extends AggregateRoot<IUserProps> {
     return new UserEntity({
       username: props.username,
       password: password,
+      level: new Level(props.level),
     });
   }
 }

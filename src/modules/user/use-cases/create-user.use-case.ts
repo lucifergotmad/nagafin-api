@@ -8,6 +8,7 @@ import { InjectUserRepository } from '../database/user.repository.provider';
 import { UserEntity } from '../domain/user.entity';
 import { IUseCase } from 'src/core/base-classes/interfaces/use-case.interface';
 import { ResponseException } from 'src/core/exceptions/response.http-exception';
+import { UserLevel } from 'src/core/constants/app/user/user-level.const';
 
 @Injectable()
 export class CreateUser
@@ -27,6 +28,7 @@ export class CreateUser
       const userEntity = await UserEntity.create({
         password: user.password,
         username: user.username,
+        level: UserLevel.Owner,
       });
 
       const result = await this.userRepository.save(userEntity);

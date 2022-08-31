@@ -1,3 +1,5 @@
+import { UserLevel } from '../constants/app/user/user-level.const';
+
 export class Guard {
   static isEmpty(value: unknown): boolean {
     if (typeof value === 'number' || typeof value === 'boolean') {
@@ -45,5 +47,9 @@ export class Guard {
 
   static isInvalidStringNumber(value: string): boolean {
     return /[^0-9]+/.test(value);
+  }
+
+  static isInvalidLevel(value: string): boolean {
+    return !Object.values(UserLevel).includes(value as UserLevel);
   }
 }
