@@ -30,7 +30,7 @@ export class AccountMongoEntity extends BaseMongoEntity<
   @Prop({ required: true, default: false })
   acc_active: boolean;
 
-  @Prop({ required: false, default: '0' })
+  @Prop({ required: true, default: '0' })
   acc_parents: string;
 
   @Prop({ required: true })

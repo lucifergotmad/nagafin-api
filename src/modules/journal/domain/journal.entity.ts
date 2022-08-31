@@ -15,7 +15,7 @@ export interface IJournalProps extends IHistoryUser {
   total_credit_amount: number;
   total_debit_amount: number;
   journal_status: boolean;
-  journal_detail: IJournalDetailProps;
+  journal_detail: IJournalDetailProps[];
 }
 
 export class JournalEntity extends AggregateRoot<IJournalProps> {
