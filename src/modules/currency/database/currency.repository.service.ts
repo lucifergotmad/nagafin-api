@@ -9,6 +9,7 @@ import {
 import { CurrencyEntity } from '../domain/currency.entity';
 import { CurrencyRepositoryPort } from './currency.repository.port';
 import { CurrencyMongoMapper } from './model/currency.mongo-mapper';
+import { CurrencyIgnore } from 'src/core/constants/encryption/encryption-ignore';
 
 @Injectable()
 export class CurrencyRepository
@@ -21,6 +22,7 @@ export class CurrencyRepository
     super(
       CurrencyModel,
       new CurrencyMongoMapper(CurrencyEntity, CurrencyMongoEntity),
+      CurrencyIgnore,
     );
   }
 

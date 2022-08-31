@@ -9,6 +9,7 @@ import {
 import { JournalEntity } from '../domain/journal.entity';
 import { JournalRepositoryPort } from './journal.repository.port';
 import { JournalMongoMapper } from './model/journal.mongo-mapper';
+import { JournalIgnore } from 'src/core/constants/encryption/encryption-ignore';
 
 @Injectable()
 export class JournalRepository
@@ -21,6 +22,7 @@ export class JournalRepository
     super(
       JournalModel,
       new JournalMongoMapper(JournalEntity, JournalMongoEntity),
+      JournalIgnore,
     );
   }
 
