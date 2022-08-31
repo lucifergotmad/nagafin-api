@@ -1,3 +1,8 @@
 import { Provider } from '@nestjs/common';
+import { CreateJournal } from './create-journal.use-case';
+import { UpdateJournal } from './update-journal.use-case';
 
-export const journalUseCaseProvider: Provider[] = [];
+export const journalUseCaseProvider: Provider[] = [
+  CreateJournal,
+  UpdateJournal,
+];
