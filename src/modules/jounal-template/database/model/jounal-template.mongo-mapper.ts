@@ -15,7 +15,7 @@ export class JounalTemplateMongoMapper extends DbMapper<
     const props = entity.getPropsCopy();
 
     const mongoProps: MongoEntityProps<JounalTemplateMongoEntity> = {
-      // put field here
+      ...props,
     };
     return mongoProps;
   }

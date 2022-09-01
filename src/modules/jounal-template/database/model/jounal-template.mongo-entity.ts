@@ -2,11 +2,12 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { BaseMongoEntity } from 'src/core/base-classes/infra/mongo-entity.base';
 
-@Schema({ collection: 'jounal-templates' })
+@Schema({ collection: 'tp_jounal_templates' })
 export class JounalTemplateMongoEntity extends BaseMongoEntity<
   typeof JounalTemplateMongoEntity
 > {
-  // Put your schema here
+  @Prop({ required: true })
+  template_name: string;
 }
 
 export const JounalTemplateSchema = SchemaFactory.createForClass(
