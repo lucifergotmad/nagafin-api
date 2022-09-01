@@ -13,7 +13,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { CreateUser } from 'src/modules/user/use-cases/create-user.use-case';
+import { RegisterUser } from 'src/modules/user/use-cases/register-user.use-case';
 import { AuthService } from 'src/infra/auth/auth.service';
 import { LocalAuthGuard } from 'src/infra/auth/local-auth.guard';
 import { AuthLoginRequestDTO } from './dtos/auth-login.dto';
@@ -27,7 +27,7 @@ import { HttpStatus } from 'src/core/constants/error/status-code.const';
 export class AppController {
   constructor(
     private authService: AuthService,
-    private createUser: CreateUser,
+    private createUser: RegisterUser,
   ) {}
 
   @UseGuards(LocalAuthGuard)
