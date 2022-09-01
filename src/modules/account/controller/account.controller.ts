@@ -13,7 +13,7 @@ import { CreateAccount } from '../use-cases/create-account.use-case';
 import { DeleteAccount } from '../use-cases/delete-account.use-case';
 import { FindAccountById } from '../use-cases/find-account-by-id.use-case';
 import { UpdateAccount } from '../use-cases/update-acount.use-case';
-import { AccountResponseDTO } from './dtos/account.response';
+import { AccountResponseDTO } from './dtos/account.response.dto';
 import { CreateAccountRequestDTO } from './dtos/create-account.request.dto';
 import { UpdateAccountRequestDTO } from './dtos/update-account.request.dto';
 

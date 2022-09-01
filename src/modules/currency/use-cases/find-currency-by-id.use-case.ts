@@ -4,7 +4,7 @@ import { IUseCase } from 'src/core/base-classes/interfaces/use-case.interface';
 import { ResponseException } from 'src/core/exceptions/response.http-exception';
 import { ICurrencyResponse } from 'src/interface-adapter/interfaces/currency/currency.interface';
 import { IId } from 'src/interface-adapter/interfaces/id.interface';
-import { CurrencyResponseDTO } from '../controller/dtos/currency.response';
+import { CurrencyResponseDTO } from '../controller/dtos/currency.response.dto';
 import { CurrencyRepositoryPort } from '../database/currency.repository.port';
 import { InjectCurrencyRepository } from '../database/currency.repository.provider';
 

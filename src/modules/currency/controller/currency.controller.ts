@@ -15,7 +15,7 @@ import { FindAllCurrency } from '../use-cases/find-all-currency.use-case';
 import { FindCurrencyById } from '../use-cases/find-currency-by-id.use-case';
 import { UpdateCurrency } from '../use-cases/update-currency.use-case';
 import { CreateCurrencyRequestDTO } from './dtos/create-currency.request.dto';
-import { CurrencyResponseDTO } from './dtos/currency.response';
+import { CurrencyResponseDTO } from './dtos/currency.response.dto';
 import { UpdateCurrencyRequestDTO } from './dtos/update-currency.request.dto';
 
 @ControllerProperty('v1/currencies', '[Master] Currencies')
