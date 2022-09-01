@@ -15,7 +15,7 @@ export class BalanceMongoMapper extends DbMapper<
     const props = entity.getPropsCopy();
 
     const mongoProps: MongoEntityProps<BalanceMongoEntity> = {
-      // put field here
+      ...props,
     };
     return mongoProps;
   }
