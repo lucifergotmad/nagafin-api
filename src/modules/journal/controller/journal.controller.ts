@@ -2,6 +2,7 @@ import { Body, Param } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiOkResponse } from '@nestjs/swagger';
 import { ControllerProperty } from 'src/core/decorators/controller-decorators/class-decorators/controller-property.decorator';
 import { SecureDelete } from 'src/core/decorators/controller-decorators/class-decorators/secure-delete.decorator';
+import { SecureGet } from 'src/core/decorators/controller-decorators/class-decorators/secure-get.decorator';
 import { SecurePost } from 'src/core/decorators/controller-decorators/class-decorators/secure-post.decorator';
 import { SecurePut } from 'src/core/decorators/controller-decorators/class-decorators/secure-put.decorator';
 import { AuthUser } from 'src/core/decorators/controller-decorators/param-decorators/auth-user.decorator';
@@ -10,8 +11,10 @@ import { MessageResponseDTO } from 'src/interface-adapter/dtos/message.response.
 import { UserMongoEntity } from 'src/modules/user/database/model/user.mongo-entity';
 import { CreateJournal } from '../use-cases/create-journal.use-case';
 import { DeleteJournal } from '../use-cases/delete-journal.use-case';
+import { FindJournalById } from '../use-cases/find-journal-by-id.use-case';
 import { UpdateJournal } from '../use-cases/update-journal.use-case';
 import { CreateJournalRequestDTO } from './dtos/create-journal.request.dto';
+import { JournalResponseDTO } from './dtos/journal.response.dto';
 import { UpdateJournalRequestDTO } from './dtos/update-journal.request.dto';
 
 @ControllerProperty('v1/journals', '[Master] Journals')
@@ -20,6 +23,7 @@ export class JournalController {
     private readonly createJournal: CreateJournal,
     private readonly updateJournal: UpdateJournal,
     private readonly deleteJournal: DeleteJournal,
+    private readonly findJournalById: FindJournalById,
   ) {}
 
   @SecurePost()
@@ -29,6 +33,13 @@ export class JournalController {
     @AuthUser() user: Partial<UserMongoEntity>,
   ) {
     return this.createJournal.injectDecodedToken(user).execute(body);
+  }
+
+  @SecureGet(':_id')
+  @ApiOkResponse({ type: JournalResponseDTO })
+  @ApiBadRequestResponse({ description: 'Bad Request (ID not valid)' })
+  findOne(@Param('_id') _id: string) {
+    return this.findJournalById.execute({ _id });
   }
 
   @SecurePut(':_id')

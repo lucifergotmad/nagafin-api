@@ -2,9 +2,7 @@ import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { BaseMongoEntity } from 'src/core/base-classes/infra/mongo-entity.base';
 
-export class JournalDetailMongoEntity extends BaseMongoEntity<
-  typeof JournalDetailMongoEntity
-> {
+export class JournalDetailMongoEntity {
   @Prop({ required: true })
   acc_number: string;
 
@@ -41,7 +39,7 @@ export class JournalMongoEntity extends BaseMongoEntity<
   journal_status: boolean;
 
   @Prop(raw([JournalDetailMongoEntity]))
-  journal_detail: Record<string, any>;
+  journal_detail: Array<JournalDetailMongoEntity>;
 
   @Prop({ required: true })
   created_by: string;

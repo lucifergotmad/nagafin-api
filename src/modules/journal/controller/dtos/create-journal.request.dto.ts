@@ -8,10 +8,10 @@ class JournalDetailRequestDTO {
   @IsRequiredString({ example: '100000' })
   acc_number: string;
 
-  @IsRequiredNumber({ example: 5000 })
+  @IsRequiredNumber({ example: 10000 })
   credit_amount: number;
 
-  @IsRequiredNumber({ example: 5000 })
+  @IsRequiredNumber({ example: 10000 })
   debit_amount: number;
 
   @IsRequiredString({ example: 'NGG-JLM/281000/001' })
@@ -42,8 +42,8 @@ export class CreateJournalRequestDTO {
     example: [
       {
         acc_number: '100000',
-        credit_amount: 5000,
-        debit_amount: 5000,
+        credit_amount: 10000,
+        debit_amount: 10000,
         journal_info: 'NGG-JLM/281000/001',
       },
     ],
