@@ -21,7 +21,12 @@ export class FindAllAccount
   public async execute(): Promise<AccountResponseDTO[]> {
     try {
       return (await this.accountRepository.findAll()).map(
-        (account: AccountMongoEntity) => new AccountResponseDTO(account),
+        (account: AccountMongoEntity) =>
+          new AccountResponseDTO({
+            used_as_parent: false,
+            used_in_transaction: false,
+            ...account,
+          }),
       );
     } catch (error) {
       throw new ResponseException(error.message, error.status, error.trace);

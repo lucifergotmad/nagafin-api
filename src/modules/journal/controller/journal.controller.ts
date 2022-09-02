@@ -11,6 +11,7 @@ import { MessageResponseDTO } from 'src/interface-adapter/dtos/message.response.
 import { UserMongoEntity } from 'src/modules/user/database/model/user.mongo-entity';
 import { CreateJournal } from '../use-cases/create-journal.use-case';
 import { DeleteJournal } from '../use-cases/delete-journal.use-case';
+import { FindAllJournal } from '../use-cases/find-all-journal.use-case';
 import { FindJournalById } from '../use-cases/find-journal-by-id.use-case';
 import { UpdateJournal } from '../use-cases/update-journal.use-case';
 import { CreateJournalRequestDTO } from './dtos/create-journal.request.dto';
@@ -23,6 +24,7 @@ export class JournalController {
     private readonly createJournal: CreateJournal,
     private readonly updateJournal: UpdateJournal,
     private readonly deleteJournal: DeleteJournal,
+    private readonly findAllJournal: FindAllJournal,
     private readonly findJournalById: FindJournalById,
   ) {}
 
@@ -33,6 +35,12 @@ export class JournalController {
     @AuthUser() user: Partial<UserMongoEntity>,
   ) {
     return this.createJournal.injectDecodedToken(user).execute(body);
+  }
+
+  @SecureGet()
+  @ApiOkResponse({ type: JournalResponseDTO, isArray: true })
+  find() {
+    return this.findAllJournal.execute();
   }
 
   @SecureGet(':_id')

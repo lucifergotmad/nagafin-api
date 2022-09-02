@@ -30,7 +30,7 @@ export class CurrencyController {
 
   @SecureGet()
   @ApiOkResponse({ type: CurrencyResponseDTO, isArray: true })
-  findAll() {
+  find() {
     return this.findAllCurrency.execute();
   }
 
