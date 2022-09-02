@@ -18,7 +18,7 @@ import { CreateJournalRequestDTO } from './dtos/create-journal.request.dto';
 import { JournalResponseDTO } from './dtos/journal.response.dto';
 import { UpdateJournalRequestDTO } from './dtos/update-journal.request.dto';
 
-@ControllerProperty('v1/journals', '[Master] Journals')
+@ControllerProperty('v1/journals', '[Transaction] Journals')
 export class JournalController {
   constructor(
     private readonly createJournal: CreateJournal,
