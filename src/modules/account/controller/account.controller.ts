@@ -12,6 +12,7 @@ import { UserMongoEntity } from 'src/modules/user/database/model/user.mongo-enti
 import { CreateAccount } from '../use-cases/create-account.use-case';
 import { DeleteAccount } from '../use-cases/delete-account.use-case';
 import { FindAccountById } from '../use-cases/find-account-by-id.use-case';
+import { FindAllAccount } from '../use-cases/find-all-account.use-case';
 import { UpdateAccount } from '../use-cases/update-acount.use-case';
 import { AccountResponseDTO } from './dtos/account.response.dto';
 import { CreateAccountRequestDTO } from './dtos/create-account.request.dto';
@@ -23,8 +24,15 @@ export class AccountController {
     private readonly createAccount: CreateAccount,
     private readonly updateAccount: UpdateAccount,
     private readonly deleteAccount: DeleteAccount,
+    private readonly findAllAccount: FindAllAccount,
     private readonly findAccountById: FindAccountById,
   ) {}
+
+  @SecureGet()
+  @ApiOkResponse({ type: AccountResponseDTO, isArray: true })
+  find() {
+    return this.findAllAccount.execute();
+  }
 
   @SecurePost()
   @ApiOkResponse({ type: IdResponseDTO })
