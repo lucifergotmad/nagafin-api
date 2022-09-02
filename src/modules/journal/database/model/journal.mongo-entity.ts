@@ -41,11 +41,11 @@ export class JournalMongoEntity extends BaseMongoEntity<
   @Prop(raw([JournalDetailMongoEntity]))
   journal_detail: Array<JournalDetailMongoEntity>;
 
-  @Prop({ required: true })
-  created_by: string;
+  @Prop({ required: false })
+  created_by?: string;
 
-  @Prop({ required: true })
-  created_at: Date;
+  @Prop({ required: false })
+  created_at?: Date;
 
   @Prop({ required: false })
   updated_by?: string;

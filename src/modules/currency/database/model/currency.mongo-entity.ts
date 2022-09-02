@@ -18,11 +18,11 @@ export class CurrencyMongoEntity extends BaseMongoEntity<
   @Prop({ required: true, default: false })
   currency_status: boolean;
 
-  @Prop({ required: true })
-  created_by: string;
+  @Prop({ required: false })
+  created_by?: string;
 
-  @Prop({ required: true })
-  created_at: Date;
+  @Prop({ required: false })
+  created_at?: Date;
 
   @Prop({ required: false })
   updated_by?: string;
