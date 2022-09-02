@@ -4,12 +4,18 @@ import { UserRepository } from 'src/modules/user/database/user.repository.servic
 import { Utils } from 'src/core/utils/utils.service';
 import { JwtService } from '@nestjs/jwt';
 import { AuthLoginResponseDto } from 'src/modules/app/controller/dtos/auth-login.response.dto';
+import { MessageResponseDTO } from 'src/interface-adapter/dtos/message.response.dto';
+import { ExceptionBadRequest } from 'src/core/exceptions/bad-request.exception';
+import { EnvService } from '../configs/env.service';
+import { AuthRefreshTokenRequestDTO } from 'src/modules/app/controller/dtos/auth-refresh-token.dto';
+import { ExceptionUnauthorize } from 'src/core/exceptions/unauthorize.exception';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userRepository: UserRepository,
     private jwtService: JwtService,
+    private envService: EnvService,
     private utils: Utils,
   ) {}
 
@@ -30,10 +36,50 @@ export class AuthService {
   }
 
   async login(user: Partial<UserMongoEntity>) {
-    const payload = { sub: user.username };
+    const { access_token, refresh_token } = await this.registerToken(user);
     return new AuthLoginResponseDto({
-      accessToken: this.jwtService.sign(payload),
-      username: payload.sub,
+      accessToken: access_token,
+      refreshToken: refresh_token,
+      username: user.username,
+      level: user.level,
     });
+  }
+
+  async logout(body: AuthRefreshTokenRequestDTO) {
+    await this.utils.cache.delete(body.refresh_token);
+    await this.utils.cache.delete(body.username);
+    return new MessageResponseDTO('Berhasil Logout');
+  }
+
+  async registerToken(user: Partial<UserMongoEntity>) {
+    const cacheRegistered = await this.utils.cache.get(user.username);
+    if (cacheRegistered)
+      throw new ExceptionBadRequest('User id sedang dipakai!', this);
+
+    const payload = { sub: user.username };
+    const token = this.jwtService.sign(payload);
+    const refreshToken = this.jwtService.sign(payload, {
+      expiresIn: 86400,
+      secret: this.envService.jwtRefreshKey,
+    });
+
+    await this.utils.cache.set(user.username, true);
+    await this.utils.cache.set(refreshToken, user.username, 86400);
+    return { access_token: token, refresh_token: refreshToken };
+  }
+
+  async refreshToken(body: AuthRefreshTokenRequestDTO) {
+    await this._validateRefreshToken(body);
+
+    const payload = { sub: body.username };
+    const token = this.jwtService.sign(payload);
+    await this.utils.cache.set(body.username, true);
+    return { access_token: token };
+  }
+
+  private async _validateRefreshToken(body: AuthRefreshTokenRequestDTO) {
+    const validToken = await this.utils.cache.get(body.refresh_token);
+    if (!validToken || body.username !== validToken)
+      throw new ExceptionUnauthorize('Invalid Refresh Token.', this);
   }
 }
