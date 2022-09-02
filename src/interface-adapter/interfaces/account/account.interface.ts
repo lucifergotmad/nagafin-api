@@ -9,4 +9,6 @@ export interface IAccountResponse extends IId {
   acc_statement: string;
   acc_type: string;
   acc_parents?: string;
+  used_as_parent?: boolean;
+  used_in_transaction?: boolean;
 }

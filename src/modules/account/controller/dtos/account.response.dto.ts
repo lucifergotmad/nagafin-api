@@ -12,9 +12,11 @@ export class AccountResponseDTO
     this.acc_currency = props.acc_currency;
     this.acc_balance_type = props.acc_balance_type;
     this.acc_cashflow_type = props.acc_cashflow_type;
-    this.acc_parents = props.acc_parents;
     this.acc_statement = props.acc_statement;
     this.acc_type = props.acc_type;
+    this.acc_parents = props?.acc_parents;
+    this.used_as_parent = props?.used_as_parent;
+    this.used_in_transaction = props?.used_in_transaction;
   }
 
   @ApiProperty({ example: '100001' })
@@ -26,18 +28,24 @@ export class AccountResponseDTO
   @ApiProperty({ example: 'IDR' })
   acc_currency: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 'D' })
   acc_balance_type: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 'cash' })
   acc_cashflow_type: string;
 
-  @ApiProperty()
-  acc_parents?: string;
-
-  @ApiProperty()
+  @ApiProperty({ example: 'BS' })
   acc_statement: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 'transaction' })
   acc_type: string;
+
+  @ApiProperty({ example: '100000' })
+  acc_parents?: string;
+
+  @ApiProperty({ example: false })
+  used_as_parent?: boolean;
+
+  @ApiProperty({ example: false })
+  used_in_transaction?: boolean;
 }
