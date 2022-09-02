@@ -24,7 +24,7 @@ class BalanceMutationMongoEntity {
   debit_amount_out: number;
 }
 
-@Schema({ collection: 'balances' })
+@Schema({ collection: 'tt_balances' })
 export class BalanceMongoEntity extends BaseMongoEntity<
   typeof BalanceMongoEntity
 > {

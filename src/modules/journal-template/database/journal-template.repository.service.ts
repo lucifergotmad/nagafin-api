@@ -7,13 +7,13 @@ import {
   JournalTemplateDocument,
 } from './model/journal-template.mongo-entity';
 import { JournalTemplateEntity } from '../domain/jounal-template.entity';
-import { JounalTemplateRepositoryPort } from './journal-template.repository.port';
+import { JournalTemplateRepositoryPort } from './journal-template.repository.port';
 import { JournalTemplateMongoMapper } from './model/journal-template.mongo-mapper';
 
 @Injectable()
 export class JournalTemplateRepository
   extends BaseRepository<JournalTemplateMongoEntity, JournalTemplateEntity>
-  implements JounalTemplateRepositoryPort {
+  implements JournalTemplateRepositoryPort {
   constructor(
     @InjectModel(JournalTemplateMongoEntity.name)
     private JounalTemplateModel: Model<JournalTemplateDocument>,
