@@ -11,6 +11,7 @@ import { MessageResponseDTO } from 'src/interface-adapter/dtos/message.response.
 import { UserMongoEntity } from 'src/modules/user/database/model/user.mongo-entity';
 import { CreateJournalTemplate } from '../use-cases/create-journal-template.use-case';
 import { DeleteJournalTemplate } from '../use-cases/delete-journal-template.use-case';
+import { FindAllJournalTemplate } from '../use-cases/find-all-journal-template.use-case';
 import { FindJournalTemplateById } from '../use-cases/find-journal-template-by-id.use-case';
 import { UpdateJournalTemplate } from '../use-cases/update-journal-template.use-case';
 import { CreateJournalTemplateRequestDTO } from './dtos/create-journal-template.request.dto';
@@ -23,6 +24,7 @@ export class JournalTemplateController {
     private readonly createJournalTemplate: CreateJournalTemplate,
     private readonly updateJournalTemplate: UpdateJournalTemplate,
     private readonly deleteJournalTemplate: DeleteJournalTemplate,
+    private readonly findAllJournalTemplate: FindAllJournalTemplate,
     private readonly findJournalTemplateById: FindJournalTemplateById,
   ) {}
 
@@ -35,8 +37,15 @@ export class JournalTemplateController {
     return this.createJournalTemplate.injectDecodedToken(user).execute(body);
   }
 
+  @SecureGet()
+  @ApiOkResponse({ type: JournalTemplateResponseDTO, isArray: true })
+  find() {
+    return this.findAllJournalTemplate.execute();
+  }
+
   @SecureGet(':_id')
   @ApiOkResponse({ type: JournalTemplateResponseDTO })
+  @ApiBadRequestResponse({ description: 'Bad Request (ID not valid)' })
   findOne(@Param('_id') _id: string) {
     return this.findJournalTemplateById.execute({ _id });
   }
