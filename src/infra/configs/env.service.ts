@@ -9,17 +9,25 @@ export class EnvService {
   private readonly _dbUsername: string;
   private readonly _dbPassword: string;
   private readonly _jwtSecretKey: string;
+  private readonly _jwtRefreshKey: string;
+  private readonly _jwtLimit: number;
   private readonly _mode: string;
   private readonly _secure: boolean;
 
   constructor(private readonly configService: ConfigService) {
     this._dbConnectionURI = this.configService.get<string>(EnvKey.DB_URI);
     this._jwtSecretKey = this.configService.get<string>(EnvKey.JWT_KEY);
+    this._jwtRefreshKey = this.configService.get<string>(
+      EnvKey.JWT_REFRESH_KEY,
+    );
     this._mode = this.configService.get<string>(EnvKey.MODE);
     this._secure = Boolean(this.configService.get<number>(EnvKey.SECURE));
     this._dbName = this.configService.get<string>(EnvKey.DB_NAME);
     this._dbUsername = this.configService.get<string>(EnvKey.DB_USERNAME);
     this._dbPassword = this.configService.get<string>(EnvKey.DB_PASSWORD);
+    this._jwtLimit = Number(
+      this.configService.get<number>(EnvKey.JWT_LIMIT) || 1200,
+    );
   }
 
   get dbConnectionURI(): string {
@@ -40,6 +48,14 @@ export class EnvService {
 
   get jwtSecretKey(): string {
     return this._jwtSecretKey;
+  }
+
+  get jwtRefreshKey(): string {
+    return this._jwtRefreshKey;
+  }
+
+  get jwtLimit(): number {
+    return this._jwtLimit;
   }
 
   get mode(): string {
