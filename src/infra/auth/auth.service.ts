@@ -9,6 +9,7 @@ import { ExceptionBadRequest } from 'src/core/exceptions/bad-request.exception';
 import { EnvService } from '../configs/env.service';
 import { AuthRefreshTokenRequestDTO } from 'src/modules/app/controller/dtos/auth-refresh-token.dto';
 import { ExceptionUnauthorize } from 'src/core/exceptions/unauthorize.exception';
+import { ResponseException } from 'src/core/exceptions/response.http-exception';
 
 @Injectable()
 export class AuthService {
@@ -36,13 +37,17 @@ export class AuthService {
   }
 
   async login(user: Partial<UserMongoEntity>) {
-    const { access_token, refresh_token } = await this.registerToken(user);
-    return new AuthLoginResponseDto({
-      accessToken: access_token,
-      refreshToken: refresh_token,
-      username: user.username,
-      level: user.level,
-    });
+    try {
+      const { access_token, refresh_token } = await this.registerToken(user);
+      return new AuthLoginResponseDto({
+        accessToken: access_token,
+        refreshToken: refresh_token,
+        username: user.username,
+        level: user.level,
+      });
+    } catch (error) {
+      throw new ResponseException(error.response, error.status, error.trace);
+    }
   }
 
   async logout(body: AuthRefreshTokenRequestDTO) {
@@ -53,6 +58,8 @@ export class AuthService {
 
   async registerToken(user: Partial<UserMongoEntity>) {
     const cacheRegistered = await this.utils.cache.get(user.username);
+    console.log(cacheRegistered);
+
     if (cacheRegistered)
       throw new ExceptionBadRequest('User id sedang dipakai!', this);
 
@@ -69,12 +76,16 @@ export class AuthService {
   }
 
   async refreshToken(body: AuthRefreshTokenRequestDTO) {
-    await this._validateRefreshToken(body);
+    try {
+      await this._validateRefreshToken(body);
 
-    const payload = { sub: body.username };
-    const token = this.jwtService.sign(payload);
-    await this.utils.cache.set(body.username, true);
-    return { access_token: token };
+      const payload = { sub: body.username };
+      const token = this.jwtService.sign(payload);
+      await this.utils.cache.set(body.username, true);
+      return { access_token: token };
+    } catch (error) {
+      throw new ResponseException(error.response, error.status, error.trace);
+    }
   }
 
   private async _validateRefreshToken(body: AuthRefreshTokenRequestDTO) {

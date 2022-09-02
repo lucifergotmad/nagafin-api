@@ -21,6 +21,7 @@ import { AuthRegisterRequestDTO } from './dtos/auth-register.dto';
 import { IdResponseDTO } from 'src/interface-adapter/dtos/id.response.dto';
 import { AuthLoginResponseDto } from './dtos/auth-login.response.dto';
 import { HttpStatus } from 'src/core/constants/error/status-code.const';
+import { AuthRefreshTokenRequestDTO } from './dtos/auth-refresh-token.dto';
 
 @Controller('v1')
 @ApiTags('App Authentication')
@@ -30,19 +31,32 @@ export class AppController {
     private createUser: RegisterUser,
   ) {}
 
-  @UseGuards(LocalAuthGuard)
-  @Post('auth/login')
-  @HttpCode(HttpStatus.OK)
-  @ApiOkResponse({ type: AuthLoginResponseDto })
-  @ApiUnauthorizedResponse({ description: 'Unauthorize user' })
-  async login(@Body() body: AuthLoginRequestDTO, @Request() req: any) {
-    return await this.authService.login(req.user);
-  }
-
   @Post('auth/register')
   @ApiCreatedResponse({ type: IdResponseDTO })
   @ApiConflictResponse({ description: 'Data already exists' })
   async register(@Body() body: AuthRegisterRequestDTO) {
     return await this.createUser.execute(body);
+  }
+
+  @UseGuards(LocalAuthGuard)
+  @Post('auth/login')
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: AuthLoginResponseDto })
+  @ApiUnauthorizedResponse({ description: 'Unauthorize user' })
+  async login(
+    @Body() body: AuthLoginRequestDTO,
+    @Request() { user: { level } }: any,
+  ) {
+    return await this.authService.login({ level, ...body });
+  }
+
+  @Post('auth/logout')
+  async logout(@Body() body: AuthRefreshTokenRequestDTO) {
+    return await this.authService.logout(body);
+  }
+
+  @Post('auth/token')
+  async refreshToken(@Body() body: AuthRefreshTokenRequestDTO) {
+    return await this.authService.refreshToken(body);
   }
 }
