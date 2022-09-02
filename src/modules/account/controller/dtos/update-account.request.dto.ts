@@ -15,7 +15,7 @@ export class UpdateAccountRequestDTO {
   @IsOptionalString({ example: 'D', uppercase: true })
   acc_balance_type?: string;
 
-  @IsOptionalString({ example: 'none' })
+  @IsOptionalString({ example: 'cash' })
   acc_cashflow_type?: string;
 
   @IsOptionalString({ example: 'BS', uppercase: true })

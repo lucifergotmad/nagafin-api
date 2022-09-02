@@ -9,13 +9,13 @@ export class CreateAccountRequestDTO {
   @IsRequiredString({ example: 'KAS BESAR', uppercase: true })
   acc_name: string;
 
-  @IsRequiredString({ example: 'RP', uppercase: true })
+  @IsRequiredString({ example: 'ID', uppercase: true })
   acc_currency: string;
 
   @IsRequiredString({ example: 'D', uppercase: true })
   acc_balance_type: string;
 
-  @IsRequiredString({ example: 'none' })
+  @IsRequiredString({ example: 'cash' })
   acc_cashflow_type: string;
 
   @IsRequiredString({ example: 'BS', uppercase: true })
