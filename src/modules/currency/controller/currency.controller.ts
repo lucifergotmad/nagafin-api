@@ -28,12 +28,6 @@ export class CurrencyController {
     private readonly findAllCurrency: FindAllCurrency,
   ) {}
 
-  @SecureGet()
-  @ApiOkResponse({ type: CurrencyResponseDTO, isArray: true })
-  find() {
-    return this.findAllCurrency.execute();
-  }
-
   @SecurePost()
   @ApiOkResponse({ type: IdResponseDTO })
   save(
@@ -41,6 +35,19 @@ export class CurrencyController {
     @AuthUser() user: Partial<UserMongoEntity>,
   ) {
     return this.createCurrency.injectDecodedToken(user).execute(body);
+  }
+
+  @SecureGet()
+  @ApiOkResponse({ type: CurrencyResponseDTO, isArray: true })
+  find() {
+    return this.findAllCurrency.execute();
+  }
+
+  @SecureGet(':_id')
+  @ApiOkResponse({ type: CurrencyResponseDTO })
+  @ApiBadRequestResponse({ description: 'Bad Request (ID not valid)' })
+  findOne(@Param('_id') _id: string) {
+    return this.findCurrencyById.execute({ _id });
   }
 
   @SecurePut(':_id')
@@ -61,12 +68,5 @@ export class CurrencyController {
   @ApiBadRequestResponse({ description: 'Bad Request (ID not valid)' })
   delete(@Param('_id') _id: string) {
     return this.deleteCurrency.execute({ _id });
-  }
-
-  @SecureGet(':_id')
-  @ApiOkResponse({ type: CurrencyResponseDTO })
-  @ApiBadRequestResponse({ description: 'Bad Request (ID not valid)' })
-  findOne(@Param('_id') _id: string) {
-    return this.findCurrencyById.execute({ _id });
   }
 }

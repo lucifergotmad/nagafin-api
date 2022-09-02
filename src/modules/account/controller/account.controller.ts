@@ -28,12 +28,6 @@ export class AccountController {
     private readonly findAccountById: FindAccountById,
   ) {}
 
-  @SecureGet()
-  @ApiOkResponse({ type: AccountResponseDTO, isArray: true })
-  find() {
-    return this.findAllAccount.execute();
-  }
-
   @SecurePost()
   @ApiOkResponse({ type: IdResponseDTO })
   save(
@@ -41,6 +35,19 @@ export class AccountController {
     @AuthUser() user: Partial<UserMongoEntity>,
   ) {
     return this.createAccount.injectDecodedToken(user).execute(body);
+  }
+
+  @SecureGet()
+  @ApiOkResponse({ type: AccountResponseDTO, isArray: true })
+  find() {
+    return this.findAllAccount.execute();
+  }
+
+  @SecureGet(':_id')
+  @ApiOkResponse({ type: AccountResponseDTO })
+  @ApiBadRequestResponse({ description: 'Bad Request (ID not valid)' })
+  findOne(@Param('_id') _id: string) {
+    return this.findAccountById.execute({ _id });
   }
 
   @SecurePut(':_id')
@@ -61,12 +68,5 @@ export class AccountController {
   @ApiBadRequestResponse({ description: 'Bad Request (ID not valid)' })
   delete(@Param('_id') _id: string) {
     return this.deleteAccount.execute({ _id });
-  }
-
-  @SecureGet(':_id')
-  @ApiOkResponse({ type: AccountResponseDTO })
-  @ApiBadRequestResponse({ description: 'Bad Request (ID not valid)' })
-  findOne(@Param('_id') _id: string) {
-    return this.findAccountById.execute({ _id });
   }
 }
