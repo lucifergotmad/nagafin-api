@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { UserLevel } from 'src/core/constants/app/user/user-level.const';
 import { IdResponseDTO } from 'src/interface-adapter/dtos/id.response.dto';
 import { IUserResponse } from 'src/interface-adapter/interfaces/user/user.interface';
 
@@ -14,7 +15,11 @@ export class UserReponseDTO extends IdResponseDTO implements IUserResponse {
   constructor(props: IUserResponse) {
     super(props._id);
     this.username = props.username;
+    this.level = props.level;
   }
-  @ApiProperty({ example: 'john_doe' })
+  @ApiProperty({ example: 'lucifer' })
   username: string;
+
+  @ApiProperty({ enum: UserLevel, example: UserLevel.Owner })
+  level?: string;
 }
