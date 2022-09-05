@@ -10,20 +10,6 @@ class BalanceDetailMongoEntity {
   debit_amount: number;
 }
 
-class BalanceMutationMongoEntity {
-  @Prop({ required: true })
-  credit_amount_in: number;
-
-  @Prop({ required: true })
-  debit_amount_in: number;
-
-  @Prop({ required: true })
-  credit_amount_out: number;
-
-  @Prop({ required: true })
-  debit_amount_out: number;
-}
-
 @Schema({ collection: 'tm_balances' })
 export class BalanceMongoEntity extends BaseMongoEntity<
   typeof BalanceMongoEntity
@@ -37,8 +23,8 @@ export class BalanceMongoEntity extends BaseMongoEntity<
   @Prop({ required: true, type: BalanceDetailMongoEntity })
   beginning_balance: BalanceDetailMongoEntity;
 
-  @Prop({ required: true, type: BalanceMutationMongoEntity })
-  balance_mutation: BalanceMutationMongoEntity;
+  @Prop({ required: true, type: BalanceDetailMongoEntity })
+  balance_mutation: BalanceDetailMongoEntity;
 
   @Prop({ required: true, type: BalanceDetailMongoEntity })
   ending_balance: BalanceDetailMongoEntity;
