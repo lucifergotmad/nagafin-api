@@ -1,7 +1,7 @@
 import { AggregateRoot } from 'src/core/base-classes/domain/aggregate-root';
 import { IHistoryUser } from 'src/interface-adapter/interfaces/history-user.interface';
 
-interface IJournalDetailProps {
+export interface IJournalDetailProps {
   acc_number: string;
   credit_amount: number;
   debit_amount: number;

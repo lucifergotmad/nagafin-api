@@ -58,7 +58,6 @@ export class AuthService {
 
   async registerToken(user: Partial<UserMongoEntity>) {
     const cacheRegistered = await this.utils.cache.get(user.username);
-    console.log(cacheRegistered);
 
     if (cacheRegistered)
       throw new ExceptionBadRequest('User id sedang dipakai!', this);

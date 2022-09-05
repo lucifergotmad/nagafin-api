@@ -4,10 +4,15 @@ import { IUseCase } from 'src/core/base-classes/interfaces/use-case.interface';
 import { ResponseException } from 'src/core/exceptions/response.http-exception';
 import { Utils } from 'src/core/utils/utils.service';
 import { IdResponseDTO } from 'src/interface-adapter/dtos/id.response.dto';
+import { AccountRepositoryPort } from 'src/modules/account/database/account.repository.port';
+import { InjectAccountRepository } from 'src/modules/account/database/account.repository.provider';
+import { BalanceRepositoryPort } from 'src/modules/balance/database/balance.repository.port';
+import { InjectBalanceRepository } from 'src/modules/balance/database/balance.repository.provider';
+import { BalanceEntity } from 'src/modules/balance/domain/balance.entity';
 import { CreateJournalRequestDTO } from '../controller/dtos/create-journal.request.dto';
 import { JournalRepositoryPort } from '../database/journal.repository.port';
 import { InjectJournalRepository } from '../database/journal.repository.provider';
-import { JournalEntity } from '../domain/journal.entity';
+import { IJournalDetailProps, JournalEntity } from '../domain/journal.entity';
 
 @Injectable()
 export class CreateJournal
@@ -15,6 +20,8 @@ export class CreateJournal
   implements IUseCase<CreateJournalRequestDTO, IdResponseDTO> {
   constructor(
     @InjectJournalRepository private journalRepository: JournalRepositoryPort,
+    @InjectBalanceRepository private balanceRepository: BalanceRepositoryPort,
+    @InjectAccountRepository private accountRepository: AccountRepositoryPort,
     private readonly utils: Utils,
   ) {
     super();
@@ -28,6 +35,38 @@ export class CreateJournal
         { journal_number: data.journal_number },
         'Nomor Journal telah digunakan!',
       );
+
+      data.journal_detail.forEach(async (detail: IJournalDetailProps) => {
+        const latestJournal = await this.balanceRepository.findOneLatest({
+          balance_acc: detail.acc_number,
+          balance_date: this.utils.date.localDateString(new Date()),
+        });
+
+        const accountDetail = await this.accountRepository.findOne({
+          acc_number: detail.acc_number,
+        });
+
+        if (!latestJournal) {
+          const balanceEntity = new BalanceEntity({
+            balance_acc: detail.acc_number,
+            balance_date: data.journal_date,
+            beginning_balance: {
+              credit_amount: 0,
+              debit_amount: 0,
+            },
+            balance_mutation: {
+              credit_amount: 0,
+              debit_amount: 0,
+            },
+            ending_balance: {
+              credit_amount: 0,
+              debit_amount: 0,
+            },
+          });
+
+          await this.balanceRepository.save(balanceEntity, session);
+        }
+      });
 
       const journalEntity = new JournalEntity({
         journal_number: data.journal_number,
