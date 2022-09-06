@@ -37,7 +37,7 @@ export class CreateJournal
       );
 
       data.journal_detail.forEach(async (detail: IJournalDetailProps) => {
-        const latestJournal = await this.balanceRepository.findOneLatest({
+        const latestBalance = await this.balanceRepository.findOneLatest({
           balance_acc: detail.acc_number,
           balance_date: this.utils.date.localDateString(new Date()),
         });
@@ -46,8 +46,8 @@ export class CreateJournal
           acc_number: detail.acc_number,
         });
 
-        if (!latestJournal) {
-          const balanceEntity = new BalanceEntity({
+        if (!latestBalance) {
+          const balanceEntity = BalanceEntity.create({
             balance_acc: detail.acc_number,
             balance_date: data.journal_date,
             beginning_balance: {
@@ -65,6 +65,25 @@ export class CreateJournal
           });
 
           await this.balanceRepository.save(balanceEntity, session);
+        } else {
+          await this.balanceRepository.update(
+            { balance_acc: detail.acc_number, balance_date: data.journal_date },
+            {
+              beginning_balance: {
+                credit_amount: 0,
+                debit_amount: 0,
+              },
+              balance_mutation: {
+                credit_amount: 0,
+                debit_amount: 0,
+              },
+              ending_balance: {
+                credit_amount: 0,
+                debit_amount: 0,
+              },
+            },
+            session,
+          );
         }
       });
 

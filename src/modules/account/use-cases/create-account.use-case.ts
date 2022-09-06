@@ -33,7 +33,7 @@ export class CreateAccount
         acc_name: data.acc_name,
         acc_currency: data.acc_currency,
         acc_balance_type: data.acc_balance_type,
-        acc_cashflow_type: data.acc_cashflow_type,
+        acc_cashflow_type: data?.acc_cashflow_type,
         acc_statement: data.acc_statement,
         acc_type: data.acc_statement,
         acc_parents: data?.acc_parents,

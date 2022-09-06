@@ -7,7 +7,7 @@ export interface IAccountProps extends IHistoryUser {
   acc_name: string;
   acc_currency: string;
   acc_balance_type: string;
-  acc_cashflow_type: string;
+  acc_cashflow_type?: string;
   acc_statement: string;
   acc_type: string;
   acc_parents?: string;

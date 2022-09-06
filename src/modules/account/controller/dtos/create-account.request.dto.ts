@@ -15,7 +15,7 @@ export class CreateAccountRequestDTO {
   @IsRequiredString({ example: 'D', uppercase: true })
   acc_balance_type: string;
 
-  @IsRequiredString({ example: 'cash' })
+  @IsOptionalString({ example: 'cash' })
   acc_cashflow_type: string;
 
   @IsRequiredString({ example: 'BS', uppercase: true })

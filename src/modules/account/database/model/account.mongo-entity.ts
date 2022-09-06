@@ -18,8 +18,8 @@ export class AccountMongoEntity extends BaseMongoEntity<
   @Prop({ required: true })
   acc_balance_type: string;
 
-  @Prop({ required: true })
-  acc_cashflow_type: string;
+  @Prop({ required: true, default: 'none' })
+  acc_cashflow_type?: string;
 
   @Prop({ required: true })
   acc_statement: string;
