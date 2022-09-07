@@ -57,10 +57,10 @@ export class AuthService {
   }
 
   async registerToken(user: Partial<UserMongoEntity>) {
-    const cacheRegistered = await this.utils.cache.get(user.username);
+    // const cacheRegistered = await this.utils.cache.get(user.username);
 
-    if (cacheRegistered)
-      throw new ExceptionBadRequest('User id sedang dipakai!', this);
+    // if (cacheRegistered)
+    //   throw new ExceptionBadRequest('User id sedang dipakai!', this);
 
     const payload = { sub: user.username };
     const token = this.jwtService.sign(payload);
