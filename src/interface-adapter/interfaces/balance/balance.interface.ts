@@ -55,3 +55,15 @@ export interface IBalanceResponse {
   acc_balance_type: string;
   balance_detail: IBalanceDetailResponse[];
 }
+
+export interface IProFormaDetail {
+  parents_acc_number: string;
+  parents_acc_name: string;
+  balance_detail: IBalanceDetailResponse[];
+}
+
+export interface IProFormaResponse {
+  credit_accounts: IProFormaDetail[];
+  debit_account: IProFormaDetail[];
+  total_profit_lost: number;
+}
