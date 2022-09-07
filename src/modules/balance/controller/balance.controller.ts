@@ -3,10 +3,13 @@ import { ApiOkResponse } from '@nestjs/swagger';
 import { APIQueryProperty } from 'src/core/decorators/controller-decorators/class-decorators/api-query-property.decorator';
 import { ControllerProperty } from 'src/core/decorators/controller-decorators/class-decorators/controller-property.decorator';
 import { SecureGet } from 'src/core/decorators/controller-decorators/class-decorators/secure-get.decorator';
+import { BalanceReport } from '../use-cases/balance-report.use-case';
 import { LedgerReport } from '../use-cases/ledger-report.use-case';
 import { ProfitLossReport } from '../use-cases/profit-loss-report.use-case';
 import { TrialBalanceReport } from '../use-cases/trial-balance-report.use-case';
+import { BalanceReportRequestDTO } from './dtos/balance-report.request.dto';
 import {
+  BalanceReportResponse,
   LedgerReportResponse,
   ProfitLossReportResponse,
   TrialBalanceReportResponse,
@@ -21,7 +24,15 @@ export class BalanceController {
     private readonly ledgerReport: LedgerReport,
     private readonly trialBalanceReport: TrialBalanceReport,
     private readonly profitLossReport: ProfitLossReport,
+    private readonly balanceReport: BalanceReport,
   ) {}
+
+  @SecureGet('report')
+  @ApiOkResponse({ type: BalanceReportResponse, isArray: true })
+  @APIQueryProperty(['transaction_date'])
+  balance(@Query() query: BalanceReportRequestDTO) {
+    return this.balanceReport.execute(query);
+  }
 
   @SecureGet('report/ledger')
   @ApiOkResponse({ type: LedgerReportResponse, isArray: true })
