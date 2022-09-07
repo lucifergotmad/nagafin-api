@@ -30,3 +30,15 @@ export interface ITrialBalanceResponse {
   parents_acc_name: string;
   balance_detail: ITrialBalanceDetailResponse[];
 }
+
+export interface IProfitLossDetailResponse {
+  acc_number: string;
+  acc_name: string;
+  balance_amount: number;
+}
+
+export interface IProfitLossResponse {
+  parents_acc_number: string;
+  parents_acc_name: string;
+  balance_detail: IProfitLossDetailResponse[];
+}

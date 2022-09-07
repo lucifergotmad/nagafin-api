@@ -3,6 +3,8 @@ import {
   IBalanceDetail,
   ILedgerDetailReportResponse,
   ILedgerReportResponse,
+  IProfitLossDetailResponse,
+  IProfitLossResponse,
   ITrialBalanceDetailResponse,
   ITrialBalanceResponse,
 } from 'src/interface-adapter/interfaces/balance/balance.interface';
@@ -106,4 +108,42 @@ export class TrialBalanceReportResponse implements ITrialBalanceResponse {
     example: [],
   })
   balance_detail: TrialBalanceDetailReportResponse[];
+}
+
+class ProfitLossDetailReportResponse implements IProfitLossDetailResponse {
+  constructor(props: IProfitLossDetailResponse) {
+    this.acc_name = props.acc_name;
+    this.acc_number = props.acc_number;
+    this.balance_amount = props.balance_amount;
+  }
+
+  @ApiProperty({ example: '100001' })
+  acc_number: string;
+
+  @ApiProperty({ example: 'KAS BESAR' })
+  acc_name: string;
+
+  @ApiProperty({ example: 10000 })
+  balance_amount: number;
+}
+
+export class ProfitLossReportResponse implements IProfitLossResponse {
+  constructor(props: IProfitLossResponse) {
+    this.parents_acc_name = props.parents_acc_name;
+    this.parents_acc_number = props.parents_acc_number;
+    this.balance_detail = props.balance_detail;
+  }
+
+  @ApiProperty({ example: '100000' })
+  parents_acc_number: string;
+
+  @ApiProperty({ example: 'AKTIVA LANCAR' })
+  parents_acc_name: string;
+
+  @ApiProperty({
+    type: ProfitLossDetailReportResponse,
+    isArray: true,
+    example: [],
+  })
+  balance_detail: ProfitLossDetailReportResponse[];
 }

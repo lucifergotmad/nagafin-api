@@ -1,5 +1,6 @@
 import { AccountModule } from './account/account.module';
 import { AppAuthModule } from './app/app-auth.module';
+import { BalanceModule } from './balance/balance.module';
 import { CurrencyModule } from './currency/currency.module';
 import { JournalTemplateModule } from './journal-template/journal-template.module';
 import { JournalModule } from './journal/journal.module';
@@ -13,4 +14,5 @@ export const resourceProviders = [
   CurrencyModule,
   JournalModule,
   JournalTemplateModule,
+  BalanceModule,
 ];
