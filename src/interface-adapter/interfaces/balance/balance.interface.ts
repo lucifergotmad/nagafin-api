@@ -42,3 +42,16 @@ export interface IProfitLossResponse {
   parents_acc_name: string;
   balance_detail: IProfitLossDetailResponse[];
 }
+
+export interface IBalanceDetailResponse {
+  acc_number: string;
+  acc_name: string;
+  balance_amount: number;
+}
+
+export interface IBalanceResponse {
+  parents_acc_number: string;
+  parents_acc_name: string;
+  acc_balance_type: string;
+  balance_detail: IBalanceDetailResponse[];
+}
