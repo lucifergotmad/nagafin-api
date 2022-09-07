@@ -11,3 +11,5 @@ export interface ILedgerReportResponse {
   balance_acc: string;
   detail_journal: ILedgerDetailReportResponse[];
 }
+
+export interface ITrialBalanceResponse {}

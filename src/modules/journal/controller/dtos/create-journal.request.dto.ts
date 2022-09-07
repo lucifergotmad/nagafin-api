@@ -1,5 +1,5 @@
+import { IsOptionalBoolean } from 'src/core/decorators/dto-decorators/optional-boolean.decorator';
 import { IsOptionalNumber } from 'src/core/decorators/dto-decorators/optional-number.decorator';
-import { IsRequiredBoolean } from 'src/core/decorators/dto-decorators/required-boolean.decorator';
 import { IsRequiredMixed } from 'src/core/decorators/dto-decorators/required-mixed.decorator';
 import { IsRequiredNumber } from 'src/core/decorators/dto-decorators/required-number.decorator';
 import { IsRequiredString } from 'src/core/decorators/dto-decorators/required-string.decorator';
@@ -28,8 +28,8 @@ export class CreateJournalRequestDTO {
   @IsRequiredString({ example: '2022-08-22' })
   journal_date: string;
 
-  @IsRequiredBoolean({ example: true })
-  journal_status: boolean;
+  @IsOptionalBoolean({ example: true })
+  journal_status?: boolean;
 
   @IsOptionalNumber({ example: 10000 })
   total_credit_amount: number;
