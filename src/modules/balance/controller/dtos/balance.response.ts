@@ -7,6 +7,8 @@ import {
   ILedgerReportResponse,
   IProfitLossDetailResponse,
   IProfitLossResponse,
+  IProFormaDetail,
+  IProFormaResponse,
   ITrialBalanceDetailResponse,
   ITrialBalanceResponse,
 } from 'src/interface-adapter/interfaces/balance/balance.interface';
@@ -190,4 +192,50 @@ export class BalanceReportResponse implements IBalanceResponse {
     example: [],
   })
   balance_detail: BalanceDetailReportResponse[];
+}
+
+class ProFormaDetailReportResponse implements IProFormaDetail {
+  constructor(props: IProFormaDetail) {
+    this.parents_acc_name = props.parents_acc_name;
+    this.parents_acc_number = props.parents_acc_number;
+    this.balance_detail = props.balance_detail;
+  }
+
+  @ApiProperty({ example: '100000' })
+  parents_acc_number: string;
+
+  @ApiProperty({ example: 'AKTIVA LANCAR' })
+  parents_acc_name: string;
+
+  @ApiProperty({
+    type: BalanceDetailReportResponse,
+    isArray: true,
+    example: [],
+  })
+  balance_detail: BalanceDetailReportResponse[];
+}
+
+export class ProFormaReportResponse implements IProFormaResponse {
+  constructor(props: IProFormaResponse) {
+    this.credit_accounts = props.credit_accounts;
+    this.debit_account = props.debit_account;
+    this.total_profit_lost = props.total_profit_lost;
+  }
+
+  @ApiProperty({
+    type: ProFormaDetailReportResponse,
+    isArray: true,
+    example: [],
+  })
+  credit_accounts: ProFormaDetailReportResponse[];
+
+  @ApiProperty({
+    type: ProFormaDetailReportResponse,
+    isArray: true,
+    example: [],
+  })
+  debit_account: ProFormaDetailReportResponse[];
+
+  @ApiProperty({ example: 10000 })
+  total_profit_lost: number;
 }
