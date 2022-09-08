@@ -218,7 +218,7 @@ class ProFormaDetailReportResponse implements IProFormaDetail {
 export class ProFormaReportResponse implements IProFormaResponse {
   constructor(props: IProFormaResponse) {
     this.credit_accounts = props.credit_accounts;
-    this.debit_account = props.debit_account;
+    this.debit_accounts = props.debit_accounts;
     this.total_profit_lost = props.total_profit_lost;
   }
 
@@ -234,7 +234,7 @@ export class ProFormaReportResponse implements IProFormaResponse {
     isArray: true,
     example: [],
   })
-  debit_account: ProFormaDetailReportResponse[];
+  debit_accounts: ProFormaDetailReportResponse[];
 
   @ApiProperty({ example: 10000 })
   total_profit_lost: number;

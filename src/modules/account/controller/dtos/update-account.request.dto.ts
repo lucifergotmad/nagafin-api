@@ -12,15 +12,6 @@ export class UpdateAccountRequestDTO {
   @IsOptionalString({ example: 'RP', uppercase: true })
   acc_currency?: string;
 
-  @IsOptionalString({ example: 'D', uppercase: true })
-  acc_balance_type?: string;
-
-  @IsOptionalString({ example: 'cash' })
-  acc_cashflow_type?: string;
-
-  @IsOptionalString({ example: 'BS', uppercase: true })
-  acc_statement?: string;
-
   @IsOptionalString({ example: 'transaction' })
   acc_type?: string;
 

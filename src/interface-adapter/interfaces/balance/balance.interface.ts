@@ -64,6 +64,6 @@ export interface IProFormaDetail {
 
 export interface IProFormaResponse {
   credit_accounts: IProFormaDetail[];
-  debit_account: IProFormaDetail[];
+  debit_accounts: IProFormaDetail[];
   total_profit_lost: number;
 }
