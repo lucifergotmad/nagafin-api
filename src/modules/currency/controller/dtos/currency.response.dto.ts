@@ -9,7 +9,6 @@ export class CurrencyResponseDTO
     super(props._id);
     this.currency_code = props.currency_code;
     this.currency_name = props.currency_name;
-    this.currency_status = props.currency_status;
     this.exchange_rate = props.exchange_rate;
   }
 
@@ -21,7 +20,4 @@ export class CurrencyResponseDTO
 
   @ApiProperty({ example: 1 })
   exchange_rate: number;
-
-  @ApiProperty({ example: true })
-  currency_status: boolean;
 }

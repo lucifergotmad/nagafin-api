@@ -8,7 +8,4 @@ export class UpdateCurrencyRequestDTO {
 
   @IsOptionalNumber({ example: 1 })
   exchange_rate: number;
-
-  @IsOptionalBoolean({ example: false })
-  currency_status: boolean;
 }

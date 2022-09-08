@@ -5,7 +5,6 @@ export interface ICurrencyProps extends IHistoryUser {
   currency_code: string;
   currency_name: string;
   exchange_rate: number;
-  currency_status: boolean;
 }
 
 export class CurrencyEntity extends AggregateRoot<ICurrencyProps> {

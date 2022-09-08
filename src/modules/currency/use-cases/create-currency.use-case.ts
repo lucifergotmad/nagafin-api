@@ -34,7 +34,6 @@ export class CreateCurrency
         currency_code: data.currency_code,
         currency_name: data.currency_name,
         exchange_rate: data.exchange_rate,
-        currency_status: data.currency_status,
         created_by: this.user?.username,
       });
       const result = await this.currencyRepository.save(
