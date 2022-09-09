@@ -1,4 +1,3 @@
-import { IsOptionalBoolean } from 'src/core/decorators/dto-decorators/optional-boolean.decorator';
 import { IsOptionalNumber } from 'src/core/decorators/dto-decorators/optional-number.decorator';
 import { IsRequiredString } from 'src/core/decorators/dto-decorators/required-string.decorator';
 
