@@ -7,7 +7,7 @@ import { BalanceSheetsReport } from '../use-cases/balance-sheets-report.use-case
 import { BalanceSheetsReportRequestDTO } from './dtos/balance-sheets.request.dto';
 import { BalanceSheetsReportResponse } from './dtos/balance-sheets.response';
 
-@ControllerProperty('v1/balance-sheets', 'Balance Sheets')
+@ControllerProperty('v1/balance-sheets', '[Report] Balance Sheets')
 export class BalanceSheetsController {
   constructor(private readonly balanceSheetsReport: BalanceSheetsReport) {}
 

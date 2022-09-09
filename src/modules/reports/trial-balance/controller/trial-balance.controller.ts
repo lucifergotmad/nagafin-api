@@ -7,7 +7,7 @@ import { TrialBalanceReport } from '../use-cases/trial-balance-report.use-case';
 import { TrialBalanceReportRequestDTO } from './dtos/trial-balance-report.request.dto';
 import { TrialBalanceReportResponse } from './dtos/trial-balance.response';
 
-@ControllerProperty('v1/trial-balances', 'Trial Balances')
+@ControllerProperty('v1/trial-balances', '[Report] Trial Balances')
 export class TrialBalanceController {
   constructor(private readonly trialBalanceReport: TrialBalanceReport) {}
 
