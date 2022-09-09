@@ -1,4 +1,4 @@
-export interface IJournalReportResponse {
+export interface IJournalReportsResponse {
   journal_number: string;
   journal_notes: string;
   journal_date: string;
