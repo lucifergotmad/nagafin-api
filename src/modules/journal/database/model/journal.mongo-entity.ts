@@ -35,9 +35,6 @@ export class JournalMongoEntity extends BaseMongoEntity<
   @Prop({ required: true, default: 0 })
   total_debit_amount: number;
 
-  @Prop({ required: true, default: true })
-  journal_status: boolean;
-
   @Prop(raw([JournalDetailMongoEntity]))
   journal_detail: Array<JournalDetailMongoEntity>;
 

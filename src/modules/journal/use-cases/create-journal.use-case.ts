@@ -91,7 +91,6 @@ export class CreateJournal
         journal_number: data.journal_number,
         journal_date: data.journal_date,
         journal_notes: data.journal_notes,
-        journal_status: data.journal_status,
         journal_detail: data.journal_detail,
         total_credit_amount: data?.total_credit_amount,
         total_debit_amount: data?.total_debit_amount,

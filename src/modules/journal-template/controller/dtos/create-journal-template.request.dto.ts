@@ -4,7 +4,7 @@ import { CreateJournalRequestDTO } from 'src/modules/journal/controller/dtos/cre
 
 export class CreateJournalTemplateRequestDTO extends OmitType(
   CreateJournalRequestDTO,
-  ['journal_number', 'journal_date', 'journal_status'],
+  ['journal_number', 'journal_date'],
 ) {
   @IsRequiredString({ example: 'Penjualan' })
   template_name: string;

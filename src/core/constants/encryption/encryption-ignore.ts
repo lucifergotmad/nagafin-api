@@ -1,5 +1,10 @@
 export const UserIgnore = ['_id', 'password', 'level'];
-export const AccountIgnore = ['_id', 'acc_number', 'acc_parents'];
+export const AccountIgnore = [
+  '_id',
+  'acc_number',
+  'acc_parents',
+  'acc_cashflow_type',
+];
 export const CurrencyIgnore = ['_id'];
 export const JournalIgnore = [
   '_id',

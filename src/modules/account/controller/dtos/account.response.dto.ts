@@ -47,10 +47,10 @@ export class AccountResponseDTO
   @ApiProperty({ example: '100000' })
   acc_parents?: string;
 
-  @ApiProperty({ example: false })
+  @ApiProperty({ example: true })
   used_as_parent?: boolean;
 
-  @ApiProperty({ example: false })
+  @ApiProperty({ example: true })
   used_in_transaction?: boolean;
 }
 

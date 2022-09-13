@@ -13,7 +13,6 @@ export interface IJournalResponse extends IId {
   journal_date: string;
   total_credit_amount: number;
   total_debit_amount: number;
-  journal_status: boolean;
   journal_detail: IJournalDetailResponse[];
 }
 

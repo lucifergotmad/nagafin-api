@@ -20,9 +20,11 @@ export class FindAccountById
 
   public async execute(data: IId): Promise<IAccountResponse> {
     try {
-      return new AccountResponseDTO(
-        await this.accountRepository.findById(data._id),
-      );
+      return new AccountResponseDTO({
+        ...(await this.accountRepository.findById(data._id)),
+        used_as_parent: true,
+        used_in_transaction: true,
+      });
     } catch (error) {
       throw new ResponseException(error.message, error.status, error.trace);
     }

@@ -28,9 +28,6 @@ export class CreateJournalRequestDTO {
   @IsRequiredString({ example: '2022-08-22' })
   journal_date: string;
 
-  @IsOptionalBoolean({ example: true })
-  journal_status?: boolean;
-
   @IsOptionalNumber({ example: 10000 })
   total_credit_amount: number;
 

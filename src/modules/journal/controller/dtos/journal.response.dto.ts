@@ -35,7 +35,6 @@ export class JournalResponseDTO
     this.journal_number = props.journal_number;
     this.journal_notes = props.journal_notes;
     this.journal_date = props.journal_date;
-    this.journal_status = props.journal_status;
     this.total_debit_amount = props.total_debit_amount;
     this.total_credit_amount = props.total_credit_amount;
     this.journal_detail = props.journal_detail;
@@ -49,9 +48,6 @@ export class JournalResponseDTO
 
   @ApiProperty({ example: '2022-08-22' })
   journal_date: string;
-
-  @ApiProperty({ example: true })
-  journal_status: boolean;
 
   @ApiProperty({ example: 10000 })
   total_credit_amount: number;
