@@ -5,6 +5,7 @@ import { CurrencyModule } from './currency/currency.module';
 import { JournalTemplateModule } from './journal-template/journal-template.module';
 import { JournalModule } from './journal/journal.module';
 import { BalanceSheetsModule } from './reports/balance-sheets/balance-sheets.module';
+import { CashFlowReport } from './reports/cash-flow/use-cases/cash-flow-report.use-case';
 import { JournalReportsModule } from './reports/journal-reports/journal-reports.module';
 import { TrialBalanceModule } from './reports/trial-balance/trial-balance.module';
 import { UserModule } from './user/user.module';
@@ -21,4 +22,5 @@ export const resourceProviders = [
   JournalReportsModule,
   BalanceSheetsModule,
   TrialBalanceModule,
+  CashFlowReport,
 ];
