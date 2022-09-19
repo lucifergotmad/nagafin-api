@@ -18,7 +18,7 @@ export class AccountNumber extends ValueObject<string> {
       throw new ExceptionBadRequest('Nomor Akun tidak boleh kosong!');
     }
 
-    if (Guard.isInvalidStringNumber(value)) {
+    if (Guard.isInvalidAccountNumber(value)) {
       throw new ExceptionUnprocessableEntity('Nomor Akun tidak valid!');
     }
   }

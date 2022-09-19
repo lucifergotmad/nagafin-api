@@ -45,7 +45,7 @@ export class Guard {
     return !/\d{4}-\d{2}-\d{2}/.test(value);
   }
 
-  static isInvalidStringNumber(value: string): boolean {
+  static isInvalidAccountNumber(value: string): boolean {
     return /[^0-9.]+/.test(value);
   }
 
