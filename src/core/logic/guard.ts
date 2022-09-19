@@ -46,7 +46,7 @@ export class Guard {
   }
 
   static isInvalidStringNumber(value: string): boolean {
-    return /[^0-9]+/.test(value);
+    return /[^0-9.]+/.test(value);
   }
 
   static isInvalidLevel(value: string): boolean {
