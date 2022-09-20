@@ -35,7 +35,7 @@ export class CreateAccount
         acc_balance_type: data.acc_balance_type,
         acc_cashflow_type: data?.acc_cashflow_type,
         acc_statement: data.acc_statement,
-        acc_type: data.acc_statement,
+        acc_type: data.acc_type,
         acc_parents: data?.acc_parents,
         acc_active: data?.acc_active,
         created_by: this.user?.username,
