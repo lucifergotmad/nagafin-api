@@ -36,19 +36,19 @@ export class CreateJournal
         'Nomor Journal telah digunakan!',
       );
 
-      data.journal_detail.forEach(async (detail: IJournalDetailProps) => {
+      for (const item of data.journal_detail) {
         const latestBalance = await this.balanceRepository.findOneLatest({
-          balance_acc: detail.acc_number,
+          balance_acc: item.acc_number,
           balance_date: this.utils.date.localDateString(new Date()),
         });
 
         const accountDetail = await this.accountRepository.findOne({
-          acc_number: detail.acc_number,
+          acc_number: item.acc_number,
         });
 
         if (!latestBalance) {
           const balanceEntity = BalanceEntity.create({
-            balance_acc: detail.acc_number,
+            balance_acc: item.acc_number,
             balance_date: data.journal_date,
             beginning_balance: {
               credit_amount: 0,
@@ -67,7 +67,7 @@ export class CreateJournal
           await this.balanceRepository.save(balanceEntity, session);
         } else {
           await this.balanceRepository.update(
-            { balance_acc: detail.acc_number, balance_date: data.journal_date },
+            { balance_acc: item.acc_number, balance_date: data.journal_date },
             {
               beginning_balance: {
                 credit_amount: 0,
@@ -85,9 +85,9 @@ export class CreateJournal
             session,
           );
         }
-      });
+      }
 
-      const journalEntity = new JournalEntity({
+      const journalEntity = JournalEntity.create({
         journal_number: data.journal_number,
         journal_date: data.journal_date,
         journal_notes: data.journal_notes,

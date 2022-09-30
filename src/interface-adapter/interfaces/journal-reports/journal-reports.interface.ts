@@ -7,3 +7,8 @@ export interface IJournalReportsResponse {
   created_at: string;
   created_by: string;
 }
+
+export interface IJournalReportsRequest {
+  start_date: string;
+  end_date: string;
+}
