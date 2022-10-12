@@ -6,4 +6,5 @@ export interface AccountRepositoryPort
   extends BaseRepositoryPort<AccountMongoEntity, AccountEntity> {
   findActiveAccount(): Promise<Array<AccountMongoEntity>>;
   findInactiveAccount(): Promise<Array<AccountMongoEntity>>;
+  isUsedAsParent(acc_number: string): Promise<boolean>;
 }

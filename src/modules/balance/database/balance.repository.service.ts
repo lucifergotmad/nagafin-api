@@ -9,6 +9,7 @@ import {
 import { BalanceEntity } from '../domain/balance.entity';
 import { BalanceRepositoryPort } from './balance.repository.port';
 import { BalanceMongoMapper } from './model/balance.mongo-mapper';
+import { BalanceIgnore } from 'src/core/constants/encryption/encryption-ignore';
 
 @Injectable()
 export class BalanceRepository
@@ -21,6 +22,7 @@ export class BalanceRepository
     super(
       BalanceModel,
       new BalanceMongoMapper(BalanceEntity, BalanceMongoEntity),
+      BalanceIgnore,
     );
   }
 

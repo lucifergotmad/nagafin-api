@@ -33,4 +33,9 @@ export class AccountRepository
   async findInactiveAccount(): Promise<AccountMongoEntity[]> {
     return await this.accountModel.find({ acc_active: false });
   }
+
+  async isUsedAsParent(acc_number: string): Promise<boolean> {
+    const result = await this.accountModel.findOne({ acc_parents: acc_number });
+    return result ? true : false;
+  }
 }

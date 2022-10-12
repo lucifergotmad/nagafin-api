@@ -13,7 +13,7 @@ import { BalanceEntity } from 'src/modules/balance/domain/balance.entity';
 import { CreateJournalRequestDTO } from '../controller/dtos/create-journal.request.dto';
 import { JournalRepositoryPort } from '../database/journal.repository.port';
 import { InjectJournalRepository } from '../database/journal.repository.provider';
-import { IJournalDetailProps, JournalEntity } from '../domain/journal.entity';
+import { JournalEntity } from '../domain/journal.entity';
 
 @Injectable()
 export class CreateJournal
@@ -39,6 +39,19 @@ export class CreateJournal
           { journal_number: data.journal_number },
           'Nomor Journal telah digunakan!',
         );
+
+        for (const item of data.journal_detail) {
+          const account = await this.accountRepository.findOne({
+            acc_number: item.acc_number,
+            acc_active: true,
+          });
+          if (!account) throw new Error('Akun tidak dapat ditemukan!');
+
+          const balance = await this.balanceRepository.findOneLatest({
+            balance_date: data.journal_date,
+            balance_acc: item.acc_number,
+          });
+        }
 
         const journalEntity = JournalEntity.create({
           journal_number: data.journal_number,

@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 import { BaseMongoEntity } from 'src/core/base-classes/infra/mongo-entity.base';
 import { JournalDetailMongoEntity } from 'src/modules/journal/database/model/journal.mongo-entity';
 
-@Schema({ collection: 'tm_jounal_templates' })
+@Schema({ collection: 'tm_journal_templates' })
 export class JournalTemplateMongoEntity extends BaseMongoEntity<
   typeof JournalTemplateMongoEntity
 > {

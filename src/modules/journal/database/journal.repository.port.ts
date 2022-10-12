@@ -4,5 +4,5 @@ import { JournalEntity } from '../domain/journal.entity';
 
 export interface JournalRepositoryPort
   extends BaseRepositoryPort<JournalMongoEntity, JournalEntity> {
-  __init__(): void;
+  isUsedInTransaction(acc_number: string): Promise<boolean>;
 }
