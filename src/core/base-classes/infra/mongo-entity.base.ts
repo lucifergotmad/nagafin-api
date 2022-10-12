@@ -6,8 +6,10 @@ export abstract class BaseMongoEntity<MongoModel> {
   _id: string;
 
   constructor(props?: MongoModel) {
+    console.log('anomaly', props);
     if (props) {
       Object.assign(this, props);
+      console.log('ini this', this);
     }
   }
 }

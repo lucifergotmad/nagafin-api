@@ -9,6 +9,7 @@ import {
 import { JournalTemplateEntity } from '../domain/jounal-template.entity';
 import { JournalTemplateRepositoryPort } from './journal-template.repository.port';
 import { JournalTemplateMongoMapper } from './model/journal-template.mongo-mapper';
+import { JournalTemplateIgnore } from 'src/core/constants/encryption/encryption-ignore';
 
 @Injectable()
 export class JournalTemplateRepository
@@ -24,6 +25,7 @@ export class JournalTemplateRepository
         JournalTemplateEntity,
         JournalTemplateMongoEntity,
       ),
+      JournalTemplateIgnore,
     );
   }
 

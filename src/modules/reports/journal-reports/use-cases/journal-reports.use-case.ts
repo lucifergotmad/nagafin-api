@@ -36,7 +36,7 @@ export class JournalReports
             journal_date: item.journal_date,
             total_debit_amount: item.total_debit_amount,
             total_credit_amount: item.total_credit_amount,
-            created_at: this.utils.date.localDateString(new Date()),
+            created_at: this.utils.date.localDateString(item.created_at),
             created_by: item.created_by,
           }),
       );

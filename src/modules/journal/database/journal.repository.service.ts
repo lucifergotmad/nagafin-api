@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { BaseRepository } from 'src/core/base-classes/infra/repository.base';
-import { Model } from 'mongoose';
+import { Model, Mongoose } from 'mongoose';
 import {
   JournalMongoEntity,
   JournalDocument,
@@ -10,6 +10,7 @@ import { JournalEntity } from '../domain/journal.entity';
 import { JournalRepositoryPort } from './journal.repository.port';
 import { JournalMongoMapper } from './model/journal.mongo-mapper';
 import { JournalIgnore } from 'src/core/constants/encryption/encryption-ignore';
+import { JournalResponseDTO } from '../controller/dtos/journal.response.dto';
 
 @Injectable()
 export class JournalRepository

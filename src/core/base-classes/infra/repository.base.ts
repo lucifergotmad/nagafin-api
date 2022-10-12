@@ -125,9 +125,8 @@ export class BaseRepository<MongoEntity, Entity extends BaseEntityProps>
     identifier: FilterQuery<MongoEntity>,
     session?: ClientSession,
   ): Promise<Array<MongoEntity>> {
-    const query = this.prepareQuery(identifier);
     const result = await this.genericModel
-      .aggregate([{ $match: encryptor.doEncrypt(query, this.ignore) }])
+      .aggregate([{ $match: encryptor.doEncrypt(identifier, this.ignore) }])
       .session(session);
 
     return encryptor.doDecrypt(result, this.ignore);
@@ -164,6 +163,8 @@ export class BaseRepository<MongoEntity, Entity extends BaseEntityProps>
       this.mapper.toMongoEntity(entity),
       this.ignore,
     );
+    console.log('after map', mongoEntity);
+
     const newModel = new this.genericModel(mongoEntity);
     const result = await newModel.save({ session });
     return {

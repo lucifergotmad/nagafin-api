@@ -12,7 +12,7 @@ export class TransactionUtil implements ITransactionUtil {
 
   async startTransaction(): Promise<ClientSession> {
     const session: ClientSession = await this.connection.startSession();
-    await session.startTransaction();
+    // await session.startTransaction();
     return session;
   }
 

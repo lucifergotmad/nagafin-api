@@ -7,6 +7,11 @@ export interface BaseEntityProps {
   updated_at: DateVO;
 }
 
+export interface RawBaseEntityProps {
+  created_at: Date;
+  updated_at: Date;
+}
+
 export abstract class Entity<EntityProps> {
   protected readonly _id: UniqueEntityID;
   protected _created_at: DateVO;
@@ -16,6 +21,8 @@ export abstract class Entity<EntityProps> {
   constructor(props: EntityProps, id?: UniqueEntityID) {
     this.validateProps(props);
     const now = DateVO.now();
+    console.log(now);
+
     this._created_at = now;
     this._updated_at = now;
     this._id = id ? id : new UniqueEntityID();
@@ -50,12 +57,13 @@ export abstract class Entity<EntityProps> {
     return false;
   }
 
-  public getPropsCopy(): EntityProps & BaseEntityProps {
+  public getPropsCopy(): EntityProps & RawBaseEntityProps {
     const propsCopy = {
-      created_at: this._created_at,
-      updated_at: this._updated_at,
+      created_at: this._created_at.value,
+      updated_at: this._updated_at.value,
       ...this.props,
     };
+    console.log('copied', propsCopy);
     return Object.freeze(propsCopy);
   }
 

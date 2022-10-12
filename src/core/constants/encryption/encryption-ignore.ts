@@ -12,3 +12,4 @@ export const JournalIgnore = [
   'journal_number',
   'acc_number',
 ];
+export const JournalTemplateIgnore = ['_id', 'acc_number'];

@@ -125,6 +125,7 @@ export class Encryptor {
       const data = this.encryptascii(dataBeforeCopy);
       return data;
     }
+    return dataBeforeCopy;
   }
 
   doDecrypt(dataBeforeCopy: any, ignore: any = []) {

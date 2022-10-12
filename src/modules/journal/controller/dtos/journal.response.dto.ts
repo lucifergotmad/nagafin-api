@@ -8,11 +8,15 @@ import {
 
 class JournalDetailResponseDTO implements IJournalDetailResponse {
   constructor(props: IJournalDetailResponse) {
+    this.acc_name = props.acc_name;
     this.acc_number = props.acc_number;
     this.credit_amount = props.credit_amount;
     this.debit_amount = props.debit_amount;
     this.journal_info = props.journal_info;
   }
+
+  @ApiProperty({ example: 'KAS BESAR' })
+  acc_name?: string;
 
   @ApiProperty({ example: '100000' })
   acc_number: string;

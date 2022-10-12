@@ -1,6 +1,7 @@
 import { IId } from '../id.interface';
 
 export interface IJournalDetailResponse {
+  acc_name?: string;
   acc_number: string;
   credit_amount: number;
   debit_amount: number;
