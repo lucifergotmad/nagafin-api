@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { BaseUseCase } from 'src/core/base-classes/infra/use-case.base';
 import { IUseCase } from 'src/core/base-classes/interfaces/use-case.interface';
 import { ResponseException } from 'src/core/exceptions/response.http-exception';
+import { IRepositoryResponse } from 'src/core/ports/interfaces/repository-response.interface';
 import { Utils } from 'src/core/utils/utils.service';
 import { MessageResponseDTO } from 'src/interface-adapter/dtos/message.response.dto';
 import { IId } from 'src/interface-adapter/interfaces/id.interface';
@@ -22,22 +23,23 @@ export class DeleteJournalTemplate
 
   public async execute({ _id }: IId): Promise<MessageResponseDTO> {
     const session = await this.utils.transaction.startTransaction();
+    let result: IRepositoryResponse;
 
     try {
-      await this.journalTemplateRepository.findOneOrThrow(
-        { _id },
-        'Template Journal tidak dapat ditemukan!',
-      );
+      await session.withTransaction(async () => {
+        await this.journalTemplateRepository.findOneOrThrow(
+          { _id },
+          'Template Journal tidak dapat ditemukan!',
+        );
 
-      const result = await this.journalTemplateRepository.delete(
-        { _id },
-        session,
-      );
-      await this.utils.transaction.commitTransaction(session);
+        result = await this.journalTemplateRepository.delete({ _id }, session);
+      });
+
       return new MessageResponseDTO(`${result.n} documents deleted!`);
     } catch (error) {
-      await this.utils.transaction.rollbackTransaction(session);
       throw new ResponseException(error.message, error.status, error.trace);
+    } finally {
+      await session.endSession();
     }
   }
 }
