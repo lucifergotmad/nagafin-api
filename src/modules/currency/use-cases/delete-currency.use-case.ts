@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { BaseUseCase } from 'src/core/base-classes/infra/use-case.base';
 import { IUseCase } from 'src/core/base-classes/interfaces/use-case.interface';
 import { ResponseException } from 'src/core/exceptions/response.http-exception';
+import { IRepositoryResponse } from 'src/core/ports/interfaces/repository-response.interface';
 import { Utils } from 'src/core/utils/utils.service';
 import { MessageResponseDTO } from 'src/interface-adapter/dtos/message.response.dto';
 import { IId } from 'src/interface-adapter/interfaces/id.interface';
@@ -22,18 +23,23 @@ export class DeleteCurrency
 
   public async execute({ _id }: IId): Promise<MessageResponseDTO> {
     const session = await this.utils.transaction.startTransaction();
-    try {
-      await this.currencyRepository.findOneOrThrow(
-        { _id },
-        'Mata uang tidak dapat ditemukan!',
-      );
+    let result: IRepositoryResponse;
 
-      const result = await this.currencyRepository.delete({ _id }, session);
-      await this.utils.transaction.commitTransaction(session);
+    try {
+      await session.withTransaction(async () => {
+        await this.currencyRepository.findOneOrThrow(
+          { _id },
+          'Mata uang tidak dapat ditemukan!',
+        );
+
+        result = await this.currencyRepository.delete({ _id }, session);
+      });
+
       return new MessageResponseDTO(`${result.n} documents deleted!`);
     } catch (error) {
-      await this.utils.transaction.rollbackTransaction(session);
       throw new ResponseException(error.message, error.status, error.trace);
+    } finally {
+      await session.endSession();
     }
   }
 }
