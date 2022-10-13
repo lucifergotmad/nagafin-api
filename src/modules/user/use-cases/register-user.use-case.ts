@@ -9,6 +9,7 @@ import { UserEntity } from '../domain/user.entity';
 import { IUseCase } from 'src/core/base-classes/interfaces/use-case.interface';
 import { ResponseException } from 'src/core/exceptions/response.http-exception';
 import { UserLevel } from 'src/core/constants/app/user/user-level.const';
+import { IRepositoryResponse } from 'src/core/ports/interfaces/repository-response.interface';
 
 @Injectable()
 export class RegisterUser
@@ -23,22 +24,26 @@ export class RegisterUser
 
   public async execute(user: AuthRegisterRequestDTO): Promise<IdResponseDTO> {
     const session = await this.utils.transaction.startTransaction();
+    let result: IRepositoryResponse;
 
     try {
-      await this.userRepository.findOneAndThrow({ user_id: user.username });
+      await session.withTransaction(async () => {
+        await this.userRepository.findOneAndThrow({ user_id: user.username });
 
-      const userEntity = await UserEntity.create({
-        password: user.password,
-        username: user.username,
-        level: UserLevel.Owner,
+        const userEntity = await UserEntity.create({
+          password: user.password,
+          username: user.username,
+          level: UserLevel.Owner,
+        });
+
+        result = await this.userRepository.save(userEntity);
       });
 
-      const result = await this.userRepository.save(userEntity);
-      await this.utils.transaction.commitTransaction(session);
       return new IdResponseDTO(result._id);
     } catch (err) {
-      await this.utils.transaction.rollbackTransaction(session);
       throw new ResponseException(err.message, err.status, err.trace);
+    } finally {
+      await session.endSession();
     }
   }
 }
