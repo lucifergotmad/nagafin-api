@@ -17,11 +17,9 @@ export abstract class DbMapper<Entity extends BaseEntityProps, MongoEntity> {
 
   toMongoEntity(entity: Entity): MongoEntity {
     const props = this.toMongoProps(entity);
-    console.log('props return', props);
     const mongoEntity = new this.mongoEntityConstructor({
       ...props,
     });
-    console.log('monentity', mongoEntity);
 
     return mongoEntity;
   }

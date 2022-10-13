@@ -6,6 +6,7 @@ import { IAccountResponse } from 'src/interface-adapter/interfaces/account/accou
 import { JournalRepositoryPort } from 'src/modules/journal/database/journal.repository.port';
 import { InjectJournalRepository } from 'src/modules/journal/database/journal.repository.provider';
 import { AccountResponseDTO } from '../controller/dtos/account.response.dto';
+import { FindAllAccountRequestDTO } from '../controller/dtos/find-all-account.request.dto';
 import { AccountRepositoryPort } from '../database/account.repository.port';
 import { InjectAccountRepository } from '../database/account.repository.provider';
 import { AccountMongoEntity } from '../database/model/account.mongo-entity';
@@ -13,7 +14,7 @@ import { AccountMongoEntity } from '../database/model/account.mongo-entity';
 @Injectable()
 export class FindAllAccount
   extends BaseUseCase
-  implements IUseCase<never, Array<AccountResponseDTO>> {
+  implements IUseCase<FindAllAccountRequestDTO, Array<AccountResponseDTO>> {
   constructor(
     @InjectAccountRepository
     private readonly accountRepository: AccountRepositoryPort,
@@ -23,9 +24,12 @@ export class FindAllAccount
     super();
   }
 
-  public async execute(): Promise<AccountResponseDTO[]> {
+  public async execute({
+    acc_type,
+  }: FindAllAccountRequestDTO): Promise<AccountResponseDTO[]> {
     try {
-      const accounts = await this.accountRepository.findAll();
+      const filterAccount = !acc_type ? {} : { acc_type };
+      const accounts = await this.accountRepository.findBy(filterAccount);
       const result: IAccountResponse[] = [];
 
       for (const account of accounts) {

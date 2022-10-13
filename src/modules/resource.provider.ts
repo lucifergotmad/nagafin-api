@@ -7,6 +7,7 @@ import { JournalModule } from './journal/journal.module';
 import { BalanceSheetsModule } from './reports/balance-sheets/balance-sheets.module';
 import { CashFlowModule } from './reports/cash-flow/cash-flow.module';
 import { JournalReportsModule } from './reports/journal-reports/journal-reports.module';
+import { LedgerModule } from './reports/ledger/ledger.module';
 import { TrialBalanceModule } from './reports/trial-balance/trial-balance.module';
 import { UserModule } from './user/user.module';
 
@@ -20,6 +21,7 @@ export const resourceProviders = [
   JournalTemplateModule,
   BalanceModule,
   JournalReportsModule,
+  LedgerModule,
   BalanceSheetsModule,
   TrialBalanceModule,
   CashFlowModule,

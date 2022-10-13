@@ -26,3 +26,11 @@ export interface IJournalReportResponse {
   created_at: string;
   created_by: string;
 }
+
+export interface IPayloadJournalBalance {
+  status: string;
+  balance_date: string;
+  balance_acc: string;
+  credit_amount: number;
+  debit_amount: number;
+}

@@ -5,7 +5,7 @@ export const AccountIgnore = [
   'acc_parents',
   'acc_cashflow_type',
 ];
-export const BalanceIgnore = ['_id', 'balance_date'];
+export const BalanceIgnore = ['_id', 'balance_date', 'balance_acc'];
 export const CurrencyIgnore = ['_id', 'currency_code'];
 export const JournalIgnore = [
   '_id',

@@ -1,5 +1,6 @@
-import { Body, Param } from '@nestjs/common';
+import { Body, Param, Query } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiOkResponse } from '@nestjs/swagger';
+import { APIQueryProperty } from 'src/core/decorators/controller-decorators/class-decorators/api-query-property.decorator';
 import { ControllerProperty } from 'src/core/decorators/controller-decorators/class-decorators/controller-property.decorator';
 import { SecureDelete } from 'src/core/decorators/controller-decorators/class-decorators/secure-delete.decorator';
 import { SecureGet } from 'src/core/decorators/controller-decorators/class-decorators/secure-get.decorator';
@@ -16,6 +17,7 @@ import { FindAllAccount } from '../use-cases/find-all-account.use-case';
 import { UpdateAccount } from '../use-cases/update-acount.use-case';
 import { AccountResponseDTO } from './dtos/account.response.dto';
 import { CreateAccountRequestDTO } from './dtos/create-account.request.dto';
+import { FindAllAccountRequestDTO } from './dtos/find-all-account.request.dto';
 import { UpdateAccountRequestDTO } from './dtos/update-account.request.dto';
 
 @ControllerProperty('v1/accounts', '[Master] Accounts')
@@ -38,9 +40,10 @@ export class AccountController {
   }
 
   @SecureGet()
+  @APIQueryProperty(['acc_type'])
   @ApiOkResponse({ type: AccountResponseDTO, isArray: true })
-  find() {
-    return this.findAllAccount.execute();
+  find(@Query() query: FindAllAccountRequestDTO) {
+    return this.findAllAccount.execute(query);
   }
 
   @SecureGet(':_id')

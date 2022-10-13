@@ -2,6 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { BaseUseCase } from 'src/core/base-classes/infra/use-case.base';
 import { IUseCase } from 'src/core/base-classes/interfaces/use-case.interface';
 import { ResponseException } from 'src/core/exceptions/response.http-exception';
+import { AccountRepositoryPort } from 'src/modules/account/database/account.repository.port';
+import { InjectAccountRepository } from 'src/modules/account/database/account.repository.provider';
+import { BalanceRepositoryPort } from 'src/modules/balance/database/balance.repository.port';
+import { InjectBalanceRepository } from 'src/modules/balance/database/balance.repository.provider';
 import { BalanceSheetsReportRequestDTO } from '../controller/dtos/balance-sheets.request.dto';
 import { BalanceSheetsReportResponse } from '../controller/dtos/balance-sheets.response';
 
@@ -10,7 +14,10 @@ export class BalanceSheetsReport
   extends BaseUseCase
   implements
     IUseCase<BalanceSheetsReportRequestDTO, BalanceSheetsReportResponse[]> {
-  constructor() {
+  constructor(
+    @InjectBalanceRepository
+    private readonly balanceRepository: BalanceRepositoryPort,
+  ) {
     super();
   }
 

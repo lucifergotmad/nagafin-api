@@ -11,6 +11,7 @@ export interface IBalanceProps {
   beginning_balance: IBalanceDetail;
   balance_mutation: IBalanceDetail;
   ending_balance: IBalanceDetail;
+  journal_number: string;
 }
 
 export class BalanceEntity extends AggregateRoot<IBalanceProps> {

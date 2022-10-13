@@ -42,11 +42,13 @@ export class AppController {
   @Post('auth/login')
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ type: AuthLoginResponseDto })
-  @ApiUnauthorizedResponse({ description: 'Unauthorize user' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorize User' })
   async login(
     @Body() body: AuthLoginRequestDTO,
     @Request() { user: { level } }: any,
   ) {
+    console.log(body);
+
     return await this.authService.login({ level, ...body });
   }
 

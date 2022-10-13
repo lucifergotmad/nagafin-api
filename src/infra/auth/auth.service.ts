@@ -38,7 +38,10 @@ export class AuthService {
 
   async login(user: Partial<UserMongoEntity>) {
     try {
+      console.log(user);
+
       const { access_token, refresh_token } = await this.registerToken(user);
+
       return new AuthLoginResponseDto({
         accessToken: access_token,
         refreshToken: refresh_token,

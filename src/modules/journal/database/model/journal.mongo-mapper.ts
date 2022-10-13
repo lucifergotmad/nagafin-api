@@ -14,8 +14,6 @@ export class JournalMongoMapper extends DbMapper<
   ): MongoEntityProps<JournalMongoEntity> {
     const props = entity.getPropsCopy();
 
-    console.log('journal mapper: ', props);
-
     const mongoProps: MongoEntityProps<JournalMongoEntity> = {
       ...props,
     };

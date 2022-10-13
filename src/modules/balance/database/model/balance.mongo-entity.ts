@@ -28,6 +28,9 @@ export class BalanceMongoEntity extends BaseMongoEntity<
 
   @Prop({ required: true, type: BalanceDetailMongoEntity })
   ending_balance: BalanceDetailMongoEntity;
+
+  @Prop({ required: true })
+  journal_number: string;
 }
 
 export const BalanceSchema = SchemaFactory.createForClass(BalanceMongoEntity);

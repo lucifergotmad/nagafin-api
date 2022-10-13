@@ -163,7 +163,6 @@ export class BaseRepository<MongoEntity, Entity extends BaseEntityProps>
       this.mapper.toMongoEntity(entity),
       this.ignore,
     );
-    console.log('after map', mongoEntity);
 
     const newModel = new this.genericModel(mongoEntity);
     const result = await newModel.save({ session });
