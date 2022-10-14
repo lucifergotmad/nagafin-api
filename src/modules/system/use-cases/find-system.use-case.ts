@@ -28,6 +28,10 @@ export class FindSystem
         fax: '',
         email: '',
         website: '',
+
+        project_name: '',
+        project_info: '',
+        project_code: '',
       };
       const result = await this.systemRepository.findOneLatest({});
 

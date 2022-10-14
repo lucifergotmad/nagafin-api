@@ -40,6 +40,14 @@ export class UpdateSystem
             fax: request.fax,
             email: request.email,
             website: request.website,
+
+            project_name: request.project_name,
+            project_info: request.project_info,
+            project_code: request.project_code,
+            project_category: request.project_category,
+            project_currency: request.project_currency,
+            project_type: request.project_type,
+            project_logo: request.project_logo,
           });
 
           await this.systemRepository.save(systemEntity, session);

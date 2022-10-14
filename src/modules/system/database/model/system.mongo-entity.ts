@@ -27,6 +27,27 @@ export class SystemMongoEntity extends BaseMongoEntity<
   @Prop({ required: true })
   website: string;
 
+  @Prop({ required: true })
+  project_name: string;
+
+  @Prop({ required: true })
+  project_info: string;
+
+  @Prop({ required: true })
+  project_code: string;
+
+  @Prop({ required: false })
+  project_category?: string;
+
+  @Prop({ required: false })
+  project_type?: string;
+
+  @Prop({ required: false })
+  project_currency?: string;
+
+  @Prop({ required: false })
+  project_logo?: string;
+
   @Prop({ required: false })
   retained_earnings_acc?: string;
 

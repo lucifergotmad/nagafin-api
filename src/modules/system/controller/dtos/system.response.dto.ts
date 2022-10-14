@@ -32,4 +32,27 @@ export class SystemResponseDTO implements ISystemResponse {
 
   @ApiProperty({ example: 'nagatech-id.com' })
   website: string;
+
+  /* Project */
+
+  @ApiProperty({ example: 'NGTC Finance' })
+  project_name: string;
+
+  @ApiProperty({ example: 'Finance Project made by NGTC Team.' })
+  project_info: string;
+
+  @ApiProperty({ example: '666-NGFN-001' })
+  project_code: string;
+
+  @ApiProperty({ example: 'accounting' })
+  project_category?: string;
+
+  @ApiProperty({ example: 'IDR' })
+  project_currency?: string;
+
+  @ApiProperty({ example: 'private' })
+  project_type?: string;
+
+  @ApiProperty({ example: '[BASE64 LOGO]' })
+  project_logo?: string;
 }

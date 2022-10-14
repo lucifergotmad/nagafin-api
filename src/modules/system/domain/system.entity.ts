@@ -2,7 +2,17 @@ import { AggregateRoot } from 'src/core/base-classes/domain/aggregate-root';
 import { Email } from './value-objects/email.value-object';
 import { TelephoneNumber } from './value-objects/telephone-number.value-object';
 
-export interface ISystemProps {
+export interface IProjectProps {
+  project_name: string;
+  project_info: string;
+  project_code: string;
+  project_category?: string;
+  project_type?: string;
+  project_currency?: string;
+  project_logo?: string;
+}
+
+export interface ISystemProps extends IProjectProps {
   company_name: string;
   company_address: string;
   npwp: string;
