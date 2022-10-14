@@ -9,6 +9,8 @@ import { CashFlowModule } from './reports/cash-flow/cash-flow.module';
 import { JournalReportsModule } from './reports/journal-reports/journal-reports.module';
 import { LedgerModule } from './reports/ledger/ledger.module';
 import { TrialBalanceModule } from './reports/trial-balance/trial-balance.module';
+import { SettingModule } from './setting/setting.module';
+import { SystemModule } from './system/system.module';
 import { UserModule } from './user/user.module';
 
 const systemProviders = [AppAuthModule, UserModule];
@@ -20,9 +22,11 @@ export const resourceProviders = [
   JournalModule,
   JournalTemplateModule,
   BalanceModule,
+  SystemModule,
   JournalReportsModule,
   LedgerModule,
   BalanceSheetsModule,
   TrialBalanceModule,
   CashFlowModule,
+  SettingModule,
 ];

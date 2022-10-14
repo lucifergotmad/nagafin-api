@@ -47,8 +47,6 @@ export class AppController {
     @Body() body: AuthLoginRequestDTO,
     @Request() { user: { level } }: any,
   ) {
-    console.log(body);
-
     return await this.authService.login({ level, ...body });
   }
 

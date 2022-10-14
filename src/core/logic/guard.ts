@@ -29,6 +29,12 @@ export class Guard {
     return false;
   }
 
+  static isEmail(value: string) {
+    return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+      value,
+    );
+  }
+
   static isDuplicate(value: any[]): boolean {
     return !!value.find((value, index) => value.indexOf(value) !== index);
   }

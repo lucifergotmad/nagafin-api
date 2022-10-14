@@ -14,6 +14,7 @@ import { CreateAccount } from '../use-cases/create-account.use-case';
 import { DeleteAccount } from '../use-cases/delete-account.use-case';
 import { FindAccountById } from '../use-cases/find-account-by-id.use-case';
 import { FindAllAccount } from '../use-cases/find-all-account.use-case';
+import { FindCashFlowAccount } from '../use-cases/find-cashflow-account.use-case';
 import { UpdateAccount } from '../use-cases/update-acount.use-case';
 import { AccountResponseDTO } from './dtos/account.response.dto';
 import { CreateAccountRequestDTO } from './dtos/create-account.request.dto';
@@ -28,6 +29,7 @@ export class AccountController {
     private readonly deleteAccount: DeleteAccount,
     private readonly findAllAccount: FindAllAccount,
     private readonly findAccountById: FindAccountById,
+    private readonly findCashflowAccount: FindCashFlowAccount,
   ) {}
 
   @SecurePost()
@@ -51,6 +53,13 @@ export class AccountController {
   @ApiBadRequestResponse({ description: 'Bad Request (ID not valid)' })
   findOne(@Param('_id') _id: string) {
     return this.findAccountById.execute({ _id });
+  }
+
+  @SecureGet(':type/cashflow')
+  @ApiOkResponse({ type: AccountResponseDTO, isArray: true })
+  @ApiBadRequestResponse({ description: 'Type not valid!' })
+  findCashFlow(@Param('type') type: string) {
+    return this.findCashflowAccount.execute(type);
   }
 
   @SecurePut(':_id')
