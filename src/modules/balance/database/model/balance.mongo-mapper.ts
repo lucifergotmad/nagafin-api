@@ -1,9 +1,9 @@
 import {
   DbMapper,
   MongoEntityProps,
-} from 'src/core/base-classes/domain/db-mapper';
-import { BalanceEntity } from '../../domain/balance.entity';
-import { BalanceMongoEntity } from './balance.mongo-entity';
+} from "src/core/base-classes/domain/db-mapper";
+import { BalanceEntity } from "../../domain/balance.entity";
+import { BalanceMongoEntity } from "./balance.mongo-entity";
 
 export class BalanceMongoMapper extends DbMapper<
   BalanceEntity,

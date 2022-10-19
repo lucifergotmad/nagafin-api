@@ -3,69 +3,42 @@ import { InjectModel } from "@nestjs/mongoose";
 import { BaseRepository } from "src/core/base-classes/infra/repository.base";
 import { Model } from "mongoose";
 import {
-  BalanceMongoEntity,
-  BalanceDocument,
-} from "./model/balance.mongo-entity";
-import { BalanceEntity } from "../domain/balance.entity";
-import { BalanceRepositoryPort } from "./balance.repository.port";
-import { BalanceMongoMapper } from "./model/balance.mongo-mapper";
-import { BalanceIgnore } from "src/core/constants/encryption/encryption-ignore";
-import { ILedgerDetailReportResponse } from "src/interface-adapter/interfaces/ledger/ledger.interface";
+  BalanceCardMongoEntity,
+  BalanceCardDocument,
+} from "./model/balance-card.mongo-entity";
+import { BalanceCardEntity } from "../domain/balance-card.entity";
+import { BalanceCardRepositoryPort } from "./balance-card.repository.port";
+import { BalanceCardMongoMapper } from "./model/balance-card.mongo-mapper";
+import { BalanceCardIgnore } from "src/core/constants/encryption/encryption-ignore";
 import { LedgerReportRequestDTO } from "src/modules/reports/ledger/controller/dtos/ledger.request.dto";
 import { AccountMongoEntity } from "src/modules/account/database/model/account.mongo-entity";
+import {
+  ILedgerDetailReportResponse,
+  ILedgerReportResponse,
+} from "src/interface-adapter/interfaces/ledger/ledger.interface";
 
 @Injectable()
-export class BalanceRepository
-  extends BaseRepository<BalanceMongoEntity, BalanceEntity>
-  implements BalanceRepositoryPort {
+export class BalanceCardRepository
+  extends BaseRepository<BalanceCardMongoEntity, BalanceCardEntity>
+  implements BalanceCardRepositoryPort {
   constructor(
-    @InjectModel(BalanceMongoEntity.name)
-    private balanceModel: Model<BalanceDocument>,
+    @InjectModel(BalanceCardMongoEntity.name)
+    private balanceCardModel: Model<BalanceCardDocument>,
   ) {
     super(
-      balanceModel,
-      new BalanceMongoMapper(BalanceEntity, BalanceMongoEntity),
-      BalanceIgnore,
+      balanceCardModel,
+      new BalanceCardMongoMapper(BalanceCardEntity, BalanceCardMongoEntity),
+      BalanceCardIgnore,
     );
   }
 
-  async balanceSheetsReport(transaction_date: string): Promise<any> {
-    const result = await this.balanceModel.aggregate([
-      {
-        $match: {
-          balance_date: {
-            $lte: transaction_date,
-          },
-        },
-      },
-      {
-        $sort: {
-          _id: -1,
-        },
-      },
-      {
-        $lookup: {
-          from: "tm_accounts",
-          localField: "balance_acc",
-          foreignField: "acc_number",
-          as: "account",
-        },
-      },
-      {
-        $unwind: "$account",
-      },
-    ]);
-
-    return this.encryptor.doDecrypt(result, BalanceIgnore);
-  }
-
-  async ledgerReport(
+  async ledgerReportBeginning(
     { start_date, acc_number }: LedgerReportRequestDTO,
     listAccount: AccountMongoEntity[],
   ): Promise<ILedgerDetailReportResponse[]> {
     const filterAccount = acc_number ? { balance_acc: acc_number } : {};
 
-    const result = await this.balanceModel.aggregate([
+    const result = await this.balanceCardModel.aggregate([
       {
         $match: {
           balance_date: {
@@ -131,13 +104,50 @@ export class BalanceRepository
           journal_number: "SALDO AWAL",
           balance_amount: 0,
         }))
-      : result;
+      : result.map((item: ILedgerDetailReportResponse) => {
+          const index = listAccount.findIndex(
+            (account: AccountMongoEntity) =>
+              item.balance_acc === account.acc_number,
+          );
+          if (index === -1)
+            return {
+              balance_acc: item.balance_acc,
+              balance_acc_name: item.balance_acc_name,
+              journal_date: start_date,
+              journal_number: "SALDO AWAL",
+              balance_amount: 0,
+            };
+
+          return item;
+        });
 
     return this.encryptor.doDecrypt(payload, [
-      ...BalanceIgnore,
+      ...BalanceCardIgnore,
       "journal_date",
-      "journal_number",
       "balance_acc_name",
+    ]);
+  }
+
+  async ledgerReport(
+    { start_date, end_date, acc_number }: LedgerReportRequestDTO,
+    listAccount: AccountMongoEntity[],
+  ): Promise<ILedgerReportResponse> {
+    const filterAccount = acc_number ? { balance_acc: acc_number } : {};
+
+    const result = await this.balanceCardModel.aggregate([
+      {
+        $match: {
+          balance_date: {
+            $gte: start_date,
+            $lte: end_date,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: "$balance_acc",
+        },
+      },
     ]);
   }
 }

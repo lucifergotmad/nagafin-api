@@ -1,13 +1,13 @@
-import { Module } from '@nestjs/common';
-import { AccountRepositoryModule } from 'src/modules/account/database/account.repository.module';
-import { BalanceRepositoryModule } from 'src/modules/balance/database/balance.repository.module';
-import { JournalRepositoryModule } from 'src/modules/journal/database/journal.repository.module';
-import { ledgerUseCaseProvider } from './ledger.use-case.provider';
+import { Module } from "@nestjs/common";
+import { AccountRepositoryModule } from "src/modules/account/database/account.repository.module";
+import { BalanceCardRepositoryModule } from "src/modules/balance-card/database/balance-card.repository.module";
+import { JournalRepositoryModule } from "src/modules/journal/database/journal.repository.module";
+import { ledgerUseCaseProvider } from "./ledger.use-case.provider";
 
 @Module({
   imports: [
     JournalRepositoryModule,
-    BalanceRepositoryModule,
+    BalanceCardRepositoryModule,
     AccountRepositoryModule,
   ],
   exports: ledgerUseCaseProvider,

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { BaseUseCase } from 'src/core/base-classes/infra/use-case.base';
 import { IUseCase } from 'src/core/base-classes/interfaces/use-case.interface';
 import { ResponseException } from 'src/core/exceptions/response.http-exception';
@@ -15,46 +15,30 @@ export class SettingCashflow
   constructor(
     @InjectAccountRepository
     private readonly accountRepository: AccountRepositoryPort,
-    private utils: Utils,
+    private readonly utils: Utils,
   ) {
     super();
   }
 
-  public async execute({
-    list_acc_bank,
-    list_acc_cash,
-  }: SettingCashflowRequestDTO): Promise<MessageResponseDTO> {
+  public async execute(
+    request?: SettingCashflowRequestDTO,
+  ): Promise<MessageResponseDTO> {
     const session = await this.utils.transaction.startTransaction();
+
     try {
-      if (!list_acc_bank.length && !list_acc_cash.length) {
-        throw new BadRequestException('Data tidak boleh kosong!');
-      }
-
       await session.withTransaction(async () => {
-        if (list_acc_bank.length) {
-          for (const data of list_acc_bank) {
-            await this.accountRepository.update(
-              { acc_number: data },
-              { acc_cashflow_type: 'bank' },
-              session,
-            );
-          }
-        }
-
-        if (list_acc_cash.length) {
-          for (const data of list_acc_cash) {
-            await this.accountRepository.update(
-              { acc_number: data },
-              { acc_cashflow_type: 'cash' },
-              session,
-            );
-          }
+        for (const { acc_number, acc_cashflow_type } of request.list_account) {
+          await this.accountRepository.update(
+            { acc_number },
+            { acc_cashflow_type },
+            session,
+          );
         }
       });
 
-      return new MessageResponseDTO('Berhasil update cashflow account!');
+      return new MessageResponseDTO('Berhasil update tipe arus kas!');
     } catch (error) {
-      throw new ResponseException(error.message, error.status);
+      throw new ResponseException(error.message, error.status, error.trace);
     } finally {
       await session.endSession();
     }

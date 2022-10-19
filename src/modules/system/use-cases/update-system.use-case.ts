@@ -60,6 +60,8 @@ export class UpdateSystem
 
       return new MessageResponseDTO('Berhasil Update system!');
     } catch (error) {
+      console.log(error);
+
       throw new ResponseException(error.message, error.status, error.trace);
     } finally {
       await session.endSession();

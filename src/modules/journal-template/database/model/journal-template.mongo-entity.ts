@@ -1,9 +1,9 @@
-import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import { BaseMongoEntity } from 'src/core/base-classes/infra/mongo-entity.base';
-import { JournalDetailMongoEntity } from 'src/modules/journal/database/model/journal.mongo-entity';
+import { Prop, raw, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document } from "mongoose";
+import { BaseMongoEntity } from "src/core/base-classes/infra/mongo-entity.base";
+import { JournalDetailMongoEntity } from "src/modules/journal/database/model/journal.mongo-entity";
 
-@Schema({ collection: 'tm_journal_templates' })
+@Schema({ collection: "tm_journal_templates" })
 export class JournalTemplateMongoEntity extends BaseMongoEntity<
   typeof JournalTemplateMongoEntity
 > {
@@ -29,7 +29,7 @@ export class JournalTemplateMongoEntity extends BaseMongoEntity<
   created_by?: string;
 
   @Prop({ required: false })
-  created_at?: Date;
+  created_at?: string;
 
   @Prop({ required: false })
   updated_by?: string;

@@ -46,9 +46,10 @@ export class FindAllAccount
           used_in_transaction: isUsedInTransaction,
         });
       }
-      return result.map(
-        (account: AccountMongoEntity) => new AccountResponseDTO(account),
-      );
+
+      return result
+        .map((account: AccountMongoEntity) => new AccountResponseDTO(account))
+        .sort((a, b) => (a.acc_number < b.acc_number ? -1 : 1));
     } catch (error) {
       throw new ResponseException(error.message, error.status, error.trace);
     }

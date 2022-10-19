@@ -43,6 +43,6 @@ export class UpdateSystemRequestDTO {
   @IsOptionalString({ example: 'IDR' })
   project_currency: string;
 
-  @IsOptionalString({ example: '[BASE64 LOGO] ' })
+  @IsOptionalString({ example: '[BASE64 LOGO]' })
   project_logo: string;
 }

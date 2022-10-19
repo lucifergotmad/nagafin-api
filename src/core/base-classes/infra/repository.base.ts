@@ -1,22 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
 import {
   ClientSession,
   FilterQuery,
   isValidObjectId,
   Model,
   UpdateQuery,
-} from 'mongoose';
-import { IRepositoryResponse } from '../../ports/interfaces/repository-response.interface';
-import { BaseRepositoryPort } from '../../ports/repository.base.port';
-import { IPaginationMeta } from '../../ports/interfaces/pagination-meta.interface';
-import { DbMapper } from '../domain/db-mapper';
-import { BaseEntityProps } from '../domain/entity';
-import { ExceptionBadRequest } from 'src/core/exceptions/bad-request.exception';
-import { ExceptionNotFound } from 'src/core/exceptions/not-found.exception';
-import { ExceptionConflict } from 'src/core/exceptions/conflict.exception';
-import { AdvancePartial } from 'src/core/ports/interfaces/advance-partial.interface';
-import { TypeValidator } from 'src/core/logic/type';
-import { Encryptor } from 'src/services/encryptor.service';
+} from "mongoose";
+import { IRepositoryResponse } from "../../ports/interfaces/repository-response.interface";
+import { BaseRepositoryPort } from "../../ports/repository.base.port";
+import { IPaginationMeta } from "../../ports/interfaces/pagination-meta.interface";
+import { DbMapper } from "../domain/db-mapper";
+import { BaseEntityProps } from "../domain/entity";
+import { ExceptionBadRequest } from "src/core/exceptions/bad-request.exception";
+import { ExceptionNotFound } from "src/core/exceptions/not-found.exception";
+import { ExceptionConflict } from "src/core/exceptions/conflict.exception";
+import { AdvancePartial } from "src/core/ports/interfaces/advance-partial.interface";
+import { TypeValidator } from "src/core/logic/type";
+import { Encryptor } from "src/services/encryptor.service";
 const encryptor = new Encryptor();
 
 @Injectable()
@@ -61,14 +61,14 @@ export class BaseRepository<MongoEntity, Entity extends BaseEntityProps>
   ): Promise<MongoEntity> {
     const foundData = await this.genericModel
       .findOne(encryptor.doEncrypt(identifier, this.ignore))
-      .session(typeof paramTwo !== 'string' ? paramTwo : paramThree)
+      .session(typeof paramTwo !== "string" ? paramTwo : paramThree)
       .lean();
     if (!foundData) {
       throw new ExceptionNotFound(
-        typeof paramTwo === 'string'
+        typeof paramTwo === "string"
           ? paramTwo
           : `E 404: DATA ${this.constructor.name
-              .replace('Repository', '')
+              .replace("Repository", "")
               .toUpperCase()} NOT FOUND`,
         this,
       );
@@ -92,12 +92,12 @@ export class BaseRepository<MongoEntity, Entity extends BaseEntityProps>
   ): Promise<void> {
     const foundData = await this.genericModel
       .findOne(encryptor.doEncrypt(identifier, this.ignore))
-      .session(typeof paramTwo !== 'string' ? paramTwo : paramThree);
+      .session(typeof paramTwo !== "string" ? paramTwo : paramThree);
     if (foundData) {
       throw new ExceptionConflict(
-        typeof paramTwo === 'string'
+        typeof paramTwo === "string"
           ? paramTwo
-          : '' || `E 409: DATA ALREADY EXISTS`,
+          : "" || `E 409: DATA ALREADY EXISTS`,
         this,
       );
     }
@@ -181,7 +181,7 @@ export class BaseRepository<MongoEntity, Entity extends BaseEntityProps>
     );
     await this.genericModel.insertMany(mongoEntitiesEncrypted, { session });
     return {
-      message: 'successfully inserted data!',
+      message: "successfully inserted data!",
     };
   }
 
@@ -202,7 +202,7 @@ export class BaseRepository<MongoEntity, Entity extends BaseEntityProps>
     if (!n) {
       throw new ExceptionNotFound(
         `E 404: ${this.constructor.name
-          .replace('Repository', '')
+          .replace("Repository", "")
           .toUpperCase()} NOT FOUND, UPDATE FAILED`,
         this,
       );
@@ -225,7 +225,7 @@ export class BaseRepository<MongoEntity, Entity extends BaseEntityProps>
     if (!n)
       throw new ExceptionNotFound(
         `E 404: ${this.constructor.name
-          .replace('Repository', '')
+          .replace("Repository", "")
           .toUpperCase()} NOT FOUND, DELETE FAILED`,
         this,
       );
@@ -258,6 +258,6 @@ export class BaseRepository<MongoEntity, Entity extends BaseEntityProps>
 
   private _validateMongoID(_id: string) {
     if (!isValidObjectId(_id))
-      throw new ExceptionBadRequest('E 400: ID NOT VALID', this);
+      throw new ExceptionBadRequest("E 400: ID NOT VALID", this);
   }
 }

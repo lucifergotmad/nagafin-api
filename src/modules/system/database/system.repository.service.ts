@@ -6,6 +6,7 @@ import { SystemMongoEntity, SystemDocument } from './model/system.mongo-entity';
 import { SystemEntity } from '../domain/system.entity';
 import { SystemRepositoryPort } from './system.repository.port';
 import { SystemMongoMapper } from './model/system.mongo-mapper';
+import { SystemIgnore } from 'src/core/constants/encryption/encryption-ignore';
 
 @Injectable()
 export class SystemRepository
@@ -13,9 +14,13 @@ export class SystemRepository
   implements SystemRepositoryPort {
   constructor(
     @InjectModel(SystemMongoEntity.name)
-    private SystemModel: Model<SystemDocument>,
+    private systemModel: Model<SystemDocument>,
   ) {
-    super(SystemModel, new SystemMongoMapper(SystemEntity, SystemMongoEntity));
+    super(
+      systemModel,
+      new SystemMongoMapper(SystemEntity, SystemMongoEntity),
+      SystemIgnore,
+    );
   }
 
   // fill me with beautiful method!

@@ -1,17 +1,17 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { BaseRepository } from 'src/core/base-classes/infra/repository.base';
-import { Model } from 'mongoose';
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { BaseRepository } from "src/core/base-classes/infra/repository.base";
+import { Model } from "mongoose";
 import {
   JournalMongoEntity,
   JournalDocument,
-} from './model/journal.mongo-entity';
-import { JournalEntity } from '../domain/journal.entity';
-import { JournalRepositoryPort } from './journal.repository.port';
-import { JournalMongoMapper } from './model/journal.mongo-mapper';
-import { JournalIgnore } from 'src/core/constants/encryption/encryption-ignore';
-import { LedgerReportRequestDTO } from 'src/modules/reports/ledger/controller/dtos/ledger.request.dto';
-import { LedgerReportResponse } from 'src/modules/reports/ledger/controller/dtos/ledger.response';
+} from "./model/journal.mongo-entity";
+import { JournalEntity } from "../domain/journal.entity";
+import { JournalRepositoryPort } from "./journal.repository.port";
+import { JournalMongoMapper } from "./model/journal.mongo-mapper";
+import { JournalIgnore } from "src/core/constants/encryption/encryption-ignore";
+import { LedgerReportRequestDTO } from "src/modules/reports/ledger/controller/dtos/ledger.request.dto";
+import { LedgerReportResponse } from "src/modules/reports/ledger/controller/dtos/ledger.response";
 
 @Injectable()
 export class JournalRepository
@@ -30,7 +30,7 @@ export class JournalRepository
 
   async isUsedInTransaction(acc_number: string): Promise<boolean> {
     const journal = await this.journalModel.findOne({
-      'journal_detail.acc_number': acc_number,
+      "journal_detail.acc_number": acc_number,
     });
     return journal ? true : false;
   }
@@ -52,22 +52,22 @@ export class JournalRepository
         },
       },
       {
-        $unwind: '$journal_detail',
+        $unwind: "$journal_detail",
       },
       {
         $group: {
-          _id: '$journal_detail.acc_number',
+          _id: "$journal_detail.acc_number",
           detail_journal: {
             $push: {
-              journal_date: '$journal_date',
-              journal_number: '$journal_number',
-              journal_info: '$journal_detail.journal_info',
-              debit_amount: '$journal_detail.debit_amount',
-              credit_amount: '$journal_detail.credit_amount',
+              journal_date: "$journal_date",
+              journal_number: "$journal_number",
+              journal_info: "$journal_detail.journal_info",
+              debit_amount: "$journal_detail.debit_amount",
+              credit_amount: "$journal_detail.credit_amount",
               balance_amount: {
                 $subtract: [
-                  '$journal_detail.debit_amount',
-                  '$journal_detail.credit_amount',
+                  "$journal_detail.debit_amount",
+                  "$journal_detail.credit_amount",
                 ],
               },
             },
@@ -77,8 +77,8 @@ export class JournalRepository
       {
         $project: {
           _id: 0,
-          balance_acc: '$_id',
-          detail_journal: '$detail_journal',
+          balance_acc: "$_id",
+          detail_journal: "$detail_journal",
         },
       },
       {
@@ -86,20 +86,20 @@ export class JournalRepository
       },
       {
         $lookup: {
-          from: 'tm_accounts',
-          localField: 'balance_acc',
-          foreignField: 'acc_number',
-          as: 'account',
+          from: "tm_accounts",
+          localField: "balance_acc",
+          foreignField: "acc_number",
+          as: "account",
         },
       },
       {
-        $unwind: '$account',
+        $unwind: "$account",
       },
       {
         $project: {
-          balance_acc: '$balance_acc',
-          balance_acc_name: '$account.acc_name',
-          detail_journal: '$detail_journal',
+          balance_acc: "$balance_acc",
+          balance_acc_name: "$account.acc_name",
+          detail_journal: "$detail_journal",
         },
       },
       {
@@ -109,6 +109,6 @@ export class JournalRepository
       },
     ]);
 
-    return this.encryptor.doDecrypt(result, [...JournalIgnore, 'balance_acc']);
+    return this.encryptor.doDecrypt(result, [...JournalIgnore, "balance_acc"]);
   }
 }

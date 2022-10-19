@@ -1,5 +1,5 @@
-import { Module } from '@nestjs/common';
-import { BalanceRepositoryModule } from './database/balance.repository.module';
+import { Module } from "@nestjs/common";
+import { BalanceRepositoryModule } from "./database/balance.repository.module";
 
 @Module({
   imports: [BalanceRepositoryModule],

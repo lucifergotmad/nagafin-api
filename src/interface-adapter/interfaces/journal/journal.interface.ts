@@ -1,4 +1,4 @@
-import { IId } from '../id.interface';
+import { IId } from "../id.interface";
 
 export interface IJournalDetailResponse {
   acc_name?: string;
@@ -14,6 +14,7 @@ export interface IJournalResponse extends IId {
   journal_date: string;
   total_credit_amount: number;
   total_debit_amount: number;
+  created_at?: string;
   journal_detail: IJournalDetailResponse[];
 }
 

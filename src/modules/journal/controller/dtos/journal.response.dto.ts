@@ -1,10 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IdResponseDTO } from 'src/interface-adapter/dtos/id.response.dto';
+import { ApiProperty } from "@nestjs/swagger";
+import { IdResponseDTO } from "src/interface-adapter/dtos/id.response.dto";
 import {
   IJournalDetailResponse,
   IJournalReportResponse,
   IJournalResponse,
-} from 'src/interface-adapter/interfaces/journal/journal.interface';
+} from "src/interface-adapter/interfaces/journal/journal.interface";
 
 class JournalDetailResponseDTO implements IJournalDetailResponse {
   constructor(props: IJournalDetailResponse) {
@@ -15,10 +15,10 @@ class JournalDetailResponseDTO implements IJournalDetailResponse {
     this.journal_info = props.journal_info;
   }
 
-  @ApiProperty({ example: 'KAS BESAR' })
+  @ApiProperty({ example: "KAS BESAR" })
   acc_name?: string;
 
-  @ApiProperty({ example: '100000' })
+  @ApiProperty({ example: "100000" })
   acc_number: string;
 
   @ApiProperty({ example: 10000 })
@@ -27,7 +27,7 @@ class JournalDetailResponseDTO implements IJournalDetailResponse {
   @ApiProperty({ example: 10000 })
   debit_amount: number;
 
-  @ApiProperty({ example: 'NGG-JLM/281000/001' })
+  @ApiProperty({ example: "NGG-JLM/281000/001" })
   journal_info: string;
 }
 
@@ -41,16 +41,17 @@ export class JournalResponseDTO
     this.journal_date = props.journal_date;
     this.total_debit_amount = props.total_debit_amount;
     this.total_credit_amount = props.total_credit_amount;
+    this.created_at = props.created_at;
     this.journal_detail = props.journal_detail;
   }
 
-  @ApiProperty({ example: 'JNF-220831-0001' })
+  @ApiProperty({ example: "JNF-220831-0001" })
   journal_number: string;
 
-  @ApiProperty({ example: '28 October 2022' })
+  @ApiProperty({ example: "28 October 2022" })
   journal_notes: string;
 
-  @ApiProperty({ example: '2022-08-22' })
+  @ApiProperty({ example: "2022-08-22" })
   journal_date: string;
 
   @ApiProperty({ example: 10000 })
@@ -58,6 +59,9 @@ export class JournalResponseDTO
 
   @ApiProperty({ example: 10000 })
   total_debit_amount: number;
+
+  @ApiProperty({ example: "2022-10-18" })
+  created_at?: string;
 
   @ApiProperty({ type: JournalDetailResponseDTO, isArray: true })
   journal_detail: Array<JournalDetailResponseDTO>;
@@ -74,13 +78,13 @@ export class JournalReportResponseDTO implements IJournalReportResponse {
     this.created_by = props.created_by;
   }
 
-  @ApiProperty({ example: 'JNF-220831-0001' })
+  @ApiProperty({ example: "JNF-220831-0001" })
   journal_number: string;
 
-  @ApiProperty({ example: '28 October 2022' })
+  @ApiProperty({ example: "28 October 2022" })
   journal_notes: string;
 
-  @ApiProperty({ example: '2022-08-22' })
+  @ApiProperty({ example: "2022-08-22" })
   journal_date: string;
 
   @ApiProperty({ example: 10000 })
@@ -89,9 +93,9 @@ export class JournalReportResponseDTO implements IJournalReportResponse {
   @ApiProperty({ example: 10000 })
   total_debit_amount: number;
 
-  @ApiProperty({ example: '2022-08-22' })
+  @ApiProperty({ example: "2022-08-22" })
   created_at: string;
 
-  @ApiProperty({ example: 'lucifer' })
+  @ApiProperty({ example: "lucifer" })
   created_by: string;
 }

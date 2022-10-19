@@ -1,25 +1,28 @@
-import { Injectable } from '@nestjs/common';
-import { BaseUseCase } from 'src/core/base-classes/infra/use-case.base';
-import { IUseCase } from 'src/core/base-classes/interfaces/use-case.interface';
-import { ResponseException } from 'src/core/exceptions/response.http-exception';
+import { Injectable } from "@nestjs/common";
+import { BaseUseCase } from "src/core/base-classes/infra/use-case.base";
+import { IUseCase } from "src/core/base-classes/interfaces/use-case.interface";
+import { ResponseException } from "src/core/exceptions/response.http-exception";
+import { Utils } from "src/core/utils/utils.service";
 import {
   IJournalDetailResponse,
   IJournalResponse,
-} from 'src/interface-adapter/interfaces/journal/journal.interface';
-import { AccountRepositoryPort } from 'src/modules/account/database/account.repository.port';
-import { InjectAccountRepository } from 'src/modules/account/database/account.repository.provider';
-import { JournalResponseDTO } from '../controller/dtos/journal.response.dto';
-import { JournalRepositoryPort } from '../database/journal.repository.port';
-import { InjectJournalRepository } from '../database/journal.repository.provider';
-import { JournalMongoEntity } from '../database/model/journal.mongo-entity';
+} from "src/interface-adapter/interfaces/journal/journal.interface";
+import { AccountRepositoryPort } from "src/modules/account/database/account.repository.port";
+import { InjectAccountRepository } from "src/modules/account/database/account.repository.provider";
+import { JournalResponseDTO } from "../controller/dtos/journal.response.dto";
+import { JournalRepositoryPort } from "../database/journal.repository.port";
+import { InjectJournalRepository } from "../database/journal.repository.provider";
 
 @Injectable()
 export class FindAllJournal
   extends BaseUseCase
   implements IUseCase<never, Array<JournalResponseDTO>> {
   constructor(
-    @InjectJournalRepository private journalRepository: JournalRepositoryPort,
-    @InjectAccountRepository private accountRepository: AccountRepositoryPort,
+    @InjectJournalRepository
+    private readonly journalRepository: JournalRepositoryPort,
+    @InjectAccountRepository
+    private readonly accountRepository: AccountRepositoryPort,
+    private readonly utils: Utils,
   ) {
     super();
   }
@@ -41,11 +44,18 @@ export class FindAllJournal
           journalDetail.push({ ...item, acc_name: account.acc_name });
         }
 
-        result.push({ ...data, journal_detail: journalDetail });
+        result.push({
+          ...data,
+          journal_detail: journalDetail,
+          created_at: this.utils.date.localDateString(data.created_at),
+        });
       }
 
       return result.map(
-        (journal: JournalMongoEntity) => new JournalResponseDTO(journal),
+        (journal: IJournalResponse) =>
+          new JournalResponseDTO({
+            ...journal,
+          }),
       );
     } catch (error) {
       throw new ResponseException(error.message, error.status, error.trace);

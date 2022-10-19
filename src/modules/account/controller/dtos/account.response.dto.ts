@@ -10,17 +10,20 @@ export class AccountResponseDTO
   extends IdResponseDTO
   implements IAccountResponse {
   constructor(props: IAccountResponse) {
-    super(props._id);
-    this.acc_number = props.acc_number;
-    this.acc_name = props.acc_name;
-    this.acc_currency = props.acc_currency;
-    this.acc_balance_type = props.acc_balance_type;
-    this.acc_cashflow_type = props.acc_cashflow_type;
-    this.acc_statement = props.acc_statement;
-    this.acc_type = props.acc_type;
-    this.acc_parents = props?.acc_parents;
-    this.used_as_parent = props?.used_as_parent;
-    this.used_in_transaction = props?.used_in_transaction;
+    super(props?._id);
+
+    if (props) {
+      this.acc_number = props.acc_number;
+      this.acc_name = props.acc_name;
+      this.acc_currency = props.acc_currency;
+      this.acc_balance_type = props.acc_balance_type;
+      this.acc_cashflow_type = props.acc_cashflow_type;
+      this.acc_statement = props.acc_statement;
+      this.acc_type = props.acc_type;
+      this.acc_parents = props?.acc_parents;
+      this.used_as_parent = props?.used_as_parent;
+      this.used_in_transaction = props?.used_in_transaction;
+    }
   }
 
   @ApiProperty({ example: '100001' })
