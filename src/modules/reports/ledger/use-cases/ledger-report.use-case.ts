@@ -10,8 +10,6 @@ import { AccountRepositoryPort } from "src/modules/account/database/account.repo
 import { InjectAccountRepository } from "src/modules/account/database/account.repository.provider";
 import { BalanceCardRepositoryPort } from "src/modules/balance-card/database/balance-card.repository.port";
 import { InjectBalanceCardRepository } from "src/modules/balance-card/database/balance-card.repository.provider";
-import { JournalRepositoryPort } from "src/modules/journal/database/journal.repository.port";
-import { InjectJournalRepository } from "src/modules/journal/database/journal.repository.provider";
 import { LedgerReportRequestDTO } from "../controller/dtos/ledger.request.dto";
 import { LedgerReportResponse } from "../controller/dtos/ledger.response";
 
@@ -42,7 +40,13 @@ export class LedgerReport
         accounts,
       );
 
-      const result = await this.journalRepository.ledgerReport(request);
+      const result = await this.balanceCardRepository.ledgerReport(request);
+      console.log("BEGINNING");
+      console.log(beginningBalance);
+
+      console.log("RESULT");
+
+      console.log(result);
 
       beginningBalance.forEach((balance: ILedgerDetailReportResponse) => {
         const index = result.findIndex(
@@ -52,7 +56,7 @@ export class LedgerReport
         if (index !== -1) {
           result[index].detail_journal.unshift({
             journal_date: balance.journal_date,
-            balance_amount: balance.balance_amount,
+            balance_amount: balance.balance_amount || 0,
             credit_amount: 0,
             debit_amount: 0,
             journal_info: "",
@@ -75,6 +79,8 @@ export class LedgerReport
           });
         }
       });
+
+      // console.log(result);
 
       return result.map(
         (ledger: LedgerReportResponse) => new LedgerReportResponse(ledger),

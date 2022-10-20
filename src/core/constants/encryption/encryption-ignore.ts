@@ -4,12 +4,14 @@ export const AccountIgnore = [
   "acc_number",
   "acc_parents",
   "acc_cashflow_type",
+  "acc_balance_type",
 ];
 export const BalanceIgnore = ["_id", "balance_date", "balance_acc"];
 export const BalanceCardIgnore = [
   "_id",
   "balance_date",
   "balance_acc",
+
   "journal_number",
 ];
 export const CurrencyIgnore = ["_id", "currency_code"];

@@ -96,30 +96,42 @@ export class BalanceCardRepository
       },
     ]);
 
-    const payload: ILedgerDetailReportResponse[] = !result.length
-      ? listAccount.map((item: AccountMongoEntity) => ({
-          balance_acc: item.acc_number,
-          balance_acc_name: item.acc_name,
-          journal_date: start_date,
-          journal_number: "SALDO AWAL",
-          balance_amount: 0,
-        }))
-      : result.map((item: ILedgerDetailReportResponse) => {
-          const index = listAccount.findIndex(
-            (account: AccountMongoEntity) =>
-              item.balance_acc === account.acc_number,
-          );
-          if (index === -1)
-            return {
-              balance_acc: item.balance_acc,
-              balance_acc_name: item.balance_acc_name,
-              journal_date: start_date,
-              journal_number: "SALDO AWAL",
-              balance_amount: 0,
-            };
+    const generateSaldoawal: ILedgerDetailReportResponse[] = listAccount.map(
+      (item: AccountMongoEntity) => ({
+        balance_acc: item.acc_number,
+        balance_acc_name: item.acc_name,
+        journal_date: start_date,
+        journal_number: "SALDO AWAL",
+        balance_amount: 0,
+      }),
+    );
 
-          return item;
-        });
+    const processSaldoAwal: ILedgerDetailReportResponse[] = listAccount.map(
+      (account: AccountMongoEntity) => {
+        const index = result.findIndex(
+          (item: ILedgerDetailReportResponse) =>
+            account.acc_number === item.balance_acc,
+        );
+        if (index === -1) {
+          return {
+            balance_acc: account.acc_number,
+            balance_acc_name: account.acc_name,
+            journal_date: start_date,
+            journal_number: "SALDO AWAL",
+            balance_amount: 0,
+          };
+        } else {
+          return this.encryptor.doDecrypt(result[index], [
+            ...BalanceCardIgnore,
+            "journal_date",
+          ]);
+        }
+      },
+    );
+
+    const payload: ILedgerDetailReportResponse[] = !result.length
+      ? generateSaldoawal
+      : processSaldoAwal;
 
     return this.encryptor.doDecrypt(payload, [
       ...BalanceCardIgnore,
@@ -128,10 +140,11 @@ export class BalanceCardRepository
     ]);
   }
 
-  async ledgerReport(
-    { start_date, end_date, acc_number }: LedgerReportRequestDTO,
-    listAccount: AccountMongoEntity[],
-  ): Promise<ILedgerReportResponse> {
+  async ledgerReport({
+    start_date,
+    end_date,
+    acc_number,
+  }: LedgerReportRequestDTO): Promise<ILedgerReportResponse[]> {
     const filterAccount = acc_number ? { balance_acc: acc_number } : {};
 
     const result = await this.balanceCardModel.aggregate([
@@ -141,13 +154,104 @@ export class BalanceCardRepository
             $gte: start_date,
             $lte: end_date,
           },
+          ...filterAccount,
         },
       },
       {
-        $group: {
-          _id: "$balance_acc",
+        $sort: {
+          balance_date: 1,
         },
       },
+      {
+        $lookup: {
+          from: "tm_accounts",
+          localField: "balance_acc",
+          foreignField: "acc_number",
+          as: "account",
+        },
+      },
+      {
+        $unwind: "$account",
+      },
+      {
+        $group: {
+          _id: {
+            balance_acc: "$account.acc_number",
+            balance_acc_name: "$account.acc_name",
+          },
+          detail_journal: {
+            $push: {
+              account: "$account",
+              journal_date: "$balance_date",
+              journal_number: "$journal_number",
+              journal_info: "$description",
+              debit_amount: {
+                $cond: {
+                  if: {
+                    $or: [
+                      {
+                        $and: [
+                          { $gt: ["$mutation_amount", 0] },
+                          { $eq: ["$account.acc_balance_type", "D"] },
+                        ],
+                      },
+                      {
+                        $and: [
+                          { $lt: ["$mutation_amount", 0] },
+                          { $eq: ["$account.acc_balance_type", "C"] },
+                        ],
+                      },
+                    ],
+                  },
+                  then: "$mutation_amount",
+                  else: 0,
+                },
+              },
+              credit_amount: {
+                $cond: {
+                  if: {
+                    $or: [
+                      {
+                        $and: [
+                          { $gt: ["$mutation_amount", 0] },
+                          { $eq: ["$account.acc_balance_type", "C"] },
+                        ],
+                      },
+                      {
+                        $and: [
+                          { $lt: ["$mutation_amount", 0] },
+                          { $eq: ["$account.acc_balance_type", "D"] },
+                        ],
+                      },
+                    ],
+                  },
+                  then: "$mutation_amount",
+                  else: 0,
+                },
+              },
+              balance_amount: "$ending_amount",
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          balance_acc: "$_id.balance_acc",
+          balance_acc_name: "$_id.balance_acc_name",
+          detail_journal: "$detail_journal",
+        },
+      },
+      {
+        $sort: {
+          balance_acc: 1,
+        },
+      },
+    ]);
+
+    return this.encryptor.doDecrypt(result, [
+      ...BalanceCardIgnore,
+      "journal_date",
     ]);
   }
 }

@@ -10,9 +10,12 @@ export interface IBalanceCardProps
   extends Omit<IHistoryUser, "updated_at" | "updated_by"> {
   balance_date: string;
   balance_acc: string;
-  beginning_balance: IBalanceDetailCardProps;
-  balance_mutation: IBalanceDetailCardProps;
-  ending_balance: IBalanceDetailCardProps;
+  // beginning_balance: IBalanceDetailCardProps;
+  // balance_mutation: IBalanceDetailCardProps;
+  // ending_balance: IBalanceDetailCardProps;
+  beginning_amount: number;
+  mutation_amount: number;
+  ending_amount: number;
   description: string;
   journal_number: string;
 }

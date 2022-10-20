@@ -20,14 +20,23 @@ export class BalanceCardMongoEntity extends BaseMongoEntity<
   @Prop({ required: true })
   balance_acc: string;
 
-  @Prop({ required: true, type: BalanceCardDetailMongoEntity })
-  beginning_balance: BalanceCardDetailMongoEntity;
+  // @Prop({ required: true, type: BalanceCardDetailMongoEntity })
+  // beginning_balance: BalanceCardDetailMongoEntity;
 
-  @Prop({ required: true, type: BalanceCardDetailMongoEntity })
-  balance_mutation: BalanceCardDetailMongoEntity;
+  // @Prop({ required: true, type: BalanceCardDetailMongoEntity })
+  // balance_mutation: BalanceCardDetailMongoEntity;
 
-  @Prop({ required: true, type: BalanceCardDetailMongoEntity })
-  ending_balance: BalanceCardDetailMongoEntity;
+  // @Prop({ required: true, type: BalanceCardDetailMongoEntity })
+  // ending_balance: BalanceCardDetailMongoEntity;
+
+  @Prop({ required: true })
+  beginning_amount: number;
+
+  @Prop({ required: true })
+  mutation_amount: number;
+
+  @Prop({ required: true })
+  ending_amount: number;
 
   @Prop({ required: true })
   description: string;

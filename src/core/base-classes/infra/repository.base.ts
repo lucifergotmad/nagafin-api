@@ -209,6 +209,23 @@ export class BaseRepository<MongoEntity, Entity extends BaseEntityProps>
     }
     return { n };
   }
+  async updateWithoutThrow(
+    identifier: FilterQuery<MongoEntity>,
+    data: UpdateQuery<Partial<MongoEntity>>,
+    session?: ClientSession,
+  ): Promise<IRepositoryResponse> {
+    if (identifier._id) this._validateMongoID(identifier._id);
+
+    const { n } = await this.genericModel.updateMany(
+      encryptor.doEncrypt(identifier, this.ignore),
+      encryptor.doEncrypt(data, this.ignore),
+      {
+        session,
+      },
+    );
+
+    return { n };
+  }
 
   async delete(
     identifier: FilterQuery<Partial<MongoEntity>>,

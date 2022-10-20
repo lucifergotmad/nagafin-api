@@ -7,7 +7,7 @@ export class Encryptor {
       dataKey[i] = key.substr(i, 1);
     }
 
-    let strEnc = '';
+    let strEnc = "";
     let nkey = 0;
     const jml = str.length;
 
@@ -32,7 +32,7 @@ export class Encryptor {
         dataKey[i] = key.substr(i, 1);
       }
 
-      let strDec = '';
+      let strDec = "";
       let nkey = 0;
       const jml = str.length;
       let i = 0;
@@ -52,25 +52,25 @@ export class Encryptor {
   }
 
   hexEncode(str: any) {
-    let result = '';
+    let result = "";
     result = str.toString(16);
     return result;
   }
 
   hexdec(hex: any) {
-    let str: any = '';
+    let str: any = "";
     str = parseInt(hex, 16);
     return str;
   }
 
   chr(asci: any) {
-    let str = '';
+    let str = "";
     str = String.fromCharCode(asci);
     return str;
   }
 
   writeLocal(nama: any, data: any) {
-    this.doEncrypt(data, ['kode_baki', 'nama_baki', 'kode_barang']);
+    this.doEncrypt(data, ["kode_baki", "nama_baki", "kode_barang"]);
     // return localStorage.setItem(nama, encryptascii(JSON.stringify(data)));
   }
 
@@ -82,7 +82,7 @@ export class Encryptor {
       return dataBeforeCopy;
     }
     if (
-      typeof dataBeforeCopy === 'object' &&
+      typeof dataBeforeCopy === "object" &&
       !(dataBeforeCopy instanceof Date)
     ) {
       const data = Array.isArray(dataBeforeCopy)
@@ -93,10 +93,10 @@ export class Encryptor {
         if (!result) {
           if (Array.isArray(data[x])) {
             data[x] = data[x].map((y: any) => {
-              if (typeof y === 'string') {
+              if (typeof y === "string") {
                 return this.encryptascii(y);
               } else if (
-                typeof data[x] === 'object' &&
+                typeof data[x] === "object" &&
                 data[x] &&
                 !(data[x] instanceof Date)
               ) {
@@ -105,12 +105,12 @@ export class Encryptor {
               return false;
             });
           } else {
-            if (typeof data[x] === 'string' && data[x]) {
+            if (typeof data[x] === "string" && data[x]) {
               data[x] = this.encryptascii(data[x]);
-            } else if (typeof data[x] === 'number' && data[x]) {
+            } else if (typeof data[x] === "number" && data[x]) {
               // Call Masking Number
             } else if (
-              typeof data[x] === 'object' &&
+              typeof data[x] === "object" &&
               data[x] &&
               !(dataBeforeCopy instanceof Date)
             ) {
@@ -121,7 +121,7 @@ export class Encryptor {
         return false;
       });
       return data;
-    } else if (typeof dataBeforeCopy === 'string') {
+    } else if (typeof dataBeforeCopy === "string") {
       const data = this.encryptascii(dataBeforeCopy);
       return data;
     }
@@ -138,7 +138,7 @@ export class Encryptor {
     }
 
     if (
-      typeof dataBeforeCopy === 'object' &&
+      typeof dataBeforeCopy === "object" &&
       !(dataBeforeCopy instanceof Date)
     ) {
       const data = Array.isArray(dataBeforeCopy)
@@ -149,10 +149,10 @@ export class Encryptor {
         if (!result) {
           if (Array.isArray(data[x])) {
             data[x] = data[x].map((y: any) => {
-              if (typeof y === 'string') {
+              if (typeof y === "string") {
                 return this.decryptascii(y);
               } else if (
-                typeof data[x] === 'object' &&
+                typeof data[x] === "object" &&
                 data[x] &&
                 !(data[x] instanceof Date)
               ) {
@@ -162,12 +162,12 @@ export class Encryptor {
             });
           } else {
             // Real Encrypt
-            if (typeof data[x] === 'string' && data[x]) {
+            if (typeof data[x] === "string" && data[x]) {
               data[x] = this.decryptascii(data[x]);
-            } else if (typeof data[x] === 'number' && data[x]) {
+            } else if (typeof data[x] === "number" && data[x]) {
               // Call Unmasking Number()
             } else if (
-              typeof data[x] === 'object' &&
+              typeof data[x] === "object" &&
               data[x] &&
               !(dataBeforeCopy instanceof Date)
             ) {
@@ -178,7 +178,7 @@ export class Encryptor {
         return false;
       });
       return data;
-    } else if (typeof dataBeforeCopy === 'string') {
+    } else if (typeof dataBeforeCopy === "string") {
       const data = this.decryptascii(dataBeforeCopy);
       return data;
     }
@@ -187,8 +187,8 @@ export class Encryptor {
   doDecryptMiddleware() {
     return [
       (req: any, res: any, next: any) => {
-        const isEnc = Number(req.headers.enc || '0');
-        const ignoreFields = JSON.parse(req.headers.ignore || '[]');
+        const isEnc = Number(req.headers.enc || "0");
+        const ignoreFields = JSON.parse(req.headers.ignore || "[]");
         if (isEnc) {
           req.body = this.doDecrypt(req.body, ignoreFields);
           next();
@@ -201,27 +201,27 @@ export class Encryptor {
 
   maskingNumber(number: any) {
     const numberString = String(number);
-    const list = numberString.split('');
+    const list = numberString.split("");
     return Number(
       list
         .map((data) => {
-          if (data === '.') {
-            return '.';
+          if (data === ".") {
+            return ".";
           } else {
             return String(Number(data) + 22);
           }
         })
-        .join(''),
+        .join(""),
     );
   }
 
   unmaskingNumber(number: any) {
     const numberString = String(number);
-    const list = numberString.split('.');
+    const list = numberString.split(".");
     return Number(
       list
         .map((data) => {
-          const segment = data.split('').reduce((s, c) => {
+          const segment = data.split("").reduce((s, c) => {
             const l = s.length - 1;
             s[l] && s[l].length < 2 ? (s[l] += c) : s.push(c);
             return s;
@@ -230,9 +230,9 @@ export class Encryptor {
             .map((x) => {
               return x - 22;
             })
-            .join('');
+            .join("");
         })
-        .join('.'),
+        .join("."),
     );
   }
 }

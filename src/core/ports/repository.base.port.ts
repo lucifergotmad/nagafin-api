@@ -1,8 +1,8 @@
-import { ClientSession, FilterQuery, UpdateQuery } from 'mongoose';
-import { BaseEntityProps } from '../base-classes/domain/entity';
-import { AdvancePartial } from './interfaces/advance-partial.interface';
-import { IPaginationMeta } from './interfaces/pagination-meta.interface';
-import { IRepositoryResponse } from './interfaces/repository-response.interface';
+import { ClientSession, FilterQuery, UpdateQuery } from "mongoose";
+import { BaseEntityProps } from "../base-classes/domain/entity";
+import { AdvancePartial } from "./interfaces/advance-partial.interface";
+import { IPaginationMeta } from "./interfaces/pagination-meta.interface";
+import { IRepositoryResponse } from "./interfaces/repository-response.interface";
 
 export interface BaseRepositoryPort<
   MongoEntity,
@@ -55,6 +55,11 @@ export interface BaseRepositoryPort<
     session?: ClientSession,
   ): Promise<IRepositoryResponse>;
   update(
+    identifier: FilterQuery<MongoEntity>,
+    data: UpdateQuery<Partial<MongoEntity>>,
+    session?: ClientSession,
+  ): Promise<IRepositoryResponse>;
+  updateWithoutThrow(
     identifier: FilterQuery<MongoEntity>,
     data: UpdateQuery<Partial<MongoEntity>>,
     session?: ClientSession,

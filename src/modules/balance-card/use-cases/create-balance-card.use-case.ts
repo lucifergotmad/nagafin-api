@@ -1,4 +1,8 @@
-import { Injectable, UnprocessableEntityException } from "@nestjs/common";
+import {
+  Injectable,
+  InternalServerErrorException,
+  UnprocessableEntityException,
+} from "@nestjs/common";
 import { ClientSession } from "mongoose";
 import { BaseUseCase } from "src/core/base-classes/infra/use-case.base";
 import { IUseCase } from "src/core/base-classes/interfaces/use-case.interface";
@@ -35,102 +39,183 @@ export class CreateBalanceCard
   ): Promise<MessageResponseDTO> {
     try {
       for (const item of request.journal_detail) {
-        const balance = await this.balanceCardRepository.findOneLatest({
+        // const balance = await this.balanceCardRepository.findOneLatest({
+        //   balance_acc: item.acc_number,
+        //   balance_date: request.journal_date,
+        // });
+
+        const beginingBalance = await this.balanceCardRepository.findOneLatest(
+          {
+            balance_acc: item.acc_number,
+            balance_date: { $eq: request.journal_date },
+          },
+          session,
+        );
+
+        console.log("beginningBalance: ", beginingBalance);
+
+        const yesterdayBalance = await this.balanceCardRepository.findOneLatest(
+          {
+            balance_acc: item.acc_number,
+            balance_date: { $lt: request.journal_date },
+          },
+          session,
+        );
+
+        console.log("yesterdayBalance: ", yesterdayBalance);
+
+        const beginningAmount =
+          beginingBalance?.ending_amount ||
+          yesterdayBalance?.ending_amount ||
+          0;
+
+        console.log("beginningAmount: ", beginningAmount);
+
+        let endingAmount = 0;
+
+        const payload = await this._preparePayload(item, request.journal_date);
+
+        switch (payload.status) {
+          case "IN":
+            endingAmount =
+              beginningAmount + (payload.credit_amount + payload.debit_amount);
+
+            await this.balanceCardRepository.updateWithoutThrow(
+              {
+                balance_acc: item.acc_number,
+                balance_date: { $gt: request.journal_date },
+              },
+              {
+                $inc: {
+                  beginning_amount:
+                    payload.credit_amount + payload.debit_amount,
+                  ending_amount: payload.credit_amount + payload.debit_amount,
+                },
+              },
+              session,
+            );
+            break;
+          case "OUT":
+            endingAmount =
+              beginningAmount - (payload.credit_amount + payload.debit_amount);
+
+            await this.balanceCardRepository.updateWithoutThrow(
+              {
+                balance_acc: item.acc_number,
+                balance_date: { $gt: request.journal_date },
+              },
+              {
+                $inc: {
+                  beginning_amount:
+                    item.credit_amount * -1 + item.debit_amount * -1,
+                  ending_amount:
+                    item.credit_amount * -1 + item.debit_amount * -1,
+                },
+              },
+              session,
+            );
+            break;
+          default:
+            throw new InternalServerErrorException(
+              "Status payload tidak valid!",
+            );
+        }
+
+        console.log("endingAmount: ", endingAmount);
+
+        // if (!balance) {
+        const balanceCardEntity = BalanceCardEntity.create({
           balance_acc: item.acc_number,
           balance_date: request.journal_date,
+          beginning_amount: beginningAmount,
+          mutation_amount:
+            payload.status !== "OUT"
+              ? item.credit_amount + item.debit_amount
+              : item.credit_amount * -1 + item.debit_amount * -1,
+          ending_amount: endingAmount,
+          // beginning_balance: {
+          //   credit_amount: beginingBalance?.ending_balance.credit_amount || 0,
+          //   debit_amount: beginingBalance?.ending_balance.debit_amount || 0,
+          // },
+          // balance_mutation: {
+          //   credit_amount: item.credit_amount,
+          //   debit_amount: item.debit_amount,
+          // },
+          // ending_balance: {
+          //   credit_amount: +(
+          //     (beginingBalance?.ending_balance.credit_amount || 0) +
+          //     item.credit_amount
+          //   ).toFixed(3),
+          //   debit_amount: +(
+          //     (beginingBalance?.ending_balance.debit_amount || 0) +
+          //     item.debit_amount
+          //   ).toFixed(3),
+          // },
+          journal_number: request.journal_number,
+          description: item.journal_info,
+          created_by: this.user?.username,
         });
 
-        const beginingBalance = await this.balanceCardRepository.findOneLatest({
-          balance_acc: item.acc_number,
-          balance_date: { $lt: request.journal_date },
-        });
+        await this.balanceCardRepository.save(balanceCardEntity, session);
+        // }
 
-        if (!balance) {
-          const payload = BalanceCardEntity.create({
-            balance_acc: item.acc_number,
-            balance_date: request.journal_date,
-            beginning_balance: {
-              credit_amount: beginingBalance?.ending_balance.credit_amount || 0,
-              debit_amount: beginingBalance?.ending_balance.debit_amount || 0,
-            },
-            balance_mutation: {
-              credit_amount: item.credit_amount,
-              debit_amount: item.debit_amount,
-            },
-            ending_balance: {
-              credit_amount: +(
-                (beginingBalance?.ending_balance.credit_amount || 0) +
-                item.credit_amount
-              ).toFixed(3),
-              debit_amount: +(
-                (beginingBalance?.ending_balance.debit_amount || 0) +
-                item.debit_amount
-              ).toFixed(3),
-            },
-            journal_number: request.journal_number,
-            description: request.journal_notes,
-            created_by: this.user?.username,
-          });
+        // else {
+        //   const payload = await this._preparePayload(
+        //     item,
+        //     request.journal_date,
+        //   );
+        //   const amountValue: IBalanceDetailCardProps = {
+        //     credit_amount: balance.balance_mutation.credit_amount,
+        //     debit_amount: balance.balance_mutation.debit_amount,
+        //   };
 
-          await this.balanceCardRepository.save(payload, session);
-        } else {
-          const payload = await this._preparePayload(
-            item,
-            request.journal_date,
-          );
-          const amountValue: IBalanceDetailCardProps = {
-            credit_amount: balance.balance_mutation.credit_amount,
-            debit_amount: balance.balance_mutation.debit_amount,
-          };
+        //   switch (payload.status) {
+        //     case "IN":
+        //       amountValue.credit_amount += payload.credit_amount;
+        //       amountValue.debit_amount += payload.debit_amount;
+        //       break;
+        //     case "OUT":
+        //       amountValue.credit_amount += payload.credit_amount
+        //         ? payload.credit_amount
+        //         : payload.credit_amount * -1;
+        //       amountValue.debit_amount += payload.debit_amount
+        //         ? payload.debit_amount
+        //         : payload.debit_amount * -1;
+        //       break;
 
-          switch (payload.status) {
-            case "IN":
-              amountValue.credit_amount += payload.credit_amount;
-              amountValue.debit_amount += payload.debit_amount;
-              break;
-            case "OUT":
-              amountValue.credit_amount += !payload.credit_amount
-                ? payload.credit_amount
-                : payload.credit_amount * -1;
-              amountValue.debit_amount += !payload.debit_amount
-                ? payload.debit_amount
-                : payload.debit_amount * -1;
-              console.log(amountValue);
-              break;
+        //     default:
+        //       throw new UnprocessableEntityException(
+        //         "Status payload tidak valid!",
+        //       );
+        //   }
 
-            default:
-              throw new UnprocessableEntityException(
-                "Status payload tidak valid!",
-              );
-          }
+        //   const endingValue = {
+        //     credit_amount: +(
+        //       balance.ending_balance.credit_amount + payload.credit_amount
+        //     ).toFixed(3),
+        //     debit_amount: +(
+        //       balance.ending_balance.debit_amount + payload.debit_amount
+        //     ).toFixed(3),
+        //   };
 
-          const endingValue = {
-            credit_amount: +(
-              balance.ending_balance.credit_amount + payload.credit_amount
-            ).toFixed(3),
-            debit_amount: +(
-              balance.ending_balance.debit_amount + payload.debit_amount
-            ).toFixed(3),
-          };
-
-          await this.balanceCardRepository.update(
-            {
-              balance_acc: item.acc_number,
-              balance_date: { $gte: request.journal_date },
-            },
-            {
-              balance_mutation: {
-                credit_amount: amountValue.credit_amount,
-                debit_amount: amountValue.debit_amount,
-              },
-              ending_balance: {
-                credit_amount: endingValue.credit_amount,
-                debit_amount: endingValue.debit_amount,
-              },
-            },
-            session,
-          );
-        }
+        //   await this.balanceCardRepository.update(
+        //     {
+        //       balance_acc: item.acc_number,
+        //       balance_date: { $gte: request.journal_date },
+        //     },
+        //     {
+        //       balance_mutation: {
+        //         credit_amount: amountValue.credit_amount,
+        //         debit_amount: amountValue.debit_amount,
+        //       },
+        //       ending_balance: {
+        //         credit_amount: endingValue.credit_amount,
+        //         debit_amount: endingValue.debit_amount,
+        //       },
+        //     },
+        //     session,
+        //   );
+        // }
       }
 
       return new MessageResponseDTO("Berhasil update ke balance");

@@ -16,6 +16,5 @@ export interface BalanceCardRepositoryPort
   ): Promise<ILedgerDetailReportResponse[]>;
   ledgerReport(
     filter: LedgerReportRequestDTO,
-    listAccount: AccountMongoEntity[],
-  ): Promise<ILedgerReportResponse>;
+  ): Promise<ILedgerReportResponse[]>;
 }
