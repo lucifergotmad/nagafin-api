@@ -1,9 +1,9 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from "@nestjs/swagger";
 import {
   IBalanceDetail,
   ITrialBalanceDetailResponse,
   ITrialBalanceResponse,
-} from 'src/interface-adapter/interfaces/trial-balance/trial-balance.interface';
+} from "src/interface-adapter/interfaces/trial-balance/trial-balance.interface";
 
 class BalanceDetailResponse implements IBalanceDetail {
   constructor(props: IBalanceDetail) {
@@ -18,7 +18,8 @@ class BalanceDetailResponse implements IBalanceDetail {
   debit_amount: number;
 }
 
-class TrialBalanceDetailReportResponse implements ITrialBalanceDetailResponse {
+export class TrialBalanceDetailReportResponse
+  implements ITrialBalanceDetailResponse {
   constructor(props: ITrialBalanceDetailResponse) {
     this.acc_name = props.acc_name;
     this.acc_number = props.acc_number;
@@ -27,10 +28,10 @@ class TrialBalanceDetailReportResponse implements ITrialBalanceDetailResponse {
     this.ending_balance = props.ending_balance;
   }
 
-  @ApiProperty({ example: '100001' })
+  @ApiProperty({ example: "100001" })
   acc_number: string;
 
-  @ApiProperty({ example: 'KAS BESAR' })
+  @ApiProperty({ example: "KAS BESAR" })
   acc_name: string;
 
   @ApiProperty({ type: BalanceDetailResponse })
@@ -50,10 +51,10 @@ export class TrialBalanceReportResponse implements ITrialBalanceResponse {
     this.balance_detail = props.balance_detail;
   }
 
-  @ApiProperty({ example: '100000' })
+  @ApiProperty({ example: "100000" })
   parents_acc_number: string;
 
-  @ApiProperty({ example: 'AKTIVA LANCAR' })
+  @ApiProperty({ example: "AKTIVA LANCAR" })
   parents_acc_name: string;
 
   @ApiProperty({

@@ -2,42 +2,50 @@ import { Injectable } from "@nestjs/common";
 import { BaseUseCase } from "src/core/base-classes/infra/use-case.base";
 import { IUseCase } from "src/core/base-classes/interfaces/use-case.interface";
 import { ResponseException } from "src/core/exceptions/response.http-exception";
-import { IProfitCloseResponse } from "src/interface-adapter/interfaces/profit-close/profit-close.interface";
+import {
+  IProfitCloseDetailResponse,
+  IProfitCloseResponse,
+} from "src/interface-adapter/interfaces/profit-close/profit-close.interface";
+import {
+  IBalanceDetail,
+  ITrialBalanceDetailResponse,
+  ITrialBalanceResponse,
+} from "src/interface-adapter/interfaces/trial-balance/trial-balance.interface";
 import { AccountRepositoryPort } from "src/modules/account/database/account.repository.port";
 import { InjectAccountRepository } from "src/modules/account/database/account.repository.provider";
+import { GenerateBeginningBalance } from "src/modules/balance-card/use-cases/get-beginning-balance-card.use-case";
 import { GenerateEndingBalance } from "src/modules/balance-card/use-cases/get-ending-balance.usecase";
+import { GenerateMutationBalance } from "src/modules/balance-card/use-cases/get-mutation-balance";
 import { BalanceRepositoryPort } from "src/modules/balance/database/balance.repository.port";
 import { InjectBalanceRepository } from "src/modules/balance/database/balance.repository.provider";
-import { BalanceSheetResponse } from "../../profit-close/controller/profit-close-response.dto";
-import { TotalProfitClose } from "../../profit-close/use-cases/total-profit-close.usecase";
-import { BalanceSheetsReportRequestDTO } from "../controller/dtos/balance-sheets.request.dto";
-import { BalanceSheetsReportResponse } from "../controller/dtos/balance-sheets.response";
+import { TrialBalanceReportRequestDTO } from "../../trial-balance/controller/dtos/trial-balance-report.request.dto";
+import {
+  BalanceSheetResponse,
+  ProfitCloseResponse,
+} from "../controller/profit-close-response.dto";
 
 @Injectable()
-export class BalanceSheetsReport
+export class ProfitCloseReport
   extends BaseUseCase
-  implements IUseCase<BalanceSheetsReportRequestDTO, BalanceSheetResponse> {
+  implements IUseCase<TrialBalanceReportRequestDTO, BalanceSheetResponse> {
   constructor(
-    @InjectBalanceRepository
-    private readonly balanceRepository: BalanceRepositoryPort,
     @InjectAccountRepository
     private readonly accountRepository: AccountRepositoryPort,
     private readonly generateEndingBalance: GenerateEndingBalance,
-    private readonly totalProfitClose: TotalProfitClose,
   ) {
     super();
   }
 
   public async execute(
-    data: BalanceSheetsReportRequestDTO,
+    data: TrialBalanceReportRequestDTO,
   ): Promise<BalanceSheetResponse> {
     try {
       const listAccount = await this.accountRepository.findBy({
-        acc_statement: "BS",
+        acc_statement: "PL",
         acc_type: "transaction",
       });
       const listGroup = await this.accountRepository.findBy({
-        acc_statement: "BS",
+        acc_statement: "PL",
         acc_type: "group",
       });
       let debitData: IProfitCloseResponse[] = [];
@@ -66,7 +74,7 @@ export class BalanceSheetsReport
       for (const x of listAccount) {
         const amount = await this.generateEndingBalance.execute({
           balance_acc: x.acc_number,
-          start_date: data.transaction_date,
+          start_date: data.start_date,
         });
 
         if (x.acc_balance_type === "C") {
@@ -93,14 +101,6 @@ export class BalanceSheetsReport
           });
         }
       }
-      debitData.forEach((x) => {
-        x.balance_detail.push({
-          acc_name: "TOTAL " + x.parents_acc_name,
-          acc_number: x.parents_acc_number,
-          amount: x.balance_detail.reduce((a, b) => a + b.amount, 0),
-          is_total: true,
-        });
-      });
       creditData.forEach((x) => {
         x.balance_detail.push({
           acc_name: "TOTAL " + x.parents_acc_name,
@@ -109,14 +109,13 @@ export class BalanceSheetsReport
           is_total: true,
         });
       });
-      let totalProfit = await this.totalProfitClose.execute(data);
-      creditData.push({
-        amount: totalProfit,
-        is_profit: true,
-        balance_detail: [],
-        parents_acc_name:
-          "Laba/Rugi Berjalan Sampai Tanggal " + data.transaction_date,
-        parents_acc_number: "0",
+      debitData.forEach((x) => {
+        x.balance_detail.push({
+          acc_name: "TOTAL " + x.parents_acc_name,
+          acc_number: x.parents_acc_number,
+          amount: x.balance_detail.reduce((a, b) => a + b.amount, 0),
+          is_total: true,
+        });
       });
 
       return {

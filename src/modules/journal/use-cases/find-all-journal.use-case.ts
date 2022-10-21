@@ -29,7 +29,7 @@ export class FindAllJournal
 
   public async execute(): Promise<JournalResponseDTO[]> {
     try {
-      const journals = await this.journalRepository.findAll();
+      const journals = await this.journalRepository.findAllAndSort();
 
       const result: IJournalResponse[] = [];
 

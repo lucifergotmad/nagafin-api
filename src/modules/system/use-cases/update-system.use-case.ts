@@ -1,14 +1,14 @@
-import { Injectable } from '@nestjs/common';
-import { BaseUseCase } from 'src/core/base-classes/infra/use-case.base';
-import { IUseCase } from 'src/core/base-classes/interfaces/use-case.interface';
-import { ResponseException } from 'src/core/exceptions/response.http-exception';
-import { Utils } from 'src/core/utils/utils.service';
-import { MessageResponseDTO } from 'src/interface-adapter/dtos/message.response.dto';
-import { UpdateSystemRequestDTO } from '../controller/dtos/update-system.request.dto';
-import { SystemMongoEntity } from '../database/model/system.mongo-entity';
-import { SystemRepositoryPort } from '../database/system.repository.port';
-import { InjectSystemRepository } from '../database/system.repository.provider';
-import { SystemEntity } from '../domain/system.entity';
+import { Injectable } from "@nestjs/common";
+import { BaseUseCase } from "src/core/base-classes/infra/use-case.base";
+import { IUseCase } from "src/core/base-classes/interfaces/use-case.interface";
+import { ResponseException } from "src/core/exceptions/response.http-exception";
+import { Utils } from "src/core/utils/utils.service";
+import { MessageResponseDTO } from "src/interface-adapter/dtos/message.response.dto";
+import { UpdateSystemRequestDTO } from "../controller/dtos/update-system.request.dto";
+import { SystemMongoEntity } from "../database/model/system.mongo-entity";
+import { SystemRepositoryPort } from "../database/system.repository.port";
+import { InjectSystemRepository } from "../database/system.repository.provider";
+import { SystemEntity } from "../domain/system.entity";
 
 @Injectable()
 export class UpdateSystem
@@ -58,10 +58,8 @@ export class UpdateSystem
         }
       });
 
-      return new MessageResponseDTO('Berhasil Update system!');
+      return new MessageResponseDTO("Berhasil Update system!");
     } catch (error) {
-      console.log(error);
-
       throw new ResponseException(error.message, error.status, error.trace);
     } finally {
       await session.endSession();

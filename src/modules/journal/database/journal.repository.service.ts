@@ -27,6 +27,21 @@ export class JournalRepository
       JournalIgnore,
     );
   }
+  async findAllAndSort(): Promise<JournalMongoEntity[]> {
+    const result = await this.journalModel.aggregate([
+      {
+        $sort: {
+          journal_date: -1,
+        },
+      },
+      {
+        $sort: {
+          _id: -1,
+        },
+      },
+    ]);
+    return this.encryptor.doDecrypt(result, [...JournalIgnore, "balance_acc"]);
+  }
 
   async isUsedInTransaction(acc_number: string): Promise<boolean> {
     const journal = await this.journalModel.findOne({

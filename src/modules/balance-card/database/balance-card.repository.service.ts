@@ -9,7 +9,10 @@ import {
 import { BalanceCardEntity } from "../domain/balance-card.entity";
 import { BalanceCardRepositoryPort } from "./balance-card.repository.port";
 import { BalanceCardMongoMapper } from "./model/balance-card.mongo-mapper";
-import { BalanceCardIgnore } from "src/core/constants/encryption/encryption-ignore";
+import {
+  AccountIgnore,
+  BalanceCardIgnore,
+} from "src/core/constants/encryption/encryption-ignore";
 import { LedgerReportRequestDTO } from "src/modules/reports/ledger/controller/dtos/ledger.request.dto";
 import { AccountMongoEntity } from "src/modules/account/database/model/account.mongo-entity";
 import {
@@ -30,6 +33,82 @@ export class BalanceCardRepository
       new BalanceCardMongoMapper(BalanceCardEntity, BalanceCardMongoEntity),
       BalanceCardIgnore,
     );
+  }
+  async getLastByNumber(acc: string): Promise<BalanceCardMongoEntity> {
+    const result = await this.balanceCardModel.aggregate([
+      {
+        $match: {
+          balance_acc: acc,
+        },
+      },
+      {
+        $sort: {
+          balance_date: -1,
+        },
+      },
+    ]);
+
+    if (result.length > 0) {
+      let lastDate = result[0].balance_date;
+      const hasil = await this.balanceCardModel.aggregate([
+        {
+          $match: {
+            balance_acc: acc,
+            balance_date: lastDate,
+          },
+        },
+        {
+          $sort: {
+            _id: -1,
+          },
+        },
+        {
+          $lookup: {
+            from: "tm_accounts",
+            localField: "balance_acc",
+            foreignField: "acc_number",
+            as: "detailAkun",
+          },
+        },
+        {
+          $unwind: {
+            path: "$detailAkun",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+      ]);
+
+      return this.encryptor.doDecrypt(hasil[0], [
+        ...AccountIgnore,
+        ...BalanceCardIgnore,
+      ]);
+    } else {
+      return null;
+    }
+  }
+  async findBySort(
+    date: string,
+    acc: string,
+  ): Promise<BalanceCardMongoEntity[]> {
+    const result = await this.balanceCardModel.aggregate([
+      {
+        $match: {
+          balance_date: date,
+          balance_acc: acc,
+        },
+      },
+      {
+        $sort: {
+          journal_date: 1,
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
+        },
+      },
+    ]);
+    return this.encryptor.doDecrypt(result, this.ignore);
   }
 
   async ledgerReportBeginning(

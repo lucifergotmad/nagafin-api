@@ -15,4 +15,8 @@ export class DateUtil implements IDateUtil {
   YearString(date: Date): string {
     return moment.tz(date, "Asia/Jakarta").format("YYYY");
   }
+
+  getToday(): string {
+    return moment().format("YYYY-MM-DD");
+  }
 }

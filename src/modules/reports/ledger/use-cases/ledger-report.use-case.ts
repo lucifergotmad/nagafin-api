@@ -41,12 +41,6 @@ export class LedgerReport
       );
 
       const result = await this.balanceCardRepository.ledgerReport(request);
-      console.log("BEGINNING");
-      console.log(beginningBalance);
-
-      console.log("RESULT");
-
-      console.log(result);
 
       beginningBalance.forEach((balance: ILedgerDetailReportResponse) => {
         const index = result.findIndex(

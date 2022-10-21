@@ -52,7 +52,7 @@ export class CreateBalanceCard
           session,
         );
 
-        console.log("beginningBalance: ", beginingBalance);
+        // console.log("beginningBalance: ", beginingBalance);
 
         const yesterdayBalance = await this.balanceCardRepository.findOneLatest(
           {
@@ -62,14 +62,14 @@ export class CreateBalanceCard
           session,
         );
 
-        console.log("yesterdayBalance: ", yesterdayBalance);
+        // console.log("yesterdayBalance: ", yesterdayBalance);
 
         const beginningAmount =
           beginingBalance?.ending_amount ||
           yesterdayBalance?.ending_amount ||
           0;
 
-        console.log("beginningAmount: ", beginningAmount);
+        // console.log("beginningAmount: ", beginningAmount);
 
         let endingAmount = 0;
 
@@ -121,7 +121,7 @@ export class CreateBalanceCard
             );
         }
 
-        console.log("endingAmount: ", endingAmount);
+        // console.log("endingAmount: ", endingAmount);
 
         // if (!balance) {
         const balanceCardEntity = BalanceCardEntity.create({
