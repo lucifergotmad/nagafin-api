@@ -2,14 +2,6 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
 import { BaseMongoEntity } from "src/core/base-classes/infra/mongo-entity.base";
 
-class BalanceCardDetailMongoEntity {
-  @Prop({ required: true })
-  credit_amount: number;
-
-  @Prop({ required: true })
-  debit_amount: number;
-}
-
 @Schema({ collection: "tt_balance_cards" })
 export class BalanceCardMongoEntity extends BaseMongoEntity<
   typeof BalanceCardMongoEntity
