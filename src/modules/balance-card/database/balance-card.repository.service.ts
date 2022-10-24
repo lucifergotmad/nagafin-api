@@ -87,13 +87,14 @@ export class BalanceCardRepository
     }
   }
   async findBySort(
-    date: string,
+    start_date: string,
+    end_date: string,
     acc: string,
   ): Promise<BalanceCardMongoEntity[]> {
     const result = await this.balanceCardModel.aggregate([
       {
         $match: {
-          balance_date: date,
+          balance_date: { $gte: start_date, $lte: end_date },
           balance_acc: acc,
         },
       },
@@ -171,6 +172,11 @@ export class BalanceCardRepository
           journal_date: "$journal_date",
           journal_number: "$journal_number",
           balance_amount: "$balance_amount",
+        },
+      },
+      {
+        $sort: {
+          balance_acc: 1,
         },
       },
     ]);

@@ -2,27 +2,12 @@ import { Injectable } from "@nestjs/common";
 import { BaseUseCase } from "src/core/base-classes/infra/use-case.base";
 import { IUseCase } from "src/core/base-classes/interfaces/use-case.interface";
 import { ResponseException } from "src/core/exceptions/response.http-exception";
-import {
-  IProfitCloseDetailResponse,
-  IProfitCloseResponse,
-} from "src/interface-adapter/interfaces/profit-close/profit-close.interface";
-import {
-  IBalanceDetail,
-  ITrialBalanceDetailResponse,
-  ITrialBalanceResponse,
-} from "src/interface-adapter/interfaces/trial-balance/trial-balance.interface";
+import { IProfitCloseResponse } from "src/interface-adapter/interfaces/profit-close/profit-close.interface";
 import { AccountRepositoryPort } from "src/modules/account/database/account.repository.port";
 import { InjectAccountRepository } from "src/modules/account/database/account.repository.provider";
-import { GenerateBeginningBalance } from "src/modules/balance-card/use-cases/get-beginning-balance-card.use-case";
 import { GenerateEndingBalance } from "src/modules/balance-card/use-cases/get-ending-balance.usecase";
-import { GenerateMutationBalance } from "src/modules/balance-card/use-cases/get-mutation-balance";
-import { BalanceRepositoryPort } from "src/modules/balance/database/balance.repository.port";
-import { InjectBalanceRepository } from "src/modules/balance/database/balance.repository.provider";
 import { TrialBalanceReportRequestDTO } from "../../trial-balance/controller/dtos/trial-balance-report.request.dto";
-import {
-  BalanceSheetResponse,
-  ProfitCloseResponse,
-} from "../controller/profit-close-response.dto";
+import { BalanceSheetResponse } from "../controller/profit-close-response.dto";
 
 @Injectable()
 export class ProfitCloseReport
@@ -75,6 +60,7 @@ export class ProfitCloseReport
         const amount = await this.generateEndingBalance.execute({
           balance_acc: x.acc_number,
           start_date: data.start_date,
+          end_date: data.end_date,
         });
 
         if (x.acc_balance_type === "C") {

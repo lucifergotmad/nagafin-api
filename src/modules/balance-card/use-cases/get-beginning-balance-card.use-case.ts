@@ -29,6 +29,7 @@ export class GenerateBeginningBalance
     try {
       const result = await this.balanceCardRepository.findBySort(
         request.start_date,
+        request.end_date,
         request.balance_acc,
       );
       if (result.length > 0) {

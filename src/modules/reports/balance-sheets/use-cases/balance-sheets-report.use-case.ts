@@ -66,7 +66,8 @@ export class BalanceSheetsReport
       for (const x of listAccount) {
         const amount = await this.generateEndingBalance.execute({
           balance_acc: x.acc_number,
-          start_date: data.transaction_date,
+          start_date: data.start_date,
+          end_date: data.end_date,
         });
 
         if (x.acc_balance_type === "C") {
@@ -114,8 +115,7 @@ export class BalanceSheetsReport
         amount: totalProfit,
         is_profit: true,
         balance_detail: [],
-        parents_acc_name:
-          "Laba/Rugi Berjalan Sampai Tanggal " + data.transaction_date,
+        parents_acc_name: "Laba/Rugi Berjalan Sampai Tanggal " + data.end_date,
         parents_acc_number: "0",
       });
 

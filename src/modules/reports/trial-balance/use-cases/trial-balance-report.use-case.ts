@@ -61,10 +61,12 @@ export class TrialBalanceReport
         const beginning = await this.generateBeginningBalance.execute({
           balance_acc: x.acc_number,
           start_date: startDate,
+          end_date: data.end_date,
         });
         const mutation = await this.generateMutationBalance.execute({
           balance_acc: x.acc_number,
           start_date: data.start_date,
+          end_date: data.end_date,
         });
         const indexParent = group.findIndex(
           (y) => y.parents_acc_number === x.acc_parents,

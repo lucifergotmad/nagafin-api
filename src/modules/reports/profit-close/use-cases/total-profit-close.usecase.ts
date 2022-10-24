@@ -57,7 +57,8 @@ export class TotalProfitClose
       for (const x of listAccount) {
         const amount = await this.generateEndingBalance.execute({
           balance_acc: x.acc_number,
-          start_date: data.transaction_date,
+          start_date: data.start_date,
+          end_date: data.end_date,
         });
 
         if (x.acc_balance_type === "C") {

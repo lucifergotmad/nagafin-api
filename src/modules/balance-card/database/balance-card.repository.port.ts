@@ -17,6 +17,10 @@ export interface BalanceCardRepositoryPort
   ledgerReport(
     filter: LedgerReportRequestDTO,
   ): Promise<ILedgerReportResponse[]>;
-  findBySort(date: string, acc: string): Promise<BalanceCardMongoEntity[]>;
+  findBySort(
+    start_date: string,
+    end_date: string,
+    acc: string,
+  ): Promise<BalanceCardMongoEntity[]>;
   getLastByNumber(acc: string): Promise<BalanceCardMongoEntity>;
 }

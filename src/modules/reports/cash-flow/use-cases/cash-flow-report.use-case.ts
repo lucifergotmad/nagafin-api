@@ -38,7 +38,8 @@ export class CashFlowReport
         acc_type: "transaction",
       });
       const totalProfitLoss = await this.totalProfitLoss.execute({
-        transaction_date: this.util.date.getToday(),
+        end_date: this.util.date.getToday(),
+        start_date: this.util.date.getToday(),
       });
       let resultOperasional: ICashFlowDetailResponse[] = [];
       let resultInvestasi: ICashFlowDetailResponse[] = [];
