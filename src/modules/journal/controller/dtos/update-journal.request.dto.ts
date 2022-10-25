@@ -1,11 +1,11 @@
-import { IsOptionalNumber } from 'src/core/decorators/dto-decorators/optional-number.decorator';
-import { IsRequiredBoolean } from 'src/core/decorators/dto-decorators/required-boolean.decorator';
-import { IsRequiredMixed } from 'src/core/decorators/dto-decorators/required-mixed.decorator';
-import { IsRequiredNumber } from 'src/core/decorators/dto-decorators/required-number.decorator';
-import { IsRequiredString } from 'src/core/decorators/dto-decorators/required-string.decorator';
+import { IsOptionalNumber } from "src/core/decorators/dto-decorators/optional-number.decorator";
+import { IsRequiredBoolean } from "src/core/decorators/dto-decorators/required-boolean.decorator";
+import { IsRequiredMixed } from "src/core/decorators/dto-decorators/required-mixed.decorator";
+import { IsRequiredNumber } from "src/core/decorators/dto-decorators/required-number.decorator";
+import { IsRequiredString } from "src/core/decorators/dto-decorators/required-string.decorator";
 
 class JournalDetailRequestDTO {
-  @IsRequiredString({ example: '100000' })
+  @IsRequiredString({ example: "100000" })
   acc_number: string;
 
   @IsRequiredNumber({ example: 5000 })
@@ -14,15 +14,15 @@ class JournalDetailRequestDTO {
   @IsRequiredNumber({ example: 5000 })
   debit_amount: number;
 
-  @IsRequiredString({ example: 'NGG-JLM/281000/001' })
+  @IsRequiredString({ example: "NGG-JLM/281000/001" })
   journal_info: string;
 }
 
 export class UpdateJournalRequestDTO {
-  @IsRequiredString({ example: '28 October 2022' })
+  @IsRequiredString({ example: "28 October 2022" })
   journal_notes: string;
 
-  @IsRequiredString({ example: '2022-08-22' })
+  @IsRequiredString({ example: "2022-08-22" })
   journal_date: string;
 
   @IsRequiredBoolean({ example: true })
@@ -38,10 +38,10 @@ export class UpdateJournalRequestDTO {
     type: JournalDetailRequestDTO,
     example: [
       {
-        acc_number: '100000',
+        acc_number: "100000",
         credit_amount: 5000,
         debit_amount: 5000,
-        journal_info: 'NGG-JLM/281000/001',
+        journal_info: "NGG-JLM/281000/001",
       },
     ],
   })

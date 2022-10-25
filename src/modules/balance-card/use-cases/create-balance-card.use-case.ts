@@ -11,6 +11,7 @@ import { MessageResponseDTO } from "src/interface-adapter/dtos/message.response.
 import { IPayloadJournalBalance } from "src/interface-adapter/interfaces/journal/journal.interface";
 import { AccountRepositoryPort } from "src/modules/account/database/account.repository.port";
 import { InjectAccountRepository } from "src/modules/account/database/account.repository.provider";
+import { ClosePeriodRequestDTO } from "src/modules/close-periode/controller/dtos/close-period.request.dto";
 import { CreateJournalRequestDTO } from "src/modules/journal/controller/dtos/create-journal.request.dto";
 import { IJournalDetailProps } from "src/modules/journal/domain/journal.entity";
 import { InjectBalanceCardRepository } from "../database/balance-card.repository.provider";
@@ -23,7 +24,11 @@ import {
 @Injectable()
 export class CreateBalanceCard
   extends BaseUseCase
-  implements IUseCase<CreateJournalRequestDTO, MessageResponseDTO> {
+  implements
+    IUseCase<
+      CreateJournalRequestDTO | ClosePeriodRequestDTO,
+      MessageResponseDTO
+    > {
   constructor(
     @InjectBalanceCardRepository
     private readonly balanceCardRepository: BalanceCardRepository,
@@ -34,7 +39,7 @@ export class CreateBalanceCard
   }
 
   public async execute(
-    request?: CreateJournalRequestDTO,
+    request?: CreateJournalRequestDTO | ClosePeriodRequestDTO,
     session?: ClientSession,
   ): Promise<MessageResponseDTO> {
     try {

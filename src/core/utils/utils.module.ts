@@ -1,6 +1,6 @@
-import { Global, Module } from '@nestjs/common';
-import { Utils } from './utils.service';
-import { InitModule } from './modules/init.module';
+import { Global, Module } from "@nestjs/common";
+import { Utils } from "./utils.service";
+import { InitModule } from "./modules/init.module";
 
 @Global()
 @Module({

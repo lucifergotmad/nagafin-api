@@ -74,8 +74,6 @@ export class LedgerReport
         }
       });
 
-      // console.log(result);
-
       return result
         .map((ledger: LedgerReportResponse) => new LedgerReportResponse(ledger))
         .sort((a, b) => (a.balance_acc > b.balance_acc ? 1 : -1));

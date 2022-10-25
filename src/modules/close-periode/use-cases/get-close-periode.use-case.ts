@@ -55,12 +55,12 @@ export class GetListClosePeriodeAccount
       );
 
       const now = new Date();
-      var lastDayOfYear = new Date(now.getFullYear() - 1, 11 + 1, 0 + 1);
+      const lastDayOfYear = new Date(now.getFullYear() - 1, 11 + 1, 0 + 1);
       console.log(query);
-      let listResult: ResponseGetListClosePeriodeDTO[] = [];
-      let listJournal: listJournalClosePeriode[] = [];
-      for (let account of listAccount) {
-        var endingBalance = await this.generateEndingBalance.execute({
+      const listResult: ResponseGetListClosePeriodeDTO[] = [];
+      const listJournal: listJournalClosePeriode[] = [];
+      for (const account of listAccount) {
+        const endingBalance = await this.generateEndingBalance.execute({
           balance_acc: account.acc_number,
           end_date: query.end_date,
           start_date: lastDayOfYear.toISOString().split("T")[0],

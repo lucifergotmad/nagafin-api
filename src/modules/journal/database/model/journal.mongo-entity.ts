@@ -1,6 +1,6 @@
-import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import { BaseMongoEntity } from 'src/core/base-classes/infra/mongo-entity.base';
+import { Prop, raw, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document } from "mongoose";
+import { BaseMongoEntity } from "src/core/base-classes/infra/mongo-entity.base";
 
 export class JournalDetailMongoEntity {
   @Prop({ required: true })
@@ -16,7 +16,7 @@ export class JournalDetailMongoEntity {
   journal_info: string;
 }
 
-@Schema({ collection: 'tt_journals' })
+@Schema({ collection: "tt_journals" })
 export class JournalMongoEntity extends BaseMongoEntity<
   typeof JournalMongoEntity
 > {
