@@ -1,9 +1,9 @@
 import {
   DbMapper,
   MongoEntityProps,
-} from 'src/core/base-classes/domain/db-mapper';
-import { CurrencyEntity } from '../../domain/currency.entity';
-import { CurrencyMongoEntity } from './currency.mongo-entity';
+} from "src/core/base-classes/domain/db-mapper";
+import { CurrencyEntity } from "../../domain/currency.entity";
+import { CurrencyMongoEntity } from "./currency.mongo-entity";
 
 export class CurrencyMongoMapper extends DbMapper<
   CurrencyEntity,

@@ -1,8 +1,8 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from "@nestjs/swagger";
 import {
   ILedgerDetailReportResponse,
   ILedgerReportResponse,
-} from 'src/interface-adapter/interfaces/ledger/ledger.interface';
+} from "src/interface-adapter/interfaces/ledger/ledger.interface";
 
 class LedgerDetailReportResponse implements ILedgerDetailReportResponse {
   constructor(props: ILedgerDetailReportResponse) {
@@ -16,19 +16,19 @@ class LedgerDetailReportResponse implements ILedgerDetailReportResponse {
     this.balance_amount = props.balance_amount;
   }
 
-  @ApiProperty({ example: '2022-09-06' })
+  @ApiProperty({ example: "2022-09-06" })
   balance_acc?: string;
 
-  @ApiProperty({ example: '2022-09-06' })
+  @ApiProperty({ example: "2022-09-06" })
   balance_acc_name?: string;
 
-  @ApiProperty({ example: '2022-09-06' })
+  @ApiProperty({ example: "2022-09-06" })
   journal_date: string;
 
-  @ApiProperty({ example: 'JNF-220831-0001' })
+  @ApiProperty({ example: "JNF-220831-0001" })
   journal_number: string;
 
-  @ApiProperty({ example: '28 October 2022' })
+  @ApiProperty({ example: "28 October 2022" })
   journal_info?: string;
 
   @ApiProperty({ example: 100000 })
@@ -48,10 +48,10 @@ export class LedgerReportResponse implements ILedgerReportResponse {
     this.detail_journal = props.detail_journal;
   }
 
-  @ApiProperty({ example: '100001' })
+  @ApiProperty({ example: "100001" })
   balance_acc: string;
 
-  @ApiProperty({ example: 'KAS BESAR' })
+  @ApiProperty({ example: "KAS BESAR" })
   balance_acc_name: string;
 
   @ApiProperty({ type: LedgerDetailReportResponse, isArray: true, example: [] })

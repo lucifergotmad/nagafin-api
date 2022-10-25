@@ -12,6 +12,6 @@ export abstract class ExceptionBase extends Error {
   constructor(message: string, trace?: any) {
     super(message);
     this.response = message;
-    this.trace = typeof trace === 'string' ? trace : trace?.constructor?.name;
+    this.trace = typeof trace === "string" ? trace : trace?.constructor?.name;
   }
 }

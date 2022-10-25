@@ -1,6 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IdResponseDTO } from 'src/interface-adapter/dtos/id.response.dto';
-import { ICurrencyResponse } from 'src/interface-adapter/interfaces/currency/currency.interface';
+import { ApiProperty } from "@nestjs/swagger";
+import { IdResponseDTO } from "src/interface-adapter/dtos/id.response.dto";
+import { ICurrencyResponse } from "src/interface-adapter/interfaces/currency/currency.interface";
 
 export class CurrencyResponseDTO
   extends IdResponseDTO
@@ -12,10 +12,10 @@ export class CurrencyResponseDTO
     this.exchange_rate = props.exchange_rate;
   }
 
-  @ApiProperty({ example: 'IDR' })
+  @ApiProperty({ example: "IDR" })
   currency_code: string;
 
-  @ApiProperty({ example: 'Indonesian Rupiah' })
+  @ApiProperty({ example: "Indonesian Rupiah" })
   currency_name: string;
 
   @ApiProperty({ example: 1 })

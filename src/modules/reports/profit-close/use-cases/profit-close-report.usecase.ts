@@ -33,9 +33,9 @@ export class ProfitCloseReport
         acc_statement: "PL",
         acc_type: "group",
       });
-      let debitData: IProfitCloseResponse[] = [];
-      let creditData: IProfitCloseResponse[] = [];
-      let group = listGroup.map((y) => {
+      const debitData: IProfitCloseResponse[] = [];
+      const creditData: IProfitCloseResponse[] = [];
+      const group = listGroup.map((y) => {
         if (y.acc_balance_type === "D") {
           debitData.push({
             balance_detail: [],

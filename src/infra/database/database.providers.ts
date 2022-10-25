@@ -1,8 +1,8 @@
-import { MongooseModule } from '@nestjs/mongoose';
-import { EnvModule } from '../configs/env.module';
-import { EnvService } from '../configs/env.service';
-import { DB_OPTION } from '../../core/constants/database/database-option.const';
-import { ConnectionName } from 'src/core/constants/database/connection-name.const';
+import { MongooseModule } from "@nestjs/mongoose";
+import { EnvModule } from "../configs/env.module";
+import { EnvService } from "../configs/env.service";
+import { DB_OPTION } from "../../core/constants/database/database-option.const";
+import { ConnectionName } from "src/core/constants/database/connection-name.const";
 
 export const databaseProviders = [
   MongooseModule.forRootAsync({

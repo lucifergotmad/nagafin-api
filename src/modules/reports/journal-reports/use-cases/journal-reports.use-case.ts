@@ -1,13 +1,13 @@
-import { Injectable } from '@nestjs/common';
-import { BaseUseCase } from 'src/core/base-classes/infra/use-case.base';
-import { IUseCase } from 'src/core/base-classes/interfaces/use-case.interface';
-import { ResponseException } from 'src/core/exceptions/response.http-exception';
-import { Utils } from 'src/core/utils/utils.service';
-import { JournalRepositoryPort } from 'src/modules/journal/database/journal.repository.port';
-import { InjectJournalRepository } from 'src/modules/journal/database/journal.repository.provider';
-import { JournalMongoEntity } from 'src/modules/journal/database/model/journal.mongo-entity';
-import { JournalReportsRequestDTO } from '../controller/dtos/journal-reports.request.dto';
-import { JournalReportsResponse } from '../controller/dtos/journal-reports.response';
+import { Injectable } from "@nestjs/common";
+import { BaseUseCase } from "src/core/base-classes/infra/use-case.base";
+import { IUseCase } from "src/core/base-classes/interfaces/use-case.interface";
+import { ResponseException } from "src/core/exceptions/response.http-exception";
+import { Utils } from "src/core/utils/utils.service";
+import { JournalRepositoryPort } from "src/modules/journal/database/journal.repository.port";
+import { InjectJournalRepository } from "src/modules/journal/database/journal.repository.provider";
+import { JournalMongoEntity } from "src/modules/journal/database/model/journal.mongo-entity";
+import { JournalReportsRequestDTO } from "../controller/dtos/journal-reports.request.dto";
+import { JournalReportsResponse } from "../controller/dtos/journal-reports.response";
 
 @Injectable()
 export class JournalReports

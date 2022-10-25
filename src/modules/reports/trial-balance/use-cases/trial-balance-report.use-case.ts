@@ -47,8 +47,8 @@ export class TrialBalanceReport
       const d = new Date();
       d.setDate(new Date(data.start_date).getDate() - 1);
       const startDate = d.toISOString().split("T")[0];
-      let result: ITrialBalanceDetailResponse[] = [];
-      let group = listGroup.map((y) => {
+      const result: ITrialBalanceDetailResponse[] = [];
+      const group = listGroup.map((y) => {
         const data: ITrialBalanceResponse = {
           balance_detail: [],
           parents_acc_name: y.acc_name,

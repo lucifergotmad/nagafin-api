@@ -1,6 +1,6 @@
-import { Guard } from 'src/core/logic/guard';
-import { DomainPrimitive } from '../types/domain-primitive.type';
-import { TPrimitive } from '../types/primitive.type';
+import { Guard } from "src/core/logic/guard";
+import { DomainPrimitive } from "../types/domain-primitive.type";
+import { TPrimitive } from "../types/primitive.type";
 
 type ValueObjectProps<T> = T extends TPrimitive | Date ? DomainPrimitive<T> : T;
 
@@ -24,14 +24,14 @@ export abstract class ValueObject<T> {
       Guard.isEmpty(props) ||
       (this.isDomainPrimitive(props) && Guard.isEmpty(props.value))
     ) {
-      throw new Error('Property cannot be empty');
+      throw new Error("Property cannot be empty");
     }
   }
 
   private isDomainPrimitive(
     obj: unknown,
   ): obj is DomainPrimitive<T & (TPrimitive | Date)> {
-    if (Object.prototype.hasOwnProperty.call(obj, 'value')) {
+    if (Object.prototype.hasOwnProperty.call(obj, "value")) {
       return true;
     }
     return false;

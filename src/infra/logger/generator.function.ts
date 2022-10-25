@@ -1,20 +1,20 @@
-import { ColorLevel } from '../../core/constants/logger/colors.const';
-import chalk from 'chalk';
+import { ColorLevel } from "../../core/constants/logger/colors.const";
+import chalk from "chalk";
 
 export function generateColor(level: string) {
   switch (level) {
-    case 'info':
-      return ColorLevel['info'];
-    case 'warn':
-      return ColorLevel['warn'];
-    case 'error':
-      return ColorLevel['error'];
-    case 'debug':
-      return ColorLevel['debug'];
-    case 'verbose':
-      return ColorLevel['verbose'];
+    case "info":
+      return ColorLevel["info"];
+    case "warn":
+      return ColorLevel["warn"];
+    case "error":
+      return ColorLevel["error"];
+    case "debug":
+      return ColorLevel["debug"];
+    case "verbose":
+      return ColorLevel["verbose"];
     default:
-      return '#000000';
+      return "#000000";
   }
 }
 

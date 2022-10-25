@@ -1,5 +1,5 @@
-import { AggregateRoot } from 'src/core/base-classes/domain/aggregate-root';
-import { IHistoryUser } from 'src/interface-adapter/interfaces/history-user.interface';
+import { AggregateRoot } from "src/core/base-classes/domain/aggregate-root";
+import { IHistoryUser } from "src/interface-adapter/interfaces/history-user.interface";
 
 export interface ICurrencyProps extends IHistoryUser {
   currency_code: string;

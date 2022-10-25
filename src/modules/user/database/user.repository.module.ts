@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { UserModel } from './model/user.mongo-entity';
-import { userRepositoryProvider } from './user.repository.provider';
+import { Module } from "@nestjs/common";
+import { MongooseModule } from "@nestjs/mongoose";
+import { UserModel } from "./model/user.mongo-entity";
+import { userRepositoryProvider } from "./user.repository.provider";
 
 @Module({
   imports: [MongooseModule.forFeature(UserModel)],

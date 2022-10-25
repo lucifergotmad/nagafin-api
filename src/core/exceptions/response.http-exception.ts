@@ -1,4 +1,4 @@
-import { HttpException } from '@nestjs/common';
+import { HttpException } from "@nestjs/common";
 
 export class ResponseException extends HttpException {
   trace: string;
@@ -11,6 +11,6 @@ export class ResponseException extends HttpException {
    */
   constructor(message: any, status: number, trace?: any) {
     super(message, status);
-    this.trace = typeof trace === 'string' ? trace : trace?.constructor?.name;
+    this.trace = typeof trace === "string" ? trace : trace?.constructor?.name;
   }
 }

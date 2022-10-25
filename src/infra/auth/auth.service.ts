@@ -1,15 +1,15 @@
-import { Injectable } from '@nestjs/common';
-import { UserMongoEntity } from 'src/modules/user/database/model/user.mongo-entity';
-import { UserRepository } from 'src/modules/user/database/user.repository.service';
-import { Utils } from 'src/core/utils/utils.service';
-import { JwtService } from '@nestjs/jwt';
-import { AuthLoginResponseDto } from 'src/modules/app/controller/dtos/auth-login.response.dto';
-import { MessageResponseDTO } from 'src/interface-adapter/dtos/message.response.dto';
-import { ExceptionBadRequest } from 'src/core/exceptions/bad-request.exception';
-import { EnvService } from '../configs/env.service';
-import { AuthRefreshTokenRequestDTO } from 'src/modules/app/controller/dtos/auth-refresh-token.dto';
-import { ExceptionUnauthorize } from 'src/core/exceptions/unauthorize.exception';
-import { ResponseException } from 'src/core/exceptions/response.http-exception';
+import { Injectable } from "@nestjs/common";
+import { UserMongoEntity } from "src/modules/user/database/model/user.mongo-entity";
+import { UserRepository } from "src/modules/user/database/user.repository.service";
+import { Utils } from "src/core/utils/utils.service";
+import { JwtService } from "@nestjs/jwt";
+import { AuthLoginResponseDto } from "src/modules/app/controller/dtos/auth-login.response.dto";
+import { MessageResponseDTO } from "src/interface-adapter/dtos/message.response.dto";
+import { ExceptionBadRequest } from "src/core/exceptions/bad-request.exception";
+import { EnvService } from "../configs/env.service";
+import { AuthRefreshTokenRequestDTO } from "src/modules/app/controller/dtos/auth-refresh-token.dto";
+import { ExceptionUnauthorize } from "src/core/exceptions/unauthorize.exception";
+import { ResponseException } from "src/core/exceptions/response.http-exception";
 
 @Injectable()
 export class AuthService {
@@ -54,14 +54,14 @@ export class AuthService {
   async logout(body: AuthRefreshTokenRequestDTO) {
     await this.utils.cache.delete(body.refresh_token);
     await this.utils.cache.delete(body.username);
-    return new MessageResponseDTO('Berhasil Logout');
+    return new MessageResponseDTO("Berhasil Logout");
   }
 
   async registerToken(user: Partial<UserMongoEntity>) {
     const cacheRegistered = await this.utils.cache.get(user.username);
 
     if (cacheRegistered)
-      throw new ExceptionBadRequest('User id sedang dipakai!', this);
+      throw new ExceptionBadRequest("User id sedang dipakai!", this);
 
     const payload = { sub: user.username };
     const token = this.jwtService.sign(payload);
@@ -91,6 +91,6 @@ export class AuthService {
   private async _validateRefreshToken(body: AuthRefreshTokenRequestDTO) {
     const validToken = await this.utils.cache.get(body.refresh_token);
     if (!validToken || body.username !== validToken)
-      throw new ExceptionUnauthorize('Invalid Refresh Token.', this);
+      throw new ExceptionUnauthorize("Invalid Refresh Token.", this);
   }
 }

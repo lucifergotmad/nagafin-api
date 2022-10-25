@@ -1,8 +1,8 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import { BaseMongoEntity } from 'src/core/base-classes/infra/mongo-entity.base';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document } from "mongoose";
+import { BaseMongoEntity } from "src/core/base-classes/infra/mongo-entity.base";
 
-@Schema({ collection: 'tm_accounts' })
+@Schema({ collection: "tm_accounts" })
 export class AccountMongoEntity extends BaseMongoEntity<
   typeof AccountMongoEntity
 > {
@@ -18,7 +18,7 @@ export class AccountMongoEntity extends BaseMongoEntity<
   @Prop({ required: true })
   acc_balance_type: string;
 
-  @Prop({ required: true, default: 'none' })
+  @Prop({ required: true, default: "none" })
   acc_cashflow_type?: string;
 
   @Prop({ required: true })
@@ -30,7 +30,7 @@ export class AccountMongoEntity extends BaseMongoEntity<
   @Prop({ required: true, default: false })
   acc_active: boolean;
 
-  @Prop({ required: true, default: '0' })
+  @Prop({ required: true, default: "0" })
   acc_parents: string;
 
   @Prop({ required: false })

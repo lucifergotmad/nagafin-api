@@ -1,4 +1,4 @@
-import { TransformFnParams } from 'class-transformer';
+import { TransformFnParams } from "class-transformer";
 
 export class Morph {
   static removeKey(props: { [key: string]: any }, matcher?: string) {

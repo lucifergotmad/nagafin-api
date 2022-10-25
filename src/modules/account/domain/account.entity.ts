@@ -1,6 +1,6 @@
-import { AggregateRoot } from 'src/core/base-classes/domain/aggregate-root';
-import { IHistoryUser } from 'src/interface-adapter/interfaces/history-user.interface';
-import { AccountNumber } from './value-objects/account-number.value-object';
+import { AggregateRoot } from "src/core/base-classes/domain/aggregate-root";
+import { IHistoryUser } from "src/interface-adapter/interfaces/history-user.interface";
+import { AccountNumber } from "./value-objects/account-number.value-object";
 
 export interface IAccountProps extends IHistoryUser {
   acc_number: AccountNumber;
@@ -14,7 +14,7 @@ export interface IAccountProps extends IHistoryUser {
   acc_active?: boolean;
 }
 
-interface AccountPropsFactory extends Omit<IAccountProps, 'acc_number'> {
+interface AccountPropsFactory extends Omit<IAccountProps, "acc_number"> {
   acc_number: string;
 }
 

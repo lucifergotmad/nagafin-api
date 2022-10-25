@@ -1,5 +1,5 @@
-import { Inject, Provider } from '@nestjs/common';
-import { AccountRepository } from './account.repository.service';
+import { Inject, Provider } from "@nestjs/common";
+import { AccountRepository } from "./account.repository.service";
 
 export const InjectAccountRepository = Inject(AccountRepository.name);
 

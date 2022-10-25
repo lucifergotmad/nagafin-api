@@ -1,14 +1,14 @@
-import { Injectable } from '@nestjs/common';
-import { BaseUseCase } from 'src/core/base-classes/infra/use-case.base';
-import { IUseCase } from 'src/core/base-classes/interfaces/use-case.interface';
-import { ResponseException } from 'src/core/exceptions/response.http-exception';
-import { IRepositoryResponse } from 'src/core/ports/interfaces/repository-response.interface';
-import { Utils } from 'src/core/utils/utils.service';
-import { IdResponseDTO } from 'src/interface-adapter/dtos/id.response.dto';
-import { CreateCurrencyRequestDTO } from '../controller/dtos/create-currency.request.dto';
-import { CurrencyRepositoryPort } from '../database/currency.repository.port';
-import { InjectCurrencyRepository } from '../database/currency.repository.provider';
-import { CurrencyEntity } from '../domain/currency.entity';
+import { Injectable } from "@nestjs/common";
+import { BaseUseCase } from "src/core/base-classes/infra/use-case.base";
+import { IUseCase } from "src/core/base-classes/interfaces/use-case.interface";
+import { ResponseException } from "src/core/exceptions/response.http-exception";
+import { IRepositoryResponse } from "src/core/ports/interfaces/repository-response.interface";
+import { Utils } from "src/core/utils/utils.service";
+import { IdResponseDTO } from "src/interface-adapter/dtos/id.response.dto";
+import { CreateCurrencyRequestDTO } from "../controller/dtos/create-currency.request.dto";
+import { CurrencyRepositoryPort } from "../database/currency.repository.port";
+import { InjectCurrencyRepository } from "../database/currency.repository.provider";
+import { CurrencyEntity } from "../domain/currency.entity";
 
 @Injectable()
 export class CreateCurrency
@@ -30,7 +30,7 @@ export class CreateCurrency
       await session.withTransaction(async () => {
         await this.currencyRepository.findOneAndThrow(
           { currency_code: data.currency_code },
-          'Mata Uang sudah terdaftar!',
+          "Mata Uang sudah terdaftar!",
         );
 
         const currencyEntity = CurrencyEntity.create({

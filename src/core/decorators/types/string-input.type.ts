@@ -1,4 +1,4 @@
-import { TPrimitiveInput } from './primitive-input.type';
+import { TPrimitiveInput } from "./primitive-input.type";
 
 export type TStringInput = TPrimitiveInput & {
   maxLength?: number;

@@ -1,9 +1,9 @@
 import {
   DbMapper,
   MongoEntityProps,
-} from 'src/core/base-classes/domain/db-mapper';
-import { JournalTemplateEntity } from '../../domain/jounal-template.entity';
-import { JournalTemplateMongoEntity } from './journal-template.mongo-entity';
+} from "src/core/base-classes/domain/db-mapper";
+import { JournalTemplateEntity } from "../../domain/jounal-template.entity";
+import { JournalTemplateMongoEntity } from "./journal-template.mongo-entity";
 
 export class JournalTemplateMongoMapper extends DbMapper<
   JournalTemplateEntity,

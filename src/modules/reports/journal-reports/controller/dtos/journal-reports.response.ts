@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IJournalReportsResponse } from 'src/interface-adapter/interfaces/journal-reports/journal-reports.interface';
+import { ApiProperty } from "@nestjs/swagger";
+import { IJournalReportsResponse } from "src/interface-adapter/interfaces/journal-reports/journal-reports.interface";
 
 export class JournalReportsResponse implements IJournalReportsResponse {
   constructor(props: IJournalReportsResponse) {
@@ -12,13 +12,13 @@ export class JournalReportsResponse implements IJournalReportsResponse {
     this.created_by = props.created_by;
   }
 
-  @ApiProperty({ example: 'JNF-220831-0001' })
+  @ApiProperty({ example: "JNF-220831-0001" })
   journal_number: string;
 
-  @ApiProperty({ example: '28 October 2022' })
+  @ApiProperty({ example: "28 October 2022" })
   journal_notes: string;
 
-  @ApiProperty({ example: '2022-08-22' })
+  @ApiProperty({ example: "2022-08-22" })
   journal_date: string;
 
   @ApiProperty({ example: 10000 })
@@ -27,9 +27,9 @@ export class JournalReportsResponse implements IJournalReportsResponse {
   @ApiProperty({ example: 10000 })
   total_debit_amount: number;
 
-  @ApiProperty({ example: '2022-08-22' })
+  @ApiProperty({ example: "2022-08-22" })
   created_at: string;
 
-  @ApiProperty({ example: 'lucifer' })
+  @ApiProperty({ example: "lucifer" })
   created_by: string;
 }

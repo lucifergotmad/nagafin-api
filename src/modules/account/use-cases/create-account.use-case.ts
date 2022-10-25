@@ -1,14 +1,14 @@
-import { Injectable } from '@nestjs/common';
-import { BaseUseCase } from 'src/core/base-classes/infra/use-case.base';
-import { IUseCase } from 'src/core/base-classes/interfaces/use-case.interface';
-import { ResponseException } from 'src/core/exceptions/response.http-exception';
-import { IRepositoryResponse } from 'src/core/ports/interfaces/repository-response.interface';
-import { Utils } from 'src/core/utils/utils.service';
-import { IdResponseDTO } from 'src/interface-adapter/dtos/id.response.dto';
-import { CreateAccountRequestDTO } from '../controller/dtos/create-account.request.dto';
-import { AccountRepositoryPort } from '../database/account.repository.port';
-import { InjectAccountRepository } from '../database/account.repository.provider';
-import { AccountEntity } from '../domain/account.entity';
+import { Injectable } from "@nestjs/common";
+import { BaseUseCase } from "src/core/base-classes/infra/use-case.base";
+import { IUseCase } from "src/core/base-classes/interfaces/use-case.interface";
+import { ResponseException } from "src/core/exceptions/response.http-exception";
+import { IRepositoryResponse } from "src/core/ports/interfaces/repository-response.interface";
+import { Utils } from "src/core/utils/utils.service";
+import { IdResponseDTO } from "src/interface-adapter/dtos/id.response.dto";
+import { CreateAccountRequestDTO } from "../controller/dtos/create-account.request.dto";
+import { AccountRepositoryPort } from "../database/account.repository.port";
+import { InjectAccountRepository } from "../database/account.repository.provider";
+import { AccountEntity } from "../domain/account.entity";
 
 @Injectable()
 export class CreateAccount
@@ -28,7 +28,7 @@ export class CreateAccount
       await session.withTransaction(async () => {
         await this.accountRepository.findOneAndThrow(
           { acc_number: data.acc_number },
-          'Nomor akun sudah terdaftar!',
+          "Nomor akun sudah terdaftar!",
         );
 
         const accountEntity = AccountEntity.create({

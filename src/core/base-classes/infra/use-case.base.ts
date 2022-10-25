@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { Request, Response } from 'express';
-import { CustomLogger } from 'src/infra/logger/logger';
-import { LoggerPort } from '../../ports/logger.port';
+import { Injectable } from "@nestjs/common";
+import { Request, Response } from "express";
+import { CustomLogger } from "src/infra/logger/logger";
+import { LoggerPort } from "../../ports/logger.port";
 
 export interface APIProperty {
   request?: Request;

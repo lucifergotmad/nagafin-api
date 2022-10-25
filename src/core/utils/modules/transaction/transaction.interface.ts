@@ -1,4 +1,4 @@
-import { ClientSession } from 'mongoose';
+import { ClientSession } from "mongoose";
 
 export interface ITransactionUtil {
   startTransaction(): Promise<ClientSession>;

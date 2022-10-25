@@ -1,15 +1,15 @@
-import { Body, Param } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiOkResponse } from '@nestjs/swagger';
-import { ControllerProperty } from 'src/core/decorators/controller-decorators/class-decorators/controller-property.decorator';
-import { SecurePut } from 'src/core/decorators/controller-decorators/class-decorators/secure-put.decorator';
-import { MessageResponseDTO } from 'src/interface-adapter/dtos/message.response.dto';
-import { SettingCashBank } from '../use-cases/setting-cash-bank.use-case';
-import { SettingCashflow } from '../use-cases/setting-cashflow.use-case';
-import { SettingRetainedEarning } from '../use-cases/setting-retained-earning.use-case';
-import { SettingCashBankRequestDTO } from './dtos/setting-cash-bank.request.dto';
-import { SettingCashflowRequestDTO } from './dtos/setting-cashflow.request.dto';
+import { Body, Param } from "@nestjs/common";
+import { ApiBadRequestResponse, ApiOkResponse } from "@nestjs/swagger";
+import { ControllerProperty } from "src/core/decorators/controller-decorators/class-decorators/controller-property.decorator";
+import { SecurePut } from "src/core/decorators/controller-decorators/class-decorators/secure-put.decorator";
+import { MessageResponseDTO } from "src/interface-adapter/dtos/message.response.dto";
+import { SettingCashBank } from "../use-cases/setting-cash-bank.use-case";
+import { SettingCashflow } from "../use-cases/setting-cashflow.use-case";
+import { SettingRetainedEarning } from "../use-cases/setting-retained-earning.use-case";
+import { SettingCashBankRequestDTO } from "./dtos/setting-cash-bank.request.dto";
+import { SettingCashflowRequestDTO } from "./dtos/setting-cashflow.request.dto";
 
-@ControllerProperty('v1/settings', '[Setting] Account')
+@ControllerProperty("v1/settings", "[Setting] Account")
 export class SettingController {
   constructor(
     private readonly settingCashBank: SettingCashBank,
@@ -17,20 +17,20 @@ export class SettingController {
     private readonly settingCashflow: SettingCashflow,
   ) {}
 
-  @SecurePut('cash-bank')
+  @SecurePut("cash-bank")
   @ApiOkResponse({ type: MessageResponseDTO })
-  @ApiBadRequestResponse({ description: 'Data yang dikirimkan kosong!' })
+  @ApiBadRequestResponse({ description: "Data yang dikirimkan kosong!" })
   cashBank(@Body() body: SettingCashBankRequestDTO) {
     return this.settingCashBank.execute(body);
   }
 
-  @SecurePut('retained_earning/:acc_number')
+  @SecurePut("retained_earning/:acc_number")
   @ApiOkResponse({ type: MessageResponseDTO })
-  retainedEarning(@Param('acc_number') acc_number: string) {
+  retainedEarning(@Param("acc_number") acc_number: string) {
     return this.settingRetainedEarning.execute(acc_number);
   }
 
-  @SecurePut('cashflow')
+  @SecurePut("cashflow")
   @ApiOkResponse({ type: MessageResponseDTO })
   cashFlow(@Body() body: SettingCashflowRequestDTO) {
     return this.settingCashflow.execute(body);

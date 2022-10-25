@@ -1,5 +1,5 @@
 export enum UserLevel {
-  Owner = 'OWN',
-  Editor = 'EDR',
-  Viewer = 'VWR',
+  Owner = "OWN",
+  Editor = "EDR",
+  Viewer = "VWR",
 }

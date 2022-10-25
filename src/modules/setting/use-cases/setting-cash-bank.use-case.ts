@@ -1,12 +1,12 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { BaseUseCase } from 'src/core/base-classes/infra/use-case.base';
-import { IUseCase } from 'src/core/base-classes/interfaces/use-case.interface';
-import { ResponseException } from 'src/core/exceptions/response.http-exception';
-import { Utils } from 'src/core/utils/utils.service';
-import { MessageResponseDTO } from 'src/interface-adapter/dtos/message.response.dto';
-import { AccountRepositoryPort } from 'src/modules/account/database/account.repository.port';
-import { InjectAccountRepository } from 'src/modules/account/database/account.repository.provider';
-import { SettingCashBankRequestDTO } from '../controller/dtos/setting-cash-bank.request.dto';
+import { BadRequestException, Injectable } from "@nestjs/common";
+import { BaseUseCase } from "src/core/base-classes/infra/use-case.base";
+import { IUseCase } from "src/core/base-classes/interfaces/use-case.interface";
+import { ResponseException } from "src/core/exceptions/response.http-exception";
+import { Utils } from "src/core/utils/utils.service";
+import { MessageResponseDTO } from "src/interface-adapter/dtos/message.response.dto";
+import { AccountRepositoryPort } from "src/modules/account/database/account.repository.port";
+import { InjectAccountRepository } from "src/modules/account/database/account.repository.provider";
+import { SettingCashBankRequestDTO } from "../controller/dtos/setting-cash-bank.request.dto";
 
 @Injectable()
 export class SettingCashBank
@@ -27,7 +27,7 @@ export class SettingCashBank
     const session = await this.utils.transaction.startTransaction();
     try {
       if (!list_acc_bank.length && !list_acc_cash.length) {
-        throw new BadRequestException('Data tidak boleh kosong!');
+        throw new BadRequestException("Data tidak boleh kosong!");
       }
 
       await session.withTransaction(async () => {
@@ -35,7 +35,7 @@ export class SettingCashBank
           for (const data of list_acc_bank) {
             await this.accountRepository.update(
               { acc_number: data },
-              { acc_cashflow_type: 'bank' },
+              { acc_cashflow_type: "bank" },
               session,
             );
           }
@@ -45,14 +45,14 @@ export class SettingCashBank
           for (const data of list_acc_cash) {
             await this.accountRepository.update(
               { acc_number: data },
-              { acc_cashflow_type: 'cash' },
+              { acc_cashflow_type: "cash" },
               session,
             );
           }
         }
       });
 
-      return new MessageResponseDTO('Berhasil update cashflow account!');
+      return new MessageResponseDTO("Berhasil update cashflow account!");
     } catch (error) {
       throw new ResponseException(error.message, error.status);
     } finally {

@@ -1,9 +1,9 @@
 import {
   DbMapper,
   MongoEntityProps,
-} from 'src/core/base-classes/domain/db-mapper';
-import { AccountEntity } from '../../domain/account.entity';
-import { AccountMongoEntity } from './account.mongo-entity';
+} from "src/core/base-classes/domain/db-mapper";
+import { AccountEntity } from "../../domain/account.entity";
+import { AccountMongoEntity } from "./account.mongo-entity";
 
 export class AccountMongoMapper extends DbMapper<
   AccountEntity,

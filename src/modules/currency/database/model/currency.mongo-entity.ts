@@ -1,8 +1,8 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import { BaseMongoEntity } from 'src/core/base-classes/infra/mongo-entity.base';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document } from "mongoose";
+import { BaseMongoEntity } from "src/core/base-classes/infra/mongo-entity.base";
 
-@Schema({ collection: 'tm_currencies' })
+@Schema({ collection: "tm_currencies" })
 export class CurrencyMongoEntity extends BaseMongoEntity<
   typeof CurrencyMongoEntity
 > {

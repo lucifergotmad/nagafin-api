@@ -1,9 +1,9 @@
-import { LoggerService } from '@nestjs/common';
-import { createLogger, Logger, format, transports } from 'winston';
-import 'winston-daily-rotate-file';
-import chalk from 'chalk';
-import { generateColor, generateTagLevel } from './generator.function';
-import { ConsoleTransportInstance } from 'winston/lib/winston/transports';
+import { LoggerService } from "@nestjs/common";
+import { createLogger, Logger, format, transports } from "winston";
+import "winston-daily-rotate-file";
+import chalk from "chalk";
+import { generateColor, generateTagLevel } from "./generator.function";
+import { ConsoleTransportInstance } from "winston/lib/winston/transports";
 
 export class CustomLogger implements LoggerService {
   private logger: Logger;
@@ -27,21 +27,21 @@ export class CustomLogger implements LoggerService {
   }
 
   public debug?(message: any, ...meta: Array<any>) {
-    this.logger.log('debug', this.stringifyMessage(message), meta);
+    this.logger.log("debug", this.stringifyMessage(message), meta);
   }
 
   public verbose?(message: any, ...meta: Array<any>) {
-    this.logger.log('verbose', this.stringifyMessage(message, 4), meta);
+    this.logger.log("verbose", this.stringifyMessage(message, 4), meta);
   }
 
   private stringifyMessage(message: any, space = 2) {
-    return typeof message !== 'string'
+    return typeof message !== "string"
       ? JSON.stringify(message, null, space)
       : message;
   }
 
   private initLogger() {
-    const timeformat = 'YYYY/MM/DD h:mm:ss A';
+    const timeformat = "YYYY/MM/DD h:mm:ss A";
 
     this.logger = createLogger({
       level: this.getLoggerLevel(),
@@ -57,7 +57,7 @@ export class CustomLogger implements LoggerService {
   }
 
   private isProduction() {
-    return process.env.MODE === 'production';
+    return process.env.MODE === "production";
   }
 
   private createConsoleTransport(): ConsoleTransportInstance {
@@ -72,8 +72,8 @@ export class CustomLogger implements LoggerService {
     if (this.isProduction()) {
       const fileOptions = [
         new transports.DailyRotateFile({
-          filename: 'logs/server-%DATE%.log',
-          datePattern: 'YYYY-MM-DD',
+          filename: "logs/server-%DATE%.log",
+          datePattern: "YYYY-MM-DD",
           format: format.combine(
             format.timestamp({ format: timeformat }),
             format.align(),
@@ -110,12 +110,12 @@ export class CustomLogger implements LoggerService {
   }
 
   private getContext(info: any) {
-    return this.context || info['0'];
+    return this.context || info["0"];
   }
 
   private generateMetaTrace(info: any) {
     const keys = Object.keys(info).filter((k) => /^\d+$/.test(k));
-    let additionalTrace = '';
+    let additionalTrace = "";
     for (let i = 0; i < keys.length; i++) {
       if (info[keys[i]] && info[keys[i]] !== this.getContext(info))
         additionalTrace += `[${info[keys[i]]}]`;
@@ -128,6 +128,6 @@ export class CustomLogger implements LoggerService {
   }
 
   private getLoggerLevel() {
-    return this.isProduction() ? 'info' : 'debug';
+    return this.isProduction() ? "info" : "debug";
   }
 }

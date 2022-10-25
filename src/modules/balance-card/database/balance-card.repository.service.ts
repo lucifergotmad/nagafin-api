@@ -49,7 +49,7 @@ export class BalanceCardRepository
     ]);
 
     if (result.length > 0) {
-      let lastDate = result[0].balance_date;
+      const lastDate = result[0].balance_date;
       const hasil = await this.balanceCardModel.aggregate([
         {
           $match: {

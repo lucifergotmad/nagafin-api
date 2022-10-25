@@ -1,7 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IdResponseDTO } from 'src/interface-adapter/dtos/id.response.dto';
-import { IJournalTemplateResponse } from 'src/interface-adapter/interfaces/journal-template/journal-template.interface';
-import { IJournalDetailResponse } from 'src/interface-adapter/interfaces/journal/journal.interface';
+import { ApiProperty } from "@nestjs/swagger";
+import { IdResponseDTO } from "src/interface-adapter/dtos/id.response.dto";
+import { IJournalTemplateResponse } from "src/interface-adapter/interfaces/journal-template/journal-template.interface";
+import { IJournalDetailResponse } from "src/interface-adapter/interfaces/journal/journal.interface";
 
 export class JournalTemplateResponseDTO
   extends IdResponseDTO
@@ -16,13 +16,13 @@ export class JournalTemplateResponseDTO
     this.total_debit_amount = props.total_debit_amount;
   }
 
-  @ApiProperty({ example: 'Template 01' })
+  @ApiProperty({ example: "Template 01" })
   template_name: string;
 
-  @ApiProperty({ example: 'Template Penjualan 24K' })
+  @ApiProperty({ example: "Template Penjualan 24K" })
   template_desc: string;
 
-  @ApiProperty({ example: 'Penjualan 24K' })
+  @ApiProperty({ example: "Penjualan 24K" })
   journal_notes: string;
 
   @ApiProperty({ example: [] })

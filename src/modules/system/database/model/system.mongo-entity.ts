@@ -1,8 +1,8 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import { BaseMongoEntity } from 'src/core/base-classes/infra/mongo-entity.base';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document } from "mongoose";
+import { BaseMongoEntity } from "src/core/base-classes/infra/mongo-entity.base";
 
-@Schema({ collection: 'tp_systems' })
+@Schema({ collection: "tp_systems" })
 export class SystemMongoEntity extends BaseMongoEntity<
   typeof SystemMongoEntity
 > {

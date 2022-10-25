@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { ISystemResponse } from 'src/interface-adapter/interfaces/system/system.interface';
+import { ApiProperty } from "@nestjs/swagger";
+import { ISystemResponse } from "src/interface-adapter/interfaces/system/system.interface";
 
 export class SystemResponseDTO implements ISystemResponse {
   constructor(props: ISystemResponse) {
@@ -22,47 +22,47 @@ export class SystemResponseDTO implements ISystemResponse {
     }
   }
 
-  @ApiProperty({ example: 'NGTC' })
+  @ApiProperty({ example: "NGTC" })
   company_name: string;
 
-  @ApiProperty({ example: 'Jl. Cilengkrang No.115 Cibiru Bandung' })
+  @ApiProperty({ example: "Jl. Cilengkrang No.115 Cibiru Bandung" })
   company_address: string;
 
-  @ApiProperty({ example: '3284300212134' })
+  @ApiProperty({ example: "3284300212134" })
   npwp: string;
 
-  @ApiProperty({ example: '0226785821' })
+  @ApiProperty({ example: "0226785821" })
   telephone_number: string;
 
-  @ApiProperty({ example: '40385' })
+  @ApiProperty({ example: "40385" })
   fax: string;
 
-  @ApiProperty({ example: 'nagatech@company.co.id' })
+  @ApiProperty({ example: "nagatech@company.co.id" })
   email: string;
 
-  @ApiProperty({ example: 'nagatech-id.com' })
+  @ApiProperty({ example: "nagatech-id.com" })
   website: string;
 
   /* Project */
 
-  @ApiProperty({ example: 'NGTC Finance' })
+  @ApiProperty({ example: "NGTC Finance" })
   project_name: string;
 
-  @ApiProperty({ example: 'Finance Project made by NGTC Team.' })
+  @ApiProperty({ example: "Finance Project made by NGTC Team." })
   project_info: string;
 
-  @ApiProperty({ example: '666-NGFN-001' })
+  @ApiProperty({ example: "666-NGFN-001" })
   project_code: string;
 
-  @ApiProperty({ example: 'accounting' })
+  @ApiProperty({ example: "accounting" })
   project_category?: string;
 
-  @ApiProperty({ example: 'IDR' })
+  @ApiProperty({ example: "IDR" })
   project_currency?: string;
 
-  @ApiProperty({ example: 'private' })
+  @ApiProperty({ example: "private" })
   project_type?: string;
 
-  @ApiProperty({ example: '[BASE64 LOGO]' })
+  @ApiProperty({ example: "[BASE64 LOGO]" })
   project_logo?: string;
 }

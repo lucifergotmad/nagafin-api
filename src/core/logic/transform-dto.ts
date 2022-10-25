@@ -1,4 +1,4 @@
-import { TransformFnParams } from 'class-transformer';
+import { TransformFnParams } from "class-transformer";
 
 export class TransformDTO {
   static stringToMongoDateFilter({ value }: TransformFnParams) {
@@ -12,7 +12,7 @@ export class TransformDTO {
   }
 
   static stringToBoolean({ value }: TransformFnParams) {
-    return value === 'true' || value === 'True';
+    return value === "true" || value === "True";
   }
 }
 

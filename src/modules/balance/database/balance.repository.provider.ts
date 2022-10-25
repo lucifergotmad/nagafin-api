@@ -1,5 +1,5 @@
-import { Inject, Provider } from '@nestjs/common';
-import { BalanceRepository } from './balance.repository.service';
+import { Inject, Provider } from "@nestjs/common";
+import { BalanceRepository } from "./balance.repository.service";
 
 export const InjectBalanceRepository = Inject(BalanceRepository.name);
 

@@ -1,10 +1,10 @@
-import { AggregateRoot } from 'src/core/base-classes/domain/aggregate-root';
-import { IJournalProps } from '../../journal/domain/journal.entity';
+import { AggregateRoot } from "src/core/base-classes/domain/aggregate-root";
+import { IJournalProps } from "../../journal/domain/journal.entity";
 
 export interface IJournalTemplateProps
   extends Omit<
     IJournalProps,
-    'journal_number' | 'journal_date' | 'journal_status'
+    "journal_number" | "journal_date" | "journal_status"
   > {
   template_name: string;
   template_desc: string;

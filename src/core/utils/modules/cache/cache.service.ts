@@ -1,12 +1,12 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { Cache } from 'cache-manager';
-import { EnvService } from 'src/infra/configs/env.service';
-import { ICacheUtil } from './cache.interface';
+import { Inject, Injectable } from "@nestjs/common";
+import { Cache } from "cache-manager";
+import { EnvService } from "src/infra/configs/env.service";
+import { ICacheUtil } from "./cache.interface";
 
 @Injectable()
 export class CacheUtil implements ICacheUtil {
   constructor(
-    @Inject('CACHE_MANAGER') private cacheManager: Cache,
+    @Inject("CACHE_MANAGER") private cacheManager: Cache,
     private envService: EnvService,
   ) {}
 
@@ -24,6 +24,6 @@ export class CacheUtil implements ICacheUtil {
   }
 
   private _getTTL(ttl?: number) {
-    return typeof ttl === 'undefined' ? this.envService.jwtLimit : ttl;
+    return typeof ttl === "undefined" ? this.envService.jwtLimit : ttl;
   }
 }

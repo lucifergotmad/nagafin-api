@@ -1,6 +1,6 @@
-import { TPrimitiveInput } from './primitive-input.type';
+import { TPrimitiveInput } from "./primitive-input.type";
 
-export type TNumberInput = Omit<TPrimitiveInput, 'uppercase'> & {
+export type TNumberInput = Omit<TPrimitiveInput, "uppercase"> & {
   max?: number;
   min?: number;
 };

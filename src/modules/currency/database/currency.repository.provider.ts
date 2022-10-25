@@ -1,5 +1,5 @@
-import { Inject, Provider } from '@nestjs/common';
-import { CurrencyRepository } from './currency.repository.service';
+import { Inject, Provider } from "@nestjs/common";
+import { CurrencyRepository } from "./currency.repository.service";
 
 export const InjectCurrencyRepository = Inject(CurrencyRepository.name);
 

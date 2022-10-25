@@ -1,8 +1,8 @@
-import { BaseEntityProps } from './entity';
+import { BaseEntityProps } from "./entity";
 
 export type MongoEntityProps<MongoEntity> = Omit<
   MongoEntity,
-  '_id' | 'created_at' | 'updated_at'
+  "_id" | "created_at" | "updated_at"
 >;
 
 export abstract class DbMapper<Entity extends BaseEntityProps, MongoEntity> {

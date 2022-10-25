@@ -41,12 +41,12 @@ export class CashFlowReport
         end_date: this.util.date.getToday(),
         start_date: this.util.date.getToday(),
       });
-      let resultOperasional: ICashFlowDetailResponse[] = [];
-      let resultInvestasi: ICashFlowDetailResponse[] = [];
-      let resultPendanaan: ICashFlowDetailResponse[] = [];
+      const resultOperasional: ICashFlowDetailResponse[] = [];
+      const resultInvestasi: ICashFlowDetailResponse[] = [];
+      const resultPendanaan: ICashFlowDetailResponse[] = [];
 
-      for (let data of listAccount) {
-        let hasil: any = await this.balanceCardRepository.getLastByNumber(
+      for (const data of listAccount) {
+        const hasil: any = await this.balanceCardRepository.getLastByNumber(
           data.acc_number,
         );
 

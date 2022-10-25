@@ -1,12 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { BaseUseCase } from 'src/core/base-classes/infra/use-case.base';
-import { IUseCase } from 'src/core/base-classes/interfaces/use-case.interface';
-import { ResponseException } from 'src/core/exceptions/response.http-exception';
-import { Utils } from 'src/core/utils/utils.service';
-import { MessageResponseDTO } from 'src/interface-adapter/dtos/message.response.dto';
-import { AccountRepositoryPort } from 'src/modules/account/database/account.repository.port';
-import { InjectAccountRepository } from 'src/modules/account/database/account.repository.provider';
-import { SettingCashflowRequestDTO } from '../controller/dtos/setting-cashflow.request.dto';
+import { Injectable } from "@nestjs/common";
+import { BaseUseCase } from "src/core/base-classes/infra/use-case.base";
+import { IUseCase } from "src/core/base-classes/interfaces/use-case.interface";
+import { ResponseException } from "src/core/exceptions/response.http-exception";
+import { Utils } from "src/core/utils/utils.service";
+import { MessageResponseDTO } from "src/interface-adapter/dtos/message.response.dto";
+import { AccountRepositoryPort } from "src/modules/account/database/account.repository.port";
+import { InjectAccountRepository } from "src/modules/account/database/account.repository.provider";
+import { SettingCashflowRequestDTO } from "../controller/dtos/setting-cashflow.request.dto";
 
 @Injectable()
 export class SettingCashflow
@@ -36,7 +36,7 @@ export class SettingCashflow
         }
       });
 
-      return new MessageResponseDTO('Berhasil update tipe arus kas!');
+      return new MessageResponseDTO("Berhasil update tipe arus kas!");
     } catch (error) {
       throw new ResponseException(error.message, error.status, error.trace);
     } finally {

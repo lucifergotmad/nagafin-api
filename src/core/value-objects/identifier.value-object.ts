@@ -1,5 +1,5 @@
-import { ValueObject } from '../base-classes/domain/value-object';
-import { DomainPrimitive } from '../base-classes/types/domain-primitive.type';
+import { ValueObject } from "../base-classes/domain/value-object";
+import { DomainPrimitive } from "../base-classes/types/domain-primitive.type";
 
 export class Identifier extends ValueObject<string> {
   constructor(value: string) {
@@ -22,7 +22,7 @@ export class Identifier extends ValueObject<string> {
 
   validate({ value }: DomainPrimitive<string>) {
     if (value === null || value === undefined) {
-      throw new Error('identifier should not be empty!');
+      throw new Error("identifier should not be empty!");
     }
   }
 }

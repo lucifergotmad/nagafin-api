@@ -1,9 +1,9 @@
 import {
   DbMapper,
   MongoEntityProps,
-} from 'src/core/base-classes/domain/db-mapper';
-import { SystemEntity } from '../../domain/system.entity';
-import { SystemMongoEntity } from './system.mongo-entity';
+} from "src/core/base-classes/domain/db-mapper";
+import { SystemEntity } from "../../domain/system.entity";
+import { SystemMongoEntity } from "./system.mongo-entity";
 
 export class SystemMongoMapper extends DbMapper<
   SystemEntity,

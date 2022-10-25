@@ -1,5 +1,5 @@
-import { Prop } from '@nestjs/mongoose';
-import { Types } from 'mongoose';
+import { Prop } from "@nestjs/mongoose";
+import { Types } from "mongoose";
 
 export abstract class BaseMongoEntity<MongoModel> {
   @Prop({ type: Types.ObjectId, required: true, auto: true })

@@ -1,8 +1,8 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from "@nestjs/swagger";
 import {
   IBalanceSheetsDetailResponse,
   IBalanceSheetsResponse,
-} from 'src/interface-adapter/interfaces/balance-sheets/balance-sheets.interface';
+} from "src/interface-adapter/interfaces/balance-sheets/balance-sheets.interface";
 
 class BalanceSheetsDetailReportResponse
   implements IBalanceSheetsDetailResponse {
@@ -12,10 +12,10 @@ class BalanceSheetsDetailReportResponse
     this.balance_amount = props.balance_amount;
   }
 
-  @ApiProperty({ example: '100001' })
+  @ApiProperty({ example: "100001" })
   acc_number: string;
 
-  @ApiProperty({ example: 'KAS BESAR' })
+  @ApiProperty({ example: "KAS BESAR" })
   acc_name: string;
 
   @ApiProperty({ example: 10000 })
@@ -37,13 +37,13 @@ export class BalanceSheetsReportResponse implements IBalanceSheetsResponse {
     this.balance_detail = props.balance_detail;
   }
 
-  @ApiProperty({ example: '100000' })
+  @ApiProperty({ example: "100000" })
   parents_acc_number: string;
 
-  @ApiProperty({ example: 'AKTIVA LANCAR' })
+  @ApiProperty({ example: "AKTIVA LANCAR" })
   parents_acc_name: string;
 
-  @ApiProperty({ example: 'D' })
+  @ApiProperty({ example: "D" })
   acc_balance_type: string;
 
   @ApiProperty({

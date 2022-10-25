@@ -1,4 +1,4 @@
-import { IGroupId } from './group-id.interface';
+import { IGroupId } from "./group-id.interface";
 
 export interface IGroupOption {
   _id: string | IGroupId;

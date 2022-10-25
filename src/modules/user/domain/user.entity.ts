@@ -1,7 +1,7 @@
-import { AggregateRoot } from 'src/core/base-classes/domain/aggregate-root';
-import { HashUtil } from 'src/core/utils/modules/hash/hash.service';
-import { Level } from './value-objects/level.value-object';
-import { Password } from './value-objects/password.value-object';
+import { AggregateRoot } from "src/core/base-classes/domain/aggregate-root";
+import { HashUtil } from "src/core/utils/modules/hash/hash.service";
+import { Level } from "./value-objects/level.value-object";
+import { Password } from "./value-objects/password.value-object";
 
 export interface IUserProps {
   username: string;
@@ -10,7 +10,7 @@ export interface IUserProps {
 }
 
 export interface UserFactoryProps
-  extends Omit<IUserProps, 'password' | 'level'> {
+  extends Omit<IUserProps, "password" | "level"> {
   password: string;
   level: string;
 }

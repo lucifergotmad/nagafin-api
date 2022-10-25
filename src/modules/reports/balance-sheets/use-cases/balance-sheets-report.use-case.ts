@@ -40,9 +40,9 @@ export class BalanceSheetsReport
         acc_statement: "BS",
         acc_type: "group",
       });
-      let debitData: IProfitCloseResponse[] = [];
-      let creditData: IProfitCloseResponse[] = [];
-      let group = listGroup.map((y) => {
+      const debitData: IProfitCloseResponse[] = [];
+      const creditData: IProfitCloseResponse[] = [];
+      const group = listGroup.map((y) => {
         if (y.acc_balance_type === "D") {
           debitData.push({
             balance_detail: [],
@@ -110,7 +110,7 @@ export class BalanceSheetsReport
           is_total: true,
         });
       });
-      let totalProfit = await this.totalProfitClose.execute(data);
+      const totalProfit = await this.totalProfitClose.execute(data);
       creditData.push({
         amount: totalProfit,
         is_profit: true,

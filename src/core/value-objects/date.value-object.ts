@@ -1,5 +1,5 @@
-import { DomainPrimitive } from '../base-classes/types/domain-primitive.type';
-import { ValueObject } from '../base-classes/domain/value-object';
+import { DomainPrimitive } from "../base-classes/types/domain-primitive.type";
+import { ValueObject } from "../base-classes/domain/value-object";
 
 export class DateVO extends ValueObject<Date> {
   constructor(value: Date | string | number) {
@@ -17,7 +17,7 @@ export class DateVO extends ValueObject<Date> {
 
   protected validate({ value }: DomainPrimitive<Date>): void {
     if (!(value instanceof Date) || Number.isNaN(value.getTime())) {
-      throw new Error('Invalid Date');
+      throw new Error("Invalid Date");
     }
   }
 }

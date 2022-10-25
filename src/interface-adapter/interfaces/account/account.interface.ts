@@ -1,4 +1,4 @@
-import { IId } from '../id.interface';
+import { IId } from "../id.interface";
 
 export interface IAccountResponse extends IId {
   acc_number: string;
@@ -13,14 +13,14 @@ export interface IAccountResponse extends IId {
   used_in_transaction?: boolean;
 }
 
-type TIgnoreAccount = 'acc_parents' | 'used_as_parent' | 'used_in_transaction';
+type TIgnoreAccount = "acc_parents" | "used_as_parent" | "used_in_transaction";
 export type TIgnoreAccountChildren =
   | TIgnoreAccount
-  | 'acc_currency'
-  | 'acc_balance_type'
-  | 'acc_cashflow_type';
+  | "acc_currency"
+  | "acc_balance_type"
+  | "acc_cashflow_type";
 
 export interface IAccountTreeResponse
-  extends Omit<IAccountResponse, TIgnoreAccount | 'children'> {
+  extends Omit<IAccountResponse, TIgnoreAccount | "children"> {
   children: Omit<IAccountTreeResponse, TIgnoreAccountChildren>[];
 }

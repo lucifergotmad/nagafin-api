@@ -1,5 +1,5 @@
-import { Inject, Provider } from '@nestjs/common';
-import { JournalRepository } from './journal.repository.service';
+import { Inject, Provider } from "@nestjs/common";
+import { JournalRepository } from "./journal.repository.service";
 
 export const InjectJournalRepository = Inject(JournalRepository.name);
 

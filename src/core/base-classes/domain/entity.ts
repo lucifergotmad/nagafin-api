@@ -1,6 +1,6 @@
-import { Guard } from 'src/core/logic/guard';
-import { DateVO } from 'src/core/value-objects/date.value-object';
-import { UniqueEntityID } from './unique-entity-id';
+import { Guard } from "src/core/logic/guard";
+import { DateVO } from "src/core/value-objects/date.value-object";
+import { UniqueEntityID } from "./unique-entity-id";
 
 export interface BaseEntityProps {
   created_at: DateVO;
@@ -67,10 +67,10 @@ export abstract class Entity<EntityProps> {
 
   private validateProps(props: EntityProps) {
     if (Guard.isEmpty(props)) {
-      throw new Error('Entity props should not be empty!');
+      throw new Error("Entity props should not be empty!");
     }
-    if (typeof props !== 'object') {
-      throw new Error('Entity props should be an object');
+    if (typeof props !== "object") {
+      throw new Error("Entity props should be an object");
     }
   }
 }

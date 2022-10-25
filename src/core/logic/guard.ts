@@ -1,11 +1,11 @@
-import { UserLevel } from '../constants/app/user/user-level.const';
+import { UserLevel } from "../constants/app/user/user-level.const";
 
 export class Guard {
   static isEmpty(value: unknown): boolean {
-    if (typeof value === 'number' || typeof value === 'boolean') {
+    if (typeof value === "number" || typeof value === "boolean") {
       return false;
     }
-    if (typeof value === 'undefined' || value === null) {
+    if (typeof value === "undefined" || value === null) {
       return true;
     }
     if (value instanceof Date) {
@@ -22,7 +22,7 @@ export class Guard {
         return true;
       }
     }
-    if (value === '') {
+    if (value === "") {
       return true;
     }
 

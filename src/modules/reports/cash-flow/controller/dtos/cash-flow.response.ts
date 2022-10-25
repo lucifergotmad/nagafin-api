@@ -1,8 +1,8 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from "@nestjs/swagger";
 import {
   ICashFlowDetailResponse,
   ICashFlowResponse,
-} from 'src/interface-adapter/interfaces/cash-flow/cash-flow.interface';
+} from "src/interface-adapter/interfaces/cash-flow/cash-flow.interface";
 
 class CashFlowDetailReportResponse implements ICashFlowDetailResponse {
   constructor(props: ICashFlowDetailResponse) {
@@ -10,7 +10,7 @@ class CashFlowDetailReportResponse implements ICashFlowDetailResponse {
     this.balance_amount = props.balance_amount;
   }
 
-  @ApiProperty({ example: 'KAS BESAR' })
+  @ApiProperty({ example: "KAS BESAR" })
   acc_name: string;
 
   @ApiProperty({ example: 10000 })

@@ -3,10 +3,10 @@ import {
   Catch,
   ExceptionFilter,
   HttpException,
-} from '@nestjs/common';
-import { CustomLogger } from 'src/infra/logger/logger';
-import { HttpStatus } from '../constants/error/status-code.const';
-import { ResponseException } from '../exceptions/response.http-exception';
+} from "@nestjs/common";
+import { CustomLogger } from "src/infra/logger/logger";
+import { HttpStatus } from "../constants/error/status-code.const";
+import { ResponseException } from "../exceptions/response.http-exception";
 
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {
@@ -23,17 +23,17 @@ export class AllExceptionFilter implements ExceptionFilter {
     const message: any =
       exception instanceof HttpException
         ? exception.getResponse()
-        : 'Internal server error';
+        : "Internal server error";
 
     const logMessage: string =
-      typeof message !== 'string' ? message.message : message;
+      typeof message !== "string" ? message.message : message;
 
     const trace = exception instanceof ResponseException && exception.trace;
-    const logger = new CustomLogger(request.url.replace(/^\/api/, ''));
+    const logger = new CustomLogger(request.url.replace(/^\/api/, ""));
     logger.error(logMessage, trace);
 
     const responseJson =
-      typeof message !== 'string'
+      typeof message !== "string"
         ? message
         : {
             statusCode: status,

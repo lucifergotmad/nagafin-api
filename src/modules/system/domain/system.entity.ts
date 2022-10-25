@@ -1,6 +1,6 @@
-import { AggregateRoot } from 'src/core/base-classes/domain/aggregate-root';
-import { Email } from './value-objects/email.value-object';
-import { TelephoneNumber } from './value-objects/telephone-number.value-object';
+import { AggregateRoot } from "src/core/base-classes/domain/aggregate-root";
+import { Email } from "./value-objects/email.value-object";
+import { TelephoneNumber } from "./value-objects/telephone-number.value-object";
 
 export interface IProjectProps {
   project_name: string;
@@ -26,7 +26,7 @@ export interface ISystemProps extends IProjectProps {
 }
 
 interface SystemPropsFactory
-  extends Omit<ISystemProps, 'telephone_number' | 'email'> {
+  extends Omit<ISystemProps, "telephone_number" | "email"> {
   telephone_number: string;
   email: string;
 }
