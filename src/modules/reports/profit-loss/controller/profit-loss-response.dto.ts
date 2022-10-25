@@ -1,16 +1,18 @@
 import { ApiProperty } from "@nestjs/swagger";
 import {
   IBalanceSheetResponse,
-  IProfitCloseDetailResponse,
-  IProfitCloseResponse,
-} from "src/interface-adapter/interfaces/profit-close/profit-close.interface";
+  IProfitLossDetailResponse,
+  IProfitLossResponse,
+} from "src/interface-adapter/interfaces/profit-loss/profit-loss.interface";
 
-export class ProfitCloseDetailResponse implements IProfitCloseDetailResponse {
-  constructor(props: IProfitCloseDetailResponse) {
+export class ProfitLossDetailResponse implements IProfitLossDetailResponse {
+  constructor(props: IProfitLossDetailResponse) {
     this.acc_name = props.acc_name;
     this.acc_number = props.acc_number;
     this.amount = props.amount;
+    this.is_total = props.is_total;
   }
+  @ApiProperty({ example: false })
   is_total: boolean;
 
   @ApiProperty({ example: "100001" })
@@ -23,8 +25,8 @@ export class ProfitCloseDetailResponse implements IProfitCloseDetailResponse {
   amount: number;
 }
 
-export class ProfitCloseResponse implements IProfitCloseResponse {
-  constructor(props: IProfitCloseResponse) {
+export class ProfitCloseResponse implements IProfitLossResponse {
+  constructor(props: IProfitLossResponse) {
     this.parents_acc_name = props.parents_acc_name;
     this.parents_acc_number = props.parents_acc_number;
     this.balance_detail = props.balance_detail;
@@ -45,11 +47,11 @@ export class ProfitCloseResponse implements IProfitCloseResponse {
   is_profit: boolean;
 
   @ApiProperty({
-    type: ProfitCloseDetailResponse,
+    type: ProfitLossDetailResponse,
     isArray: true,
     example: [],
   })
-  balance_detail: ProfitCloseDetailResponse[];
+  balance_detail: ProfitLossDetailResponse[];
 }
 
 export class BalanceSheetResponse implements IBalanceSheetResponse {
@@ -63,12 +65,12 @@ export class BalanceSheetResponse implements IBalanceSheetResponse {
     isArray: true,
     example: [],
   })
-  debit_data: IProfitCloseResponse[];
+  debit_data: IProfitLossResponse[];
 
   @ApiProperty({
     type: ProfitCloseResponse,
     isArray: true,
     example: [],
   })
-  credit_data: IProfitCloseResponse[];
+  credit_data: IProfitLossResponse[];
 }

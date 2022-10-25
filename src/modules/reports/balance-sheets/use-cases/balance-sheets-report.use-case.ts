@@ -2,14 +2,14 @@ import { Injectable } from "@nestjs/common";
 import { BaseUseCase } from "src/core/base-classes/infra/use-case.base";
 import { IUseCase } from "src/core/base-classes/interfaces/use-case.interface";
 import { ResponseException } from "src/core/exceptions/response.http-exception";
-import { IProfitCloseResponse } from "src/interface-adapter/interfaces/profit-close/profit-close.interface";
+import { IProfitCloseResponse } from "src/interface-adapter/interfaces/profit-loss/profit-loss.interface";
 import { AccountRepositoryPort } from "src/modules/account/database/account.repository.port";
 import { InjectAccountRepository } from "src/modules/account/database/account.repository.provider";
 import { GenerateEndingBalance } from "src/modules/balance-card/use-cases/get-ending-balance.usecase";
 import { BalanceRepositoryPort } from "src/modules/balance/database/balance.repository.port";
 import { InjectBalanceRepository } from "src/modules/balance/database/balance.repository.provider";
-import { BalanceSheetResponse } from "../../profit-close/controller/profit-close-response.dto";
-import { TotalProfitClose } from "../../profit-close/use-cases/total-profit-close.usecase";
+import { BalanceSheetResponse } from "../../profit-loss/controller/profit-loss-response.dto";
+import { TotalProfitClose } from "../../profit-loss/use-cases/total-profit-loss.usecase";
 import { BalanceSheetsReportRequestDTO } from "../controller/dtos/balance-sheets.request.dto";
 import { BalanceSheetsReportResponse } from "../controller/dtos/balance-sheets.response";
 

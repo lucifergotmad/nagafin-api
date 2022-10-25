@@ -8,7 +8,7 @@ import { IdResponseDTO } from "src/interface-adapter/dtos/id.response.dto";
 import { AccountRepository } from "src/modules/account/database/account.repository.service";
 import { GenerateEndingBalance } from "src/modules/balance-card/use-cases/get-ending-balance.usecase";
 import { JournalDetailRequestDTO } from "src/modules/journal/controller/dtos/create-journal.request.dto";
-import { TotalProfitClose } from "src/modules/reports/profit-close/use-cases/total-profit-close.usecase";
+import { TotalProfitClose } from "src/modules/reports/profit-loss/use-cases/total-profit-loss.usecase";
 import { SystemRepositoryPort } from "src/modules/system/database/system.repository.port";
 import { InjectSystemRepository } from "src/modules/system/database/system.repository.provider";
 import {

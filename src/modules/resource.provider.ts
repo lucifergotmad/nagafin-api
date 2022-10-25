@@ -12,7 +12,7 @@ import { TrialBalanceModule } from "./reports/trial-balance/trial-balance.module
 import { SettingModule } from "./setting/setting.module";
 import { SystemModule } from "./system/system.module";
 import { UserModule } from "./user/user.module";
-import { ProfitCloseModule } from "./reports/profit-close/profit-close.module";
+import { ProfitLossModule } from "./reports/profit-loss/profit-loss.module";
 import { ClosePeriodeModule } from "./close-periode/close-periode.module";
 
 const systemProviders = [AppAuthModule, UserModule];
@@ -31,6 +31,6 @@ export const resourceProviders = [
   TrialBalanceModule,
   CashFlowModule,
   SettingModule,
-  ProfitCloseModule,
+  ProfitLossModule,
   ClosePeriodeModule,
 ];

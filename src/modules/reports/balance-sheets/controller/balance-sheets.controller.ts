@@ -3,7 +3,7 @@ import { ApiOkResponse } from "@nestjs/swagger";
 import { APIQueryProperty } from "src/core/decorators/controller-decorators/class-decorators/api-query-property.decorator";
 import { ControllerProperty } from "src/core/decorators/controller-decorators/class-decorators/controller-property.decorator";
 import { SecureGet } from "src/core/decorators/controller-decorators/class-decorators/secure-get.decorator";
-import { ProfitCloseResponse } from "../../profit-close/controller/profit-close-response.dto";
+import { ProfitCloseResponse } from "../../profit-loss/controller/profit-loss-response.dto";
 
 import { BalanceSheetsReport } from "../use-cases/balance-sheets-report.use-case";
 import { BalanceSheetsReportRequestDTO } from "./dtos/balance-sheets.request.dto";

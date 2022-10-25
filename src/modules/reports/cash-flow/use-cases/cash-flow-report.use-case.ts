@@ -8,10 +8,7 @@ import { InjectAccountRepository } from "src/modules/account/database/account.re
 import { AccountRepository } from "src/modules/account/database/account.repository.service";
 import { BalanceCardRepositoryPort } from "src/modules/balance-card/database/balance-card.repository.port";
 import { InjectBalanceCardRepository } from "src/modules/balance-card/database/balance-card.repository.provider";
-import { BalanceCardMongoEntity } from "src/modules/balance-card/database/model/balance-card.mongo-entity";
-import { InjectProfitCloseRepository } from "../../profit-close/database/profit-close.repository.provider";
-import { ProfitCloseRepository } from "../../profit-close/database/profit-close.repository.service";
-import { TotalProfitClose } from "../../profit-close/use-cases/total-profit-close.usecase";
+import { TotalProfitLoss } from "../../profit-loss/use-cases/total-profit-loss.usecase";
 import { CashFlowReportRequestDTO } from "../controller/dtos/cash-flow.request.dto";
 import { CashFlowReportResponse } from "../controller/dtos/cash-flow.response";
 
@@ -24,7 +21,7 @@ export class CashFlowReport
     private readonly balanceCardRepository: BalanceCardRepositoryPort,
     @InjectAccountRepository
     private readonly accountRepository: AccountRepository,
-    private readonly totalProfitLoss: TotalProfitClose,
+    private readonly totalProfitLoss: TotalProfitLoss,
     private readonly util: Utils,
   ) {
     super();
@@ -50,7 +47,7 @@ export class CashFlowReport
           data.acc_number,
         );
 
-        if (hasil !== null) {
+        if (hasil) {
           if (hasil.detailAkun.acc_cashflow_type === "pendanaan") {
             resultPendanaan.push({
               acc_name: hasil.detailAkun.acc_name,
