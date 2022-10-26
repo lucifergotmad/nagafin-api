@@ -2,16 +2,15 @@ import { Injectable } from "@nestjs/common";
 import { BaseUseCase } from "src/core/base-classes/infra/use-case.base";
 import { IUseCase } from "src/core/base-classes/interfaces/use-case.interface";
 import { ResponseException } from "src/core/exceptions/response.http-exception";
-import { IProfitCloseResponse } from "src/interface-adapter/interfaces/profit-loss/profit-loss.interface";
+import { IProfitLossResponse } from "src/interface-adapter/interfaces/profit-loss/profit-loss.interface";
 import { AccountRepositoryPort } from "src/modules/account/database/account.repository.port";
 import { InjectAccountRepository } from "src/modules/account/database/account.repository.provider";
 import { GenerateEndingBalance } from "src/modules/balance-card/use-cases/get-ending-balance.usecase";
 import { BalanceRepositoryPort } from "src/modules/balance/database/balance.repository.port";
 import { InjectBalanceRepository } from "src/modules/balance/database/balance.repository.provider";
 import { BalanceSheetResponse } from "../../profit-loss/controller/profit-loss-response.dto";
-import { TotalProfitClose } from "../../profit-loss/use-cases/total-profit-loss.usecase";
+import { TotalProfitLoss } from "../../profit-loss/use-cases/total-profit-loss.usecase";
 import { BalanceSheetsReportRequestDTO } from "../controller/dtos/balance-sheets.request.dto";
-import { BalanceSheetsReportResponse } from "../controller/dtos/balance-sheets.response";
 
 @Injectable()
 export class BalanceSheetsReport
@@ -23,7 +22,7 @@ export class BalanceSheetsReport
     @InjectAccountRepository
     private readonly accountRepository: AccountRepositoryPort,
     private readonly generateEndingBalance: GenerateEndingBalance,
-    private readonly totalProfitClose: TotalProfitClose,
+    private readonly totalProfitLoss: TotalProfitLoss,
   ) {
     super();
   }
@@ -40,9 +39,9 @@ export class BalanceSheetsReport
         acc_statement: "BS",
         acc_type: "group",
       });
-      const debitData: IProfitCloseResponse[] = [];
-      const creditData: IProfitCloseResponse[] = [];
-      const group = listGroup.map((y) => {
+      const debitData: IProfitLossResponse[] = [];
+      const creditData: IProfitLossResponse[] = [];
+      listGroup.forEach((y) => {
         if (y.acc_balance_type === "D") {
           debitData.push({
             balance_detail: [],
@@ -110,7 +109,7 @@ export class BalanceSheetsReport
           is_total: true,
         });
       });
-      const totalProfit = await this.totalProfitClose.execute(data);
+      const totalProfit = await this.totalProfitLoss.execute(data);
       creditData.push({
         amount: totalProfit,
         is_profit: true,

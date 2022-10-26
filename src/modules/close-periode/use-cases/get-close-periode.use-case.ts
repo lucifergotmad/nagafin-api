@@ -2,13 +2,10 @@ import { Injectable } from "@nestjs/common";
 import { BaseUseCase } from "src/core/base-classes/infra/use-case.base";
 import { IUseCase } from "src/core/base-classes/interfaces/use-case.interface";
 import { ResponseException } from "src/core/exceptions/response.http-exception";
-import { IRepositoryResponse } from "src/core/ports/interfaces/repository-response.interface";
 import { Utils } from "src/core/utils/utils.service";
-import { IdResponseDTO } from "src/interface-adapter/dtos/id.response.dto";
 import { AccountRepository } from "src/modules/account/database/account.repository.service";
 import { GenerateEndingBalance } from "src/modules/balance-card/use-cases/get-ending-balance.usecase";
-import { JournalDetailRequestDTO } from "src/modules/journal/controller/dtos/create-journal.request.dto";
-import { TotalProfitClose } from "src/modules/reports/profit-loss/use-cases/total-profit-loss.usecase";
+import { TotalProfitLoss } from "src/modules/reports/profit-loss/use-cases/total-profit-loss.usecase";
 import { SystemRepositoryPort } from "src/modules/system/database/system.repository.port";
 import { InjectSystemRepository } from "src/modules/system/database/system.repository.provider";
 import {
@@ -17,8 +14,6 @@ import {
   ResponseGetListClosePeriodeWrapperDTO,
 } from "../controller/dtos/get-list-close-periode-account.dto";
 import { RequestGetListClosePeriodeDTO } from "../controller/dtos/request-get-list-close-periode.dto";
-import { ClosePeriodeRepositoryPort } from "../database/close-periode.repository.port";
-import { InjectClosePeriodeRepository } from "../database/close-periode.repository.provider";
 
 @Injectable()
 export class GetListClosePeriodeAccount
@@ -29,11 +24,9 @@ export class GetListClosePeriodeAccount
       ResponseGetListClosePeriodeWrapperDTO
     > {
   constructor(
-    @InjectClosePeriodeRepository
-    private closePeriode: ClosePeriodeRepositoryPort,
     private accountRepository: AccountRepository,
     private generateEndingBalance: GenerateEndingBalance,
-    private totalProfiteLoss: TotalProfitClose,
+    private totalProfiteLoss: TotalProfitLoss,
     @InjectSystemRepository
     private systemRepo: SystemRepositoryPort,
     private readonly utils: Utils,
