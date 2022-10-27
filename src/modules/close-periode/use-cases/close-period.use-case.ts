@@ -30,13 +30,11 @@ export class ClosePeriod
   public async execute(
     request?: ClosePeriodRequestDTO,
   ): Promise<MessageResponseDTO> {
-    console.log("a: ", request);
-
     const session = await this.utils.transaction.startTransaction();
 
     try {
       await session.withTransaction(async () => {
-        const journalDate = this.utils.date.formatDate(new Date(), "YYMMDD");
+        const journalDate = this.utils.date.formatDate(new Date(), "YYYYMMDD");
         const journalNumber = this.utils.generator.generateJournalNumber(
           journalDate,
         );

@@ -47,7 +47,7 @@ export class DeleteJournal
           "Tidak bisa membuat journal di periode sebelumnya!",
         );
 
-        const journalDate = this.utils.date.formatDate(new Date(), "YYMMDD");
+        const journalDate = this.utils.date.formatDate(new Date(), "YYYYMMDD");
         const journalNumber = this.utils.generator.generateJournalNumber(
           journalDate,
         );

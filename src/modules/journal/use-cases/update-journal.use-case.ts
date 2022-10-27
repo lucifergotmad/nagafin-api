@@ -47,7 +47,7 @@ export class UpdateJournal
         );
 
         const payload: Partial<JournalMongoEntity> = data;
-        const createdAt = this.utils.date.formatDate(new Date(), "YYMMDD");
+        const createdAt = this.utils.date.formatDate(new Date(), "YYYYMMDD");
         const journalNumber = this.utils.generator.generateJournalNumber(
           createdAt,
         );
