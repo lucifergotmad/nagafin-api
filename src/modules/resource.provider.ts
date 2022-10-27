@@ -13,6 +13,7 @@ import { SystemModule } from "./system/system.module";
 import { UserModule } from "./user/user.module";
 import { ProfitLossModule } from "./reports/profit-loss/profit-loss.module";
 import { ClosePeriodeModule } from "./close-periode/close-periode.module";
+import { TransactionLogModule } from "./transaction-log/transaction-log.module";
 
 const systemProviders = [AppAuthModule, UserModule];
 
@@ -31,4 +32,5 @@ export const resourceProviders = [
   SettingModule,
   ProfitLossModule,
   ClosePeriodeModule,
+  TransactionLogModule,
 ];
