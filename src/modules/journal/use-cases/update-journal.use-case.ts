@@ -7,18 +7,23 @@ import { Utils } from "src/core/utils/utils.service";
 import { MessageResponseDTO } from "src/interface-adapter/dtos/message.response.dto";
 import { IId } from "src/interface-adapter/interfaces/id.interface";
 import { CreateBalanceCard } from "src/modules/balance-card/use-cases/create-balance-card.use-case";
+import { SystemRepositoryPort } from "src/modules/system/database/system.repository.port";
+import { InjectSystemRepository } from "src/modules/system/database/system.repository.provider";
 import { UpdateJournalRequestDTO } from "../controller/dtos/update-journal.request.dto";
 import { JournalRepositoryPort } from "../database/journal.repository.port";
 import { InjectJournalRepository } from "../database/journal.repository.provider";
 import { JournalMongoEntity } from "../database/model/journal.mongo-entity";
-import { IJournalDetailProps } from "../domain/journal.entity";
+import { IJournalDetailProps, JournalEntity } from "../domain/journal.entity";
 
 @Injectable()
 export class UpdateJournal
   extends BaseUseCase
   implements IUseCase<UpdateJournalRequestDTO & IId, MessageResponseDTO> {
   constructor(
-    @InjectJournalRepository private journalRepository: JournalRepositoryPort,
+    @InjectJournalRepository
+    private readonly journalRepository: JournalRepositoryPort,
+    @InjectSystemRepository
+    private readonly systemRepository: SystemRepositoryPort,
     private readonly utils: Utils,
     private readonly createBalanceCard: CreateBalanceCard,
   ) {
@@ -34,6 +39,13 @@ export class UpdateJournal
 
     try {
       await session.withTransaction(async () => {
+        await this.systemRepository.findOneAndThrow(
+          {
+            period_closing_date: { $gte: data.journal_date },
+          },
+          "Tidak bisa membuat journal di periode sebelumnya!",
+        );
+
         const payload: Partial<JournalMongoEntity> = data;
         const createdAt = this.utils.date.formatDate(new Date(), "YYMMDD");
         const journalNumber = this.utils.generator.generateJournalNumber(
@@ -49,6 +61,8 @@ export class UpdateJournal
         }
 
         const detailPayload: IJournalDetailProps[] = [];
+        let totalCreditAmount = 0;
+        let totalDebitAmount = 0;
 
         payload.journal_detail.forEach((edited) => {
           const prev = previousJournal.journal_detail.find(
@@ -70,6 +84,11 @@ export class UpdateJournal
           }
         });
 
+        detailPayload.forEach((item) => {
+          totalCreditAmount += item.credit_amount;
+          totalDebitAmount += item.debit_amount;
+        });
+
         await this.createBalanceCard.injectDecodedToken(this.user).execute(
           {
             ...data,
@@ -79,11 +98,17 @@ export class UpdateJournal
           session,
         );
 
-        result = await this.journalRepository.update(
-          { _id },
-          { ...payload, journal_detail: detailPayload },
-          session,
-        );
+        const journalEntity = JournalEntity.create({
+          journal_number: journalNumber,
+          journal_detail: detailPayload,
+          journal_date: data.journal_date,
+          journal_notes: data.journal_notes,
+          created_by: this.user.username,
+          total_credit_amount: totalCreditAmount,
+          total_debit_amount: totalDebitAmount,
+        });
+
+        result = await this.journalRepository.save(journalEntity, session);
       });
 
       return new MessageResponseDTO(`${result.n} documents updated!`);

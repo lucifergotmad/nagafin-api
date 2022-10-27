@@ -21,8 +21,8 @@ export class ClosePeriodRequestDTO {
   @IsOptionalString({ example: "JNF-220831-0001" })
   journal_number?: string;
 
-  @IsRequiredString({ example: "2022-08-22" })
-  journal_date: string;
+  @IsOptionalString({ example: "2022-08-22" })
+  journal_date?: string;
 
   @IsRequiredMixed({
     type: ClosePeriodDetailRequestDTO,

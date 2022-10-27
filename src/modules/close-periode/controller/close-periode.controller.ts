@@ -1,4 +1,4 @@
-import { Body, Get, Post, Query } from "@nestjs/common";
+import { Body, Get, Param, Post, Query } from "@nestjs/common";
 import { ControllerProperty } from "src/core/decorators/controller-decorators/class-decorators/controller-property.decorator";
 import { AuthUser } from "src/core/decorators/controller-decorators/param-decorators/auth-user.decorator";
 import { UserMongoEntity } from "src/modules/user/database/model/user.mongo-entity";
@@ -21,11 +21,14 @@ export class ClosePeriodeController {
     return this.getListClosePeriode.execute(query);
   }
 
-  @Post()
+  @Post(":journal_date")
   save(
     @Body() body: ClosePeriodRequestDTO,
+    @Param("journal_date") journal_date: string,
     @AuthUser() user: Partial<UserMongoEntity>,
   ) {
-    return this.closePeriod.injectDecodedToken(user).execute(body);
+    return this.closePeriod
+      .injectDecodedToken(user)
+      .execute({ ...body, journal_date: journal_date });
   }
 }

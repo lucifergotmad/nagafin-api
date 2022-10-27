@@ -34,11 +34,22 @@ export class BalanceCardRepository
       BalanceCardIgnore,
     );
   }
-  async getLastByNumber(acc: string): Promise<BalanceCardMongoEntity> {
+  async getLastByNumber(
+    acc: string,
+    start_date: string,
+    end_date: string,
+  ): Promise<BalanceCardMongoEntity> {
+    console.log(start_date);
+    console.log(end_date);
+
     const result = await this.balanceCardModel.aggregate([
       {
         $match: {
           balance_acc: acc,
+          balance_date: {
+            $gt: start_date,
+            $lte: end_date,
+          },
         },
       },
       {

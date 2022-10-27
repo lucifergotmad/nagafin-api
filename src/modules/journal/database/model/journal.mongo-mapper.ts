@@ -16,6 +16,7 @@ export class JournalMongoMapper extends DbMapper<
 
     const mongoProps: MongoEntityProps<JournalMongoEntity> = {
       ...props,
+      journal_status: true,
     };
     return mongoProps;
   }

@@ -38,6 +38,9 @@ export class JournalMongoEntity extends BaseMongoEntity<
   @Prop(raw([JournalDetailMongoEntity]))
   journal_detail: Array<JournalDetailMongoEntity>;
 
+  @Prop({ required: true, default: true })
+  journal_status: boolean;
+
   @Prop({ required: false })
   created_by?: string;
 

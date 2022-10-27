@@ -23,6 +23,7 @@ export class CashFlowReportResponse implements ICashFlowResponse {
     this.operational_detail = props.operational_detail;
     this.investment_detail = props.investment_detail;
     this.funding_detail = props.funding_detail;
+    this.cash_and_bank = props.cash_and_bank;
   }
 
   @ApiProperty({})
@@ -36,4 +37,7 @@ export class CashFlowReportResponse implements ICashFlowResponse {
 
   @ApiProperty()
   funding_detail: CashFlowDetailReportResponse[];
+
+  @ApiProperty()
+  cash_and_bank: CashFlowDetailReportResponse;
 }

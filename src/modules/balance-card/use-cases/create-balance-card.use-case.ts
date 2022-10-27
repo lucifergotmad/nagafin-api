@@ -35,6 +35,8 @@ export class CreateBalanceCard
     request?: CreateJournalRequestDTO | ClosePeriodRequestDTO,
     session?: ClientSession,
   ): Promise<MessageResponseDTO> {
+    console.log(request);
+
     try {
       for (const item of request.journal_detail) {
         const beginingBalance = await this.balanceCardRepository.findOneLatest(

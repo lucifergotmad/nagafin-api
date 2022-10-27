@@ -30,6 +30,8 @@ export class ClosePeriod
   public async execute(
     request?: ClosePeriodRequestDTO,
   ): Promise<MessageResponseDTO> {
+    console.log("a: ", request);
+
     const session = await this.utils.transaction.startTransaction();
 
     try {
@@ -46,9 +48,14 @@ export class ClosePeriod
           "Nomor journal duplikat",
         );
 
-        await this.createBalanceCard
-          .injectDecodedToken(this.user)
-          .execute({ journal_number: journalNumber, ...request }, session);
+        await this.createBalanceCard.injectDecodedToken(this.user).execute(
+          {
+            journal_number: journalNumber,
+            journal_date: request.journal_date,
+            ...request,
+          },
+          session,
+        );
 
         const journalEntity = JournalEntity.create({
           journal_number: journalNumber,

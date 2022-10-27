@@ -41,10 +41,21 @@ export class CashFlowReport
       const resultOperasional: ICashFlowDetailResponse[] = [];
       const resultInvestasi: ICashFlowDetailResponse[] = [];
       const resultPendanaan: ICashFlowDetailResponse[] = [];
+      const resultKasDanBank: ICashFlowDetailResponse[] = [];
+
+      const startDate = new Date(Number(data.year) - 1, 12, 1);
+
+      const endDate = new Date(
+        Number(data.year),
+        !Number(data.month) ? 12 : Number(data.month),
+        1,
+      );
 
       for (const data of listAccount) {
         const hasil: any = await this.balanceCardRepository.getLastByNumber(
           data.acc_number,
+          startDate.toISOString().split("T")[0],
+          endDate.toISOString().split("T")[0],
         );
 
         if (hasil) {
@@ -72,15 +83,40 @@ export class CashFlowReport
                   ? hasil.ending_amount * -1
                   : hasil.ending_amount,
             });
+          } else if (
+            hasil.detailAkun.acc_cashflow_type === "cash" ||
+            hasil.detailAkun.acc_cashflow_type === "bank"
+          ) {
+            resultKasDanBank.push({
+              acc_name: `Kas dan bank pada ${
+                startDate.toISOString().split("T")[0]
+              } - ${endDate.toISOString().split("T")[0]}`,
+              balance_amount:
+                hasil.detailAkun.acc_balance_type === "D"
+                  ? hasil.ending_amount * -1
+                  : hasil.ending_amount,
+            });
           }
         }
       }
+
+      let amount = 0;
+      const finalKasDanBank: ICashFlowDetailResponse[] = resultKasDanBank.map(
+        (x) => {
+          amount += x.balance_amount;
+          return {
+            acc_name: x.acc_name,
+            balance_amount: amount,
+          };
+        },
+      );
 
       return new CashFlowReportResponse({
         profit_loss_amount: totalProfitLoss,
         operational_detail: resultOperasional,
         investment_detail: resultInvestasi,
         funding_detail: resultPendanaan,
+        cash_and_bank: finalKasDanBank[finalKasDanBank.length - 1],
       });
     } catch (error) {
       throw new ResponseException(error.message, error.status, error.trace);

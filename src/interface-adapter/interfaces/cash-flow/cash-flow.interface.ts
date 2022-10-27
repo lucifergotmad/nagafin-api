@@ -8,4 +8,5 @@ export interface ICashFlowResponse {
   operational_detail: ICashFlowDetailResponse[];
   investment_detail: ICashFlowDetailResponse[];
   funding_detail: ICashFlowDetailResponse[];
+  cash_and_bank: ICashFlowDetailResponse;
 }

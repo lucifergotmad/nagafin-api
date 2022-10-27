@@ -7,7 +7,6 @@ import { ProfitCloseResponse } from "../../profit-loss/controller/profit-loss-re
 
 import { BalanceSheetsReport } from "../use-cases/balance-sheets-report.use-case";
 import { BalanceSheetsReportRequestDTO } from "./dtos/balance-sheets.request.dto";
-import { BalanceSheetsReportResponse } from "./dtos/balance-sheets.response";
 
 @ControllerProperty("v1/balance-sheets", "[Report] Balance Sheets")
 export class BalanceSheetsController {
@@ -15,7 +14,7 @@ export class BalanceSheetsController {
 
   @SecureGet("report")
   @ApiOkResponse({ type: ProfitCloseResponse, isArray: true })
-  @APIQueryProperty(["transaction_date"])
+  @APIQueryProperty(["start_date", "end_date"])
   balanceSheets(@Query() query: BalanceSheetsReportRequestDTO) {
     return this.balanceSheetsReport.execute(query);
   }

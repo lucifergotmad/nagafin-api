@@ -22,5 +22,9 @@ export interface BalanceCardRepositoryPort
     end_date: string,
     acc: string,
   ): Promise<BalanceCardMongoEntity[]>;
-  getLastByNumber(acc: string): Promise<BalanceCardMongoEntity>;
+  getLastByNumber(
+    acc: string,
+    start_date: string,
+    end_date: string,
+  ): Promise<BalanceCardMongoEntity>;
 }
