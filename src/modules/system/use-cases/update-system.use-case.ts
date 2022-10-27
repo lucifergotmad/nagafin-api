@@ -1,9 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { BaseUseCase } from "src/core/base-classes/infra/use-case.base";
 import { IUseCase } from "src/core/base-classes/interfaces/use-case.interface";
+import { TransactionLog } from "src/core/constants/app/transaction-log/transaction-log.const";
 import { ResponseException } from "src/core/exceptions/response.http-exception";
 import { Utils } from "src/core/utils/utils.service";
 import { MessageResponseDTO } from "src/interface-adapter/dtos/message.response.dto";
+import { CreateTransactionLog } from "src/modules/transaction-log/use-cases/create-transaction-log.use-case";
 import { UpdateSystemRequestDTO } from "../controller/dtos/update-system.request.dto";
 import { SystemMongoEntity } from "../database/model/system.mongo-entity";
 import { SystemRepositoryPort } from "../database/system.repository.port";
@@ -18,6 +20,7 @@ export class UpdateSystem
     @InjectSystemRepository
     private readonly systemRepository: SystemRepositoryPort,
     private readonly utils: Utils,
+    private readonly createTransactionLog: CreateTransactionLog,
   ) {
     super();
   }
@@ -56,6 +59,11 @@ export class UpdateSystem
 
           await this.systemRepository.update({}, payload, session);
         }
+
+        await this.createTransactionLog.execute({
+          transaction_name: TransactionLog.UpdateProject,
+          created_by: this.user?.username,
+        });
       });
 
       return new MessageResponseDTO("Berhasil Update system!");

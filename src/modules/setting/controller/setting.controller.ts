@@ -2,7 +2,9 @@ import { Body, Param } from "@nestjs/common";
 import { ApiBadRequestResponse, ApiOkResponse } from "@nestjs/swagger";
 import { ControllerProperty } from "src/core/decorators/controller-decorators/class-decorators/controller-property.decorator";
 import { SecurePut } from "src/core/decorators/controller-decorators/class-decorators/secure-put.decorator";
+import { AuthUser } from "src/core/decorators/controller-decorators/param-decorators/auth-user.decorator";
 import { MessageResponseDTO } from "src/interface-adapter/dtos/message.response.dto";
+import { UserMongoEntity } from "src/modules/user/database/model/user.mongo-entity";
 import { SettingCashBank } from "../use-cases/setting-cash-bank.use-case";
 import { SettingCashflow } from "../use-cases/setting-cashflow.use-case";
 import { SettingRetainedEarning } from "../use-cases/setting-retained-earning.use-case";
@@ -26,8 +28,13 @@ export class SettingController {
 
   @SecurePut("retained_earning/:acc_number")
   @ApiOkResponse({ type: MessageResponseDTO })
-  retainedEarning(@Param("acc_number") acc_number: string) {
-    return this.settingRetainedEarning.execute(acc_number);
+  retainedEarning(
+    @Param("acc_number") acc_number: string,
+    @AuthUser() user: Partial<UserMongoEntity>,
+  ) {
+    return this.settingRetainedEarning
+      .injectDecodedToken(user)
+      .execute(acc_number);
   }
 
   @SecurePut("cashflow")

@@ -78,7 +78,10 @@ export class AccountController {
   @SecureDelete(":_id")
   @ApiOkResponse({ type: MessageResponseDTO })
   @ApiBadRequestResponse({ description: "Bad Request (ID not valid)" })
-  delete(@Param("_id") _id: string) {
-    return this.deleteAccount.execute({ _id });
+  delete(
+    @Param("_id") _id: string,
+    @AuthUser() user: Partial<UserMongoEntity>,
+  ) {
+    return this.deleteAccount.injectDecodedToken(user).execute({ _id });
   }
 }

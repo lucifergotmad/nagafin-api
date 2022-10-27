@@ -9,6 +9,8 @@ import {
 } from "src/interface-adapter/interfaces/journal/journal.interface";
 import { AccountRepositoryPort } from "src/modules/account/database/account.repository.port";
 import { InjectAccountRepository } from "src/modules/account/database/account.repository.provider";
+import { SystemRepositoryPort } from "src/modules/system/database/system.repository.port";
+import { InjectSystemRepository } from "src/modules/system/database/system.repository.provider";
 import { JournalResponseDTO } from "../controller/dtos/journal.response.dto";
 import { JournalRepositoryPort } from "../database/journal.repository.port";
 import { InjectJournalRepository } from "../database/journal.repository.provider";
@@ -22,6 +24,8 @@ export class FindAllJournal
     private readonly journalRepository: JournalRepositoryPort,
     @InjectAccountRepository
     private readonly accountRepository: AccountRepositoryPort,
+    @InjectSystemRepository
+    private readonly systemRepository: SystemRepositoryPort,
     private readonly utils: Utils,
   ) {
     super();
@@ -29,6 +33,7 @@ export class FindAllJournal
 
   public async execute(): Promise<JournalResponseDTO[]> {
     try {
+      const closePeriodDate = await this.systemRepository.findOneLatest({});
       const journals = await this.journalRepository.findAllAndSort();
 
       const result: IJournalResponse[] = [];
@@ -48,6 +53,7 @@ export class FindAllJournal
           ...data,
           journal_detail: journalDetail,
           created_at: this.utils.date.localDateString(data.created_at),
+          period_closing_date: closePeriodDate?.period_closing_date,
         });
       }
 

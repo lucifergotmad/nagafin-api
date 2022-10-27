@@ -91,25 +91,29 @@ export class CashFlowReport
               acc_name: `Kas dan bank pada ${
                 startDate.toISOString().split("T")[0]
               } - ${endDate.toISOString().split("T")[0]}`,
-              balance_amount:
-                hasil.detailAkun.acc_balance_type === "D"
-                  ? hasil.ending_amount * -1
-                  : hasil.ending_amount,
+              balance_amount: hasil.ending_amount,
             });
           }
         }
       }
 
       let amount = 0;
-      const finalKasDanBank: ICashFlowDetailResponse[] = resultKasDanBank.map(
-        (x) => {
-          amount += x.balance_amount;
-          return {
-            acc_name: x.acc_name,
-            balance_amount: amount,
-          };
-        },
-      );
+      const finalKasDanBank: ICashFlowDetailResponse[] = !resultKasDanBank.length
+        ? [
+            {
+              acc_name: `Kas dan bank pada ${
+                startDate.toISOString().split("T")[0]
+              } - ${endDate.toISOString().split("T")[0]}`,
+              balance_amount: 0,
+            },
+          ]
+        : resultKasDanBank.map((x) => {
+            amount += x.balance_amount;
+            return {
+              acc_name: x.acc_name,
+              balance_amount: amount,
+            };
+          });
 
       return new CashFlowReportResponse({
         profit_loss_amount: totalProfitLoss,

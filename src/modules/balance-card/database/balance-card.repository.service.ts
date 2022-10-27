@@ -39,9 +39,6 @@ export class BalanceCardRepository
     start_date: string,
     end_date: string,
   ): Promise<BalanceCardMongoEntity> {
-    console.log(start_date);
-    console.log(end_date);
-
     const result = await this.balanceCardModel.aggregate([
       {
         $match: {

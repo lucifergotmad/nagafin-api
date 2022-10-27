@@ -6,8 +6,6 @@ import { IProfitLossResponse } from "src/interface-adapter/interfaces/profit-los
 import { AccountRepositoryPort } from "src/modules/account/database/account.repository.port";
 import { InjectAccountRepository } from "src/modules/account/database/account.repository.provider";
 import { GenerateEndingBalance } from "src/modules/balance-card/use-cases/get-ending-balance.usecase";
-import { BalanceRepositoryPort } from "src/modules/balance/database/balance.repository.port";
-import { InjectBalanceRepository } from "src/modules/balance/database/balance.repository.provider";
 import { BalanceSheetResponse } from "../../profit-loss/controller/profit-loss-response.dto";
 import { TotalProfitLoss } from "../../profit-loss/use-cases/total-profit-loss.usecase";
 import { BalanceSheetsReportRequestDTO } from "../controller/dtos/balance-sheets.request.dto";
@@ -17,8 +15,6 @@ export class BalanceSheetsReport
   extends BaseUseCase
   implements IUseCase<BalanceSheetsReportRequestDTO, BalanceSheetResponse> {
   constructor(
-    @InjectBalanceRepository
-    private readonly balanceRepository: BalanceRepositoryPort,
     @InjectAccountRepository
     private readonly accountRepository: AccountRepositoryPort,
     private readonly generateEndingBalance: GenerateEndingBalance,

@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { BaseUseCase } from "src/core/base-classes/infra/use-case.base";
 import { IUseCase } from "src/core/base-classes/interfaces/use-case.interface";
+import { TransactionLog } from "src/core/constants/app/transaction-log/transaction-log.const";
 import { ResponseException } from "src/core/exceptions/response.http-exception";
 import { Utils } from "src/core/utils/utils.service";
 import { MessageResponseDTO } from "src/interface-adapter/dtos/message.response.dto";
@@ -10,6 +11,7 @@ import { InjectJournalRepository } from "src/modules/journal/database/journal.re
 import { JournalEntity } from "src/modules/journal/domain/journal.entity";
 import { SystemRepositoryPort } from "src/modules/system/database/system.repository.port";
 import { InjectSystemRepository } from "src/modules/system/database/system.repository.provider";
+import { CreateTransactionLog } from "src/modules/transaction-log/use-cases/create-transaction-log.use-case";
 import { ClosePeriodRequestDTO } from "../controller/dtos/close-period.request.dto";
 
 @Injectable()
@@ -23,6 +25,7 @@ export class ClosePeriod
     private readonly journalRepository: JournalRepositoryPort,
     private readonly utils: Utils,
     private readonly createBalanceCard: CreateBalanceCard,
+    private readonly createTransactionLog: CreateTransactionLog,
   ) {
     super();
   }
@@ -85,6 +88,12 @@ export class ClosePeriod
           { period_closing_date: request.journal_date },
           session,
         );
+
+        await this.createTransactionLog.execute({
+          transaction_name: TransactionLog.CreateClosePeriod,
+          transaction_detail: request.journal_date,
+          created_by: this.user?.username,
+        });
       });
 
       return new MessageResponseDTO("Berhasil tutup periode!");

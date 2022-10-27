@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { BaseUseCase } from "src/core/base-classes/infra/use-case.base";
 import { IUseCase } from "src/core/base-classes/interfaces/use-case.interface";
+import { TransactionLog } from "src/core/constants/app/transaction-log/transaction-log.const";
 import { ResponseException } from "src/core/exceptions/response.http-exception";
 import { IRepositoryResponse } from "src/core/ports/interfaces/repository-response.interface";
 import { Utils } from "src/core/utils/utils.service";
@@ -9,6 +10,7 @@ import { IId } from "src/interface-adapter/interfaces/id.interface";
 import { CreateBalanceCard } from "src/modules/balance-card/use-cases/create-balance-card.use-case";
 import { SystemRepositoryPort } from "src/modules/system/database/system.repository.port";
 import { InjectSystemRepository } from "src/modules/system/database/system.repository.provider";
+import { CreateTransactionLog } from "src/modules/transaction-log/use-cases/create-transaction-log.use-case";
 import { UpdateJournalRequestDTO } from "../controller/dtos/update-journal.request.dto";
 import { JournalRepositoryPort } from "../database/journal.repository.port";
 import { InjectJournalRepository } from "../database/journal.repository.provider";
@@ -26,6 +28,7 @@ export class UpdateJournal
     private readonly systemRepository: SystemRepositoryPort,
     private readonly utils: Utils,
     private readonly createBalanceCard: CreateBalanceCard,
+    private readonly createTransactionLog: CreateTransactionLog,
   ) {
     super();
   }
@@ -41,9 +44,9 @@ export class UpdateJournal
       await session.withTransaction(async () => {
         await this.systemRepository.findOneAndThrow(
           {
-            period_closing_date: { $gte: data.journal_date },
+            period_closing_date: { $gt: data.journal_date },
           },
-          "Tidak bisa update journal di periode sebelumnya!",
+          "Tidak bisa update di periode sebelumnya!",
         );
 
         const payload: Partial<JournalMongoEntity> = data;
@@ -75,8 +78,18 @@ export class UpdateJournal
               detailPayload.push({
                 acc_number: prev.acc_number,
                 journal_info: prev.journal_info,
-                credit_amount: calculatedCredit > 0 ? calculatedCredit : 0,
-                debit_amount: calculatedDebit > 0 ? calculatedDebit : 0,
+                credit_amount:
+                  calculatedCredit > 0
+                    ? Math.abs(calculatedCredit)
+                    : calculatedDebit > 0
+                    ? 0
+                    : Math.abs(calculatedDebit),
+                debit_amount:
+                  calculatedDebit > 0
+                    ? Math.abs(calculatedDebit)
+                    : calculatedCredit > 0
+                    ? 0
+                    : Math.abs(calculatedCredit),
               });
             }
           } else {
@@ -109,6 +122,12 @@ export class UpdateJournal
         });
 
         result = await this.journalRepository.save(journalEntity, session);
+
+        await this.createTransactionLog.execute({
+          transaction_name: TransactionLog.UpdateJournal,
+          transaction_detail: `${previousJournal.journal_number} to ${journalNumber}`,
+          created_by: this.user?.username,
+        });
       });
 
       return new MessageResponseDTO(`${result.n} documents updated!`);

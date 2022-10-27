@@ -27,5 +27,7 @@ export const SystemIgnore = [
   "project_code",
   "project_logo",
   "project_currency",
-  "retained_earning_acc",
+  "retained_earnings_acc",
+  "period_closing_date",
 ];
+export const TransactionLogIgnore = ["_id", "transaction_date"];

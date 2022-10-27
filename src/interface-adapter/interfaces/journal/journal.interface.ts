@@ -15,6 +15,7 @@ export interface IJournalResponse extends IId {
   total_credit_amount: number;
   total_debit_amount: number;
   created_at?: string;
+  period_closing_date?: string;
   journal_detail: IJournalDetailResponse[];
 }
 

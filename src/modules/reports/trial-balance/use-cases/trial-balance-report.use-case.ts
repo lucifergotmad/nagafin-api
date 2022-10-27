@@ -2,17 +2,11 @@ import { Injectable } from "@nestjs/common";
 import { BaseUseCase } from "src/core/base-classes/infra/use-case.base";
 import { IUseCase } from "src/core/base-classes/interfaces/use-case.interface";
 import { ResponseException } from "src/core/exceptions/response.http-exception";
-import {
-  IBalanceDetail,
-  ITrialBalanceDetailResponse,
-  ITrialBalanceResponse,
-} from "src/interface-adapter/interfaces/trial-balance/trial-balance.interface";
+import { ITrialBalanceResponse } from "src/interface-adapter/interfaces/trial-balance/trial-balance.interface";
 import { AccountRepositoryPort } from "src/modules/account/database/account.repository.port";
 import { InjectAccountRepository } from "src/modules/account/database/account.repository.provider";
 import { GenerateBeginningBalance } from "src/modules/balance-card/use-cases/get-beginning-balance-card.use-case";
 import { GenerateMutationBalance } from "src/modules/balance-card/use-cases/get-mutation-balance";
-import { BalanceRepositoryPort } from "src/modules/balance/database/balance.repository.port";
-import { InjectBalanceRepository } from "src/modules/balance/database/balance.repository.provider";
 import { TrialBalanceReportRequestDTO } from "../controller/dtos/trial-balance-report.request.dto";
 import { TrialBalanceReportResponse } from "../controller/dtos/trial-balance.response";
 
@@ -22,8 +16,6 @@ export class TrialBalanceReport
   implements
     IUseCase<TrialBalanceReportRequestDTO, TrialBalanceReportResponse[]> {
   constructor(
-    @InjectBalanceRepository
-    private readonly balanceRepository: BalanceRepositoryPort,
     @InjectAccountRepository
     private readonly accountRepository: AccountRepositoryPort,
     private readonly generateBeginningBalance: GenerateBeginningBalance,
@@ -47,7 +39,6 @@ export class TrialBalanceReport
       const d = new Date();
       d.setDate(new Date(data.start_date).getDate() - 1);
       const startDate = d.toISOString().split("T")[0];
-      const result: ITrialBalanceDetailResponse[] = [];
       const group = listGroup.map((y) => {
         const data: ITrialBalanceResponse = {
           balance_detail: [],

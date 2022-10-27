@@ -3,8 +3,10 @@ import { ApiOkResponse } from "@nestjs/swagger";
 import { ControllerProperty } from "src/core/decorators/controller-decorators/class-decorators/controller-property.decorator";
 import { SecureGet } from "src/core/decorators/controller-decorators/class-decorators/secure-get.decorator";
 import { SecurePut } from "src/core/decorators/controller-decorators/class-decorators/secure-put.decorator";
+import { AuthUser } from "src/core/decorators/controller-decorators/param-decorators/auth-user.decorator";
 import { MessageResponseDTO } from "src/interface-adapter/dtos/message.response.dto";
 import { AccountResponseDTO } from "src/modules/account/controller/dtos/account.response.dto";
+import { UserMongoEntity } from "src/modules/user/database/model/user.mongo-entity";
 import { FindRetainedEarning } from "../use-cases/find-retained-earning.use-case";
 import { FindSystem } from "../use-cases/find-system.use-case";
 import { UpdateSystem } from "../use-cases/update-system.use-case";
@@ -21,8 +23,11 @@ export class SystemController {
 
   @SecurePut()
   @ApiOkResponse({ type: MessageResponseDTO })
-  update(@Body() body: UpdateSystemRequestDTO) {
-    return this.updateSystem.execute(body);
+  update(
+    @Body() body: UpdateSystemRequestDTO,
+    @AuthUser() user: Partial<UserMongoEntity>,
+  ) {
+    return this.updateSystem.injectDecodedToken(user).execute(body);
   }
 
   @SecureGet()

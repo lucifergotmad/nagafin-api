@@ -41,6 +41,7 @@ export class JournalResponseDTO
     this.total_debit_amount = props.total_debit_amount;
     this.total_credit_amount = props.total_credit_amount;
     this.created_at = props.created_at;
+    this.period_closing_date = props.period_closing_date;
     this.journal_detail = props.journal_detail;
   }
 
@@ -61,6 +62,9 @@ export class JournalResponseDTO
 
   @ApiProperty({ example: "2022-10-18" })
   created_at?: string;
+
+  @ApiProperty({ example: "2022-10-18" })
+  period_closing_date?: string;
 
   @ApiProperty({ type: JournalDetailResponseDTO, isArray: true })
   journal_detail: Array<JournalDetailResponseDTO>;
