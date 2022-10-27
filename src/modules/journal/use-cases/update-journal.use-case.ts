@@ -43,7 +43,7 @@ export class UpdateJournal
           {
             period_closing_date: { $gte: data.journal_date },
           },
-          "Tidak bisa membuat journal di periode sebelumnya!",
+          "Tidak bisa update journal di periode sebelumnya!",
         );
 
         const payload: Partial<JournalMongoEntity> = data;

@@ -44,7 +44,7 @@ export class DeleteJournal
           {
             period_closing_date: { $gte: previousJournal.journal_date },
           },
-          "Tidak bisa membuat journal di periode sebelumnya!",
+          "Tidak bisa hapus journal di periode sebelumnya!",
         );
 
         const journalDate = this.utils.date.formatDate(new Date(), "YYYYMMDD");

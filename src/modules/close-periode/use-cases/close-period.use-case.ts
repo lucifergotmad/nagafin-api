@@ -34,6 +34,13 @@ export class ClosePeriod
 
     try {
       await session.withTransaction(async () => {
+        await this.systemRepository.findOneAndThrow(
+          {
+            period_closing_date: { $gte: request.journal_date },
+          },
+          "Tidak bisa tutup periode di periode sebelumnya",
+        );
+
         const journalDate = this.utils.date.formatDate(new Date(), "YYYYMMDD");
         const journalNumber = this.utils.generator.generateJournalNumber(
           journalDate,
