@@ -1,11 +1,4 @@
-import {
-  Body,
-  Controller,
-  HttpCode,
-  Post,
-  Request,
-  UseGuards,
-} from "@nestjs/common";
+import { Body, Controller, HttpCode, Post, UseGuards } from "@nestjs/common";
 import {
   ApiConflictResponse,
   ApiCreatedResponse,
@@ -43,13 +36,8 @@ export class AppController {
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ type: AuthLoginResponseDto })
   @ApiUnauthorizedResponse({ description: "Unauthorize User" })
-  async login(
-    @Body() body: AuthLoginRequestDTO,
-    @Request() { user: { level } }: any,
-  ) {
-    console.log(body);
-
-    return await this.authService.login({ level, ...body });
+  async login(@Body() body: AuthLoginRequestDTO) {
+    return await this.authService.login(body);
   }
 
   @Post("auth/logout")

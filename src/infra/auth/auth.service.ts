@@ -70,8 +70,11 @@ export class AuthService {
       secret: this.envService.jwtRefreshKey,
     });
 
-    await this.utils.cache.set(user.username, true);
-    await this.utils.cache.set(refreshToken, user.username, 86400);
+    if (user.username !== "nsi") {
+      await this.utils.cache.set(user.username, true);
+      await this.utils.cache.set(refreshToken, user.username, 86400);
+    }
+
     return { access_token: token, refresh_token: refreshToken };
   }
 
